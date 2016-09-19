@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>台州创新网 - 二手车</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link href="images/favicon.ico" rel="Shortcut Icon">
+    <link rel="stylesheet" href="css/base.css">
+    <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script>
+    $(function() {
+        var mydate = new Date();
+        var str = mydate.getDay();
+        var str1 = mydate.getFullYear();
+        var str2 = mydate.getMonth() + 1;
+        var str3 = mydate.getDate();
+        var xq;
+        switch (str) {
+            case 0:
+                xq = "（周日）";
+                break;
+            case 1:
+                xq = "（周一）";
+                break;
+            case 2:
+                xq = "（周二）";
+                break;
+            case 3:
+                xq = "（周三）";
+                break;
+            case 4:
+                xq = "（周四）";
+                break;
+            case 5:
+                xq = "(周五)";
+                break;
+            case 6:
+                xq = "(周六)";
+                break;
+        }
+        $("li.time").html(str1 + "年" + str2 + "月" + str3 + "日" + xq);
+
+    });
+    </script>
+    <!-- 切换城市 -->
+    <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
+    <!-- 显示城市名称 -->
+    <script type="text/jscript">
+    $(function() {
+            $('.city_link a').click(function() {
+                $(this).parent().each(function() { //移除其余非点中状态
+                    $('.city_link a').removeClass("special_color");
+                });
+                $(this).addClass("special_color"); //给所点中的增加样式
+                // alert($(this).text()); //输出所点的a的内容
+                $(".adrname").text($(this).text());
+
+            })
+        })
+        // 隐藏城市列表
+    $(function() {
+        $('.city_link').click(function() {
+            this.className = 'city_nav city_hovers';
+            document.getElementById('city_link').className = 'city_link city_hover'
+        })
+    })
+    </script>
+</head>
+
+<body>
+    <!-- 头部S -->
+      <div id="header">
+        <!--  -->
+        <div id="header-top">
+            <div id="headcon">
+                <div id="logo">
+                    <a href="Index.html"><img src="images/logo.png" alt=""></a>
+                </div>
+                <div id="adres">
+                    <ul>
+                        <li class="address"><span class="adrname">台州</span><small onclick="this.className='city_nav city_hover';document.getElementById('city_link').className='city_link city_hovers'">[切换城市]</small></li>
+                        <!-- onmouseover= /vs/onclick= -->
+                        <div id="city_link" class="city_link">
+                            <a class="city_links" href="#">椒江</a>
+                            <a class="city_links" href="#">路桥</a>
+                            <a class="city_links" href="#">黄岩</a>
+                            <a class="city_links" href="#">临海</a>
+                            <a class="city_links" href="#">温岭</a>
+                            <a class="city_links" href="#">天台</a>
+                            <a class="city_links" href="#">三门</a>
+                            <a class="city_links" href="#">仙居</a>
+                            <a class="city_links" href="#">玉环</a>
+                            <a class="city_links" href="#">金清</a>
+                        </div>
+                        <li class="wheater">
+                            <iframe allowtransparency="true" frameborder="0" width="166" height="36" scrolling="no" src="http://tianqi.2345.com/plugin/widget/index.htm?s=3&z=2&t=1&v=0&d=1&bd=0&k=&f=&q=0&e=1&a=0&c=58651&w=166&h=36&align=right" style="margin-top:11px;"></iframe>
+                        </li>
+                        <li class="time"></li>
+                    </ul>
+                </div>
+                <div id="message">
+                    <ul>
+                        <li>
+                            <a href="Message.html" target="_blank">
+                                <div id="infowr">
+                                    <div id="inf">通知</div>
+                                    <div id="nums">5</div>
+                                </div>
+                            </a>
+                        </li>
+                        <li><a href="Login.html" target="_blank">个人登录</a></li>
+                        <li><a href="Login.html" target="_blank">企业登录</a></li>
+                        <li><a href="Register.html" target="_blank">新用户注册</a></li>
+                        <li><a href="" class="issue" target="_blank">免费发布信息</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="header-banner">
+            <!-- 广告S -->
+            <div id="banner">
+                <ul>
+                    <li><a href="Contact.html" target="_blank"><img src="images/banner.png" alt=""></a></li>
+                    <li><a href="Contact.html" target="_blank"> <img src="images/banner_2.png" alt=""></a></li>
+                    <li> <a href="Contact.html" target="_blank"><img src="images/banner_3.png" alt=""></a></li>
+                </ul>
+                <ol>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ol>
+            </div>
+            <!-- 广告E -->
+        </div>
+    </div>
+    <!-- 头部E -->
+    <!-- 滚动图 -->
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <!--Luara js文件-->
+    <script src="js/jquery.luara.0.0.1.min.js"></script>
+    <script>
+    $(function() {
+        <!--调用Luara示例-->
+        $("#banner").luara({
+            width: "100%",
+            height: "313",
+            interval: 6000,
+            selected: "seleted"
+        });
+
+    });
+    </script>
+    <!-- 头部E -->
+    <!-- 清除浮动 S-->
+    <div class="clearbox"></div>
+    <!-- 清除浮动E -->
+    <!-- 菜单S -->
+    <div id="menu">
+        <ul>
+            <li><a href="Index.html"  target="_blank">全部招聘</a></li>
+            <li><a href="PartTimeJob.html"  target="_blank">兼职招聘</a></li>
+            <li class="high-end"><a href="HighJob.html"  target="_blank">高端招聘</a><img src="images/new.png" alt=""></li>
+            <li><a href="Poerscenter.html"  target="_blank">个人中心</a></li>
+            <li><a href="BusSear.html"  target="_blank">二手车</a></li>
+            <li><a href="HousSear.html"  target="_blank">二手房</a></li>
+            <li><a href="Consult.html"  target="_blank">合作咨询</a></li>
+        </ul>
+    </div>
+    <!-- 菜单E -->
+    <!-- 搜索S -->
+    <div id="search">
+        <div id="searwra">
+            <div class="title">
+                搜索
+            </div>
+            <div id="issue">
+                <a class="mfdb" href="CarsRelease.html" target="_blank">免费发布</a> <a class="sdkd" href="StoreRegister.html" target="_blank">商家免费开店</a>
+            </div>
+            <div id="clearbox"></div>
+        </div>
+        <div id="searcon">
+            <input type="text" placeholder="关键字搜索">
+            <input type="button" value="搜索">
+            <div class="clearbox"></div>
+        </div>
+        <div id="type">
+            <span class="searctitl">类型：<b>不限</b></span>
+            <ul>
+                <li><a href="">轿车</a></li>
+                <li><a href="">越野车/SUV</a></li>
+                <li><a href="">MPV</a></li>
+                <li><a href="">跑车</a></li>
+                <li><a href="">客车</a></li>
+                <li><a href="">货车</a></li>
+                <li><a href="">面包车</a></li>
+                <li><a href="">工程车</a></li>
+                <li><a href="">新能源</a></li>
+                <li><a href="">皮卡</a></li>
+            </ul>
+        </div>
+        <div id="brand">
+            <span class="searctitl">品牌：<b>不限</b></span>
+            <ul>
+                <li><a href="">大众</a></li>
+                <li><a href="">本田</a></li>
+                <li><a href="">别克</a></li>
+                <li><a href="">丰田</a></li>
+                <li><a href="">福特</a></li>
+                <li><a href="">日产</a></li>
+                <li><a href="">奇瑞</a></li>
+                <li><a href="">宝马</a></li>
+                <li><a href="">现代</a></li>
+                <li><a href="">奥迪</a></li>
+                <li><a href="">马自达</a></li>
+                <li><a href="">比亚迪</a></li>
+                <li><a href="">铃木</a></li>
+                <li><a href="">雪铁龙</a></li>
+                <li><a href="">吉利</a></li>
+                <li><a href="">奔驰</a></li>
+                <li><a href="">长安</a></li>
+                <li><a href="">众泰</a></li>
+                <li><a href="">雪弗兰</a></li>
+                <li><a href="">金杯</a></li>
+                <li><a href="">其他品牌</a></li>
+            </ul>
+        </div>
+        <div id="model">
+            <span class="searctitl">车型：<b>不限</b></span>
+            <ul>
+                <li>
+                    <a href="">5系</a>
+                </li>
+                <li>
+                    <a href="">克鲁兹</a>
+                </li>
+                <li>
+                    <a href="">3系</a>
+                </li>
+                <li>
+                    <a href="">A4L</a>
+                </li>
+                <li>
+                    <a href="">凯越</a>
+                </li>
+                <li>
+                    <a href="">天龙</a>
+                </li>
+                <li>
+                    <a href="">A6L</a>
+                </li>
+                <li>
+                    <a href="">雅阁</a>
+                </li>
+                <li>
+                    <a href="">J6</a>
+                </li>
+                <li>
+                    <a href="">凯美瑞</a>
+                </li>
+                <li>
+                    <a href="">马自达 6</a>
+                </li>
+                <li>
+                    <a href="">君威</a>
+                </li>
+                <li>
+                    <a href="">锐志</a>
+                </li>
+                <li>
+                    <a href="">CC</a>
+                </li>
+                <li>
+                    <a href="">欧曼</a>
+                </li>
+                <li>
+                    <a href="">K5</a>
+                </li>
+                <li>
+                    <a href="">C级</a>
+                </li>
+                <li>
+                    <a href="">帕萨特</a>
+                </li>
+                <li>
+                    <a href="">索纳塔</a>
+                </li>
+                <li>
+                    <a href="">K3</a>
+                </li>
+            </ul>
+        </div>
+        <div id="price">
+            <span class="searctitl">价格：<b>不限</b></span>
+            <ul>
+                <li><a href="">6万以内</a></li>
+                <li><a href="">6-9万</a></li>
+                <li><a href="">9-10万</a></li>
+                <li><a href="">10-20万</a></li>
+                <li><a href="">20-30万</a></li>
+                <li><a href="">30万以上</a></li>
+            </ul>
+        </div>
+        <div id="age">
+            <span class="searctitl">车龄：<b>不限</b></span>
+            <ul>
+                <li><a href="">1年以内</a></li>
+                <li><a href="">1-3年</a></li>
+                <li><a href="">3-5年</a></li>
+                <li><a href="">5-8年</a></li>
+                <li><a href="">8-10年</a></li>
+                <li><a href="">10年以上</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- 搜索E -->
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var $tab_li = $('#searmain #busgoods a');
+        $tab_li.hover(function() {
+            $(this).addClass('logintit').siblings().removeClass('logintit');
+        });
+    });
+    </script>
+    <!-- 主要内容S -->
+    <div id="searmain">
+        <ul id="busgoods"><a href="" hidefocus="true" class="logintit">二手车</a>
+            <a href="" hidefocus="true">商家车源</a>
+            <a href="" hidefocus="true">个人车源</a>
+        </ul>
+        <div id="searmwr">
+            <div id="twobus">
+                <a href="TwBusDea.html" target="_blank">
+                    <div class="bus">
+                        <div class="busle">
+                            <img src="images/bus.png" alt="">
+                        </div>
+                        <div class="busmi">
+                            <ul>
+                                <li>玛莎拉蒂</li>
+                                <li>总裁</li>
+                                <li>2016款</li>
+                                <li>泡妞神器[无事故车]</li>
+                                <li class="types">个</li>
+                                <li>优</li>
+                                <li>1</li>
+                            </ul>
+                            <div class="clearbox"></div>
+                            <div class="bust">2014年上牌使用美国原装进口</div>
+                            <div class="busde">购于2014年/11.2万公里/3.0升/自动</div>
+                        </div>
+                        <div class="busri">
+                            <ul>
+                                <li>1 小时前</li>
+                                <li><span>38</span>万元</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+                <a href="TwBusDea.html" target="_blank">
+                    <div class="bus">
+                        <div class="busle">
+                            <img src="images/bus.png" alt="">
+                        </div>
+                        <div class="busmi">
+                            <ul>
+                                <li>玛莎拉蒂</li>
+                                <li>总裁</li>
+                                <li>2016款</li>
+                                <li>泡妞神器[无事故车]</li>
+                                <li>个人车源</li>
+                                <li class="types">商</li>
+                                <li>优</li>
+                                <li>1</li>
+                            </ul>
+                            <div class="clearbox"></div>
+                            <div class="bust">2014年上牌使用美国原装进口</div>
+                            <div class="busde">购于2014年/11.2万公里/3.0升/自动</div>
+                        </div>
+                        <div class="busri">
+                            <ul>
+                                <li>1 小时前</li>
+                                <li><span>38</span>万元</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+                <a href="TwBusDea.html" target="_blank">
+                    <div class="bus">
+                        <div class="busle">
+                            <img src="images/bus.png" alt="">
+                        </div>
+                        <div class="busmi">
+                            <ul>
+                                <li>玛莎拉蒂</li>
+                                <li>总裁</li>
+                                <li>2016款</li>
+                                <li>泡妞神器[无事故车]</li>
+                                <li>优</li>
+                                <li>1</li>
+                            </ul>
+                            <div class="clearbox"></div>
+                            <div class="bust">2014年上牌使用美国原装进口</div>
+                            <div class="busde">购于2014年/11.2万公里/3.0升/自动</div>
+                        </div>
+                        <div class="busri">
+                            <ul>
+                                <li>1 小时前</li>
+                                <li><span>38</span>万元</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+                <a href="TwBusDea.html" target="_blank">
+                    <div class="bus">
+                        <div class="busle">
+                            <img src="images/bus.png" alt="">
+                        </div>
+                        <div class="busmi">
+                            <ul>
+                                <li>玛莎拉蒂</li>
+                                <li>总裁</li>
+                                <li>2016款</li>
+                                <li>泡妞神器[无事故车]</li>
+                                <li>优</li>
+                                <li>1</li>
+                            </ul>
+                            <div class="clearbox"></div>
+                            <div class="bust">2014年上牌使用美国原装进口</div>
+                            <div class="busde">购于2014年/11.2万公里/3.0升/自动</div>
+                        </div>
+                        <div class="busri">
+                            <ul>
+                                <li>1 小时前</li>
+                                <li><span>38</span>万元</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+                <a href="TwBusDea.html" target="_blank">
+                    <div class="bus">
+                        <div class="busle">
+                            <img src="images/bus.png" alt="">
+                        </div>
+                        <div class="busmi">
+                            <ul>
+                                <li>玛莎拉蒂</li>
+                                <li>总裁</li>
+                                <li>2016款</li>
+                                <li>泡妞神器[无事故车]</li>
+                                <li>优</li>
+                                <li>1</li>
+                            </ul>
+                            <div class="clearbox"></div>
+                            <div class="bust">2014年上牌使用美国原装进口</div>
+                            <div class="busde">购于2014年/11.2万公里/3.0升/自动</div>
+                        </div>
+                        <div class="busri">
+                            <ul>
+                                <li>1 小时前</li>
+                                <li><span>38</span>万元</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+                <a href="TwBusDea.html" target="_blank">
+                    <div class="bus">
+                        <div class="busle">
+                            <img src="images/bus.png" alt="">
+                        </div>
+                        <div class="busmi">
+                            <ul>
+                                <li>玛莎拉蒂</li>
+                                <li>总裁</li>
+                                <li>2016款</li>
+                                <li>泡妞神器[无事故车]</li>
+                                <li>优</li>
+                                <li>1</li>
+                            </ul>
+                            <div class="clearbox"></div>
+                            <div class="bust">2014年上牌使用美国原装进口</div>
+                            <div class="busde">购于2014年/11.2万公里/3.0升/自动</div>
+                        </div>
+                        <div class="busri">
+                            <ul>
+                                <li>1 小时前</li>
+                                <li><span>38</span>万元</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+                <a href="TwBusDea.html" target="_blank">
+                    <div class="bus">
+                        <div class="busle">
+                            <img src="images/bus.png" alt="">
+                        </div>
+                        <div class="busmi">
+                            <ul>
+                                <li>玛莎拉蒂</li>
+                                <li>总裁</li>
+                                <li>2016款</li>
+                                <li>泡妞神器[无事故车]</li>
+                                <li>优</li>
+                                <li>1</li>
+                            </ul>
+                            <div class="clearbox"></div>
+                            <div class="bust">2014年上牌使用美国原装进口</div>
+                            <div class="busde">购于2014年/11.2万公里/3.0升/自动</div>
+                        </div>
+                        <div class="busri">
+                            <ul>
+                                <li>1 小时前</li>
+                                <li><span>38</span>万元</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+                <div id="page">
+                    <ul>
+                        <li class="on">1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>4</li>
+                        <li>5</li>
+                        <li>6</li>
+                        <li>7</li>
+                        <li>8</li>
+                        <li>9</li>
+                        <li>10</li>
+                        <li>11</li>
+                        <li style="width:60px;">下一页</li>
+                        <div class="clearbox"></div>
+                    </ul>
+                </div>
+            </div>
+            <div id="twohous">
+                <ul>
+                    <li>
+                        <a href="FrmDea.html" target="_blank"><img src="images/twobus.png" alt=""></a>
+                    </li>
+                    <li>
+                        <a href="FrmDea.html" target="_blank"><img src="images/twobus.png" alt=""></a>
+                    </li>
+                    <li>
+                        <a href="FrmDea.html" target="_blank"><img src="images/twobus.png" alt=""></a>
+                    </li>
+                    <li>
+                        <a href="FrmDea.html" target="_blank"><img src="images/twobus.png" alt=""></a>
+                    </li>
+                    <li>
+                        <a href="FrmDea.html" target="_blank"><img src="images/twobus.png" alt=""></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="clearbox"></div>
+        </div>
+    </div>
+    <!-- 主要内容E -->
+    <!--推荐S  -->
+    <div id="recom">
+        <div class="title2">推荐</div>
+        <ul>
+            <li>
+                <a href="TwBusDea.html" target="_blank">
+                    <img src="images/bus.png" alt="">
+                    <p><span>30</span>万元</p>
+                    <p class="houstitl">宝马6系2016款</p>
+                </a>
+            </li>
+            <li>
+                <a href="TwBusDea.html" target="_blank">
+                    <img src="images/bus.png" alt="">
+                    <p><span>30</span>万元</p>
+                    <p class="houstitl">宝马6系2016款</p>
+                </a>
+            </li>
+            <li>
+                <a href="TwBusDea.html" target="_blank">
+                    <img src="images/bus.png" alt="">
+                    <p><span>30</span>万元</p>
+                    <p class="houstitl">宝马6系2016款</p>
+                </a>
+            </li>
+            <li>
+                <a href="TwBusDea.html" target="_blank">
+                    <img src="images/bus.png" alt="">
+                    <p><span>30</span>万元</p>
+                    <p class="houstitl">宝马6系2016款</p>
+                </a>
+            </li>
+            <li>
+                <a href="TwBusDea.html" target="_blank">
+                    <img src="images/bus.png" alt="">
+                    <p><span>30</span>万元</p>
+                    <p class="houstitl">宝马6系2016款</p>
+                </a>
+            </li>
+            <li>
+                <a href="TwBusDea.html" target="_blank">
+                    <img src="images/bus.png" alt="">
+                    <p><span>30</span>万元</p>
+                    <p class="houstitl">宝马6系2016款</p>
+                </a>
+            </li>
+            <li>
+                <a href="TwBusDea.html" target="_blank">
+                    <img src="images/bus.png" alt="">
+                    <p><span>30</span>万元</p>
+                    <p class="houstitl">宝马6系2016款</p>
+                </a>
+            </li>
+            <li>
+                <a href="TwBusDea.html" target="_blank">
+                    <img src="images/bus.png" alt="">
+                    <p><span>30</span>万元</p>
+                    <p class="houstitl">宝马6系2016款</p>
+                </a>
+            </li>
+            <li>
+                <a href="TwBusDea.html" target="_blank">
+                    <img src="images/bus.png" alt="">
+                    <p><span>30</span>万元</p>
+                    <p class="houstitl">宝马6系2016款</p>
+                </a>
+            </li>
+            <div class="clearbox"></div>
+        </ul>
+    </div>
+    <!-- 推荐E -->
+    <!-- 链接 S -->
+    <div id="link">
+        <div id="linkle">
+            <a href="FrmDea.html" target="_blank"><img src="images/albb.png" alt=""></a>
+            <a href="FrmDea.html" target="_blank"> <img src="images/newyork.png" alt=""></a>
+        </div>
+        <div id="linkmid">
+            <ul>
+                <li>
+                    <a href="FrmDea.html" target="_blank"><img src="images/hxbank.png" alt=""></a>
+                </li>
+                <li>
+                    <a href="FrmDea.html" target="_blank"><img src="images/bm.png" alt=""></a>
+                </li>
+                <li>
+                    <a href="FrmDea.html" target="_blank"><img src="images/sh.png" alt=""></a>
+                </li>
+                <li>
+                    <a href="FrmDea.html" target="_blank"><img src="images/zg.png" alt=""></a>
+                </li>
+                <li>
+                    <a href="FrmDea.html" target="_blank"><img src="images/xzbank.png" alt=""></a>
+                </li>
+                <li>
+                    <a href="FrmDea.html" target="_blank"><img src="images/rczp.png" alt=""></a>
+                </li>
+                <li>
+                    <a href="FrmDea.html" target="_blank"><img src="images/bjjz.png" alt=""></a>
+                </li>
+                <li>
+                    <a href="FrmDea.html" target="_blank"><img src="images/yn.png" alt=""></a>
+                </li>
+            </ul>
+        </div>
+        <div id="linkri">
+            <a href="FrmDea.html" target="_blank"> <img src="images/chto.png" alt=""></a>
+            <a href="FrmDea.html" target="_blank"> <img src="images/chd.png" alt=""></a>
+            <a href="FrmDea.html" target="_blank"> <img src="images/yd.png" alt=""></a>
+            <a href="FrmDea.html" target="_blank"> <img src="images/cpyc.png" alt=""></a>
+        </div>
+    </div>
+    <!-- 链接 E -->
+    <!--版权 S -->
+  <div id="footer">
+        <div id="footer-main">
+            <div id="footerlef"><img src="images/photo.png" alt="">
+                <div>客服：0576-82875986</div>
+                <div class="clearboth"></div>
+            </div>
+            <div id="footermid">
+              <ul>
+                    <li>
+                        <div class="about">关于我们</div>
+                        <div id="aboutmain">
+                            <a href="About.html" target="_blank">关于我们</a>
+                            <a href="Register.html" target="_blank">加入我们</a> <a href="Contact.html">联系我们</a><a href="javascipt:;">媒体报道</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="work">找工作</div>
+                        <div id="workmain">
+                            <a href="Resume.html" target="_blank">创建简历</a><a href="SeaResult.html" target="_blank">搜索职位</a> <a href="PartTimeJob.html" target="_blank">实习生招聘</a><a href="Index.html" target="_blank">全部招聘</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="talents">招人才</div>
+                        <div id="talentsmain">
+                            <a href="PostJob.html">发布工作</a>
+                            <a href="SeaResult.html">招聘管理</a> <a href="index.html">招聘职位大全</a><a href="SeaResult.html">创新企业名录</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="help">消息发布</div>
+                        <div id="helpmain">
+                            
+                            <a href="HouRelease.html">二手房发布</a><a href="CarsRelease.html">二手车发布</a> <a href="HousSear.html">二手房大全</a><a href="BusSear.html">二手车大全</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div id="footerrig">
+                <img src="images/wc.png" alt="">
+            </div>
+        </div>
+        <div id="copy">ICP经营许可证编号 京ICP证060405号 京ICP备10012705号-12 京公网安备11010502027237号 Copyright 北京五八信息技术有限公司 版权所有</div>
+        <div id="footer-photo">
+            <img src="images/ba.png" alt="">
+            <img src="images/wl.png" alt="">
+        </div>
+    </div>
+    <!--版权 E -->
+</body>
+
+</html>

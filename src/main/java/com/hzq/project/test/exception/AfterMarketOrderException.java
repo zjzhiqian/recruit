@@ -12,6 +12,8 @@ public class AfterMarketOrderException extends RuntimeException {
 
     public AfterMarketOrderException(String msg){
         super(msg);
+
+
     }
 
 }
