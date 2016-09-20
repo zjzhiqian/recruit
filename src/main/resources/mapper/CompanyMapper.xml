@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzq.project.user.dao.CompanyMapper" >
+
+
+
+
+  <select id="selectCompanyByUserName" parameterType="String" resultType="com.hzq.project.user.dao.entity.Company">
+    select * from companies where user_name = #{userName,jdbcType=VARCHAR}
+  </select>
+
+  <insert id="insert" parameterType="com.hzq.project.user.dao.entity.Company" >
+    insert into companies
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="company != null" >
+        company,
+      </if>
+      <if test="industry != null" >
+        industry,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="employees != null" >
+        employees,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="html != null" >
+        html,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+      <if test="concatName != null" >
+        concat_name,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="fax != null" >
+        fax,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="createdAt != null" >
+        created_at,
+      </if>
+      <if test="updatedAt != null" >
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="employees != null" >
+        #{employees,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="html != null" >
+        #{html,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="concatName != null" >
+        #{concatName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!--<update id="updateByPrimaryKeySelective" parameterType="com.hzq.project.user.dao.entity.Company" >-->
+    <!--update companies-->
+    <!--<set >-->
+      <!--<if test="name != null" >-->
+        <!--name = #{name,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="userName != null" >-->
+        <!--user_name = #{userName,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="password != null" >-->
+        <!--password = #{password,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="email != null" >-->
+        <!--email = #{email,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="company != null" >-->
+        <!--company = #{company,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="industry != null" >-->
+        <!--industry = #{industry,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="type != null" >-->
+        <!--type = #{type,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="createDate != null" >-->
+        <!--create_date = #{createDate,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="employees != null" >-->
+        <!--employees = #{employees,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="money != null" >-->
+        <!--money = #{money,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="index != null" >-->
+        <!--index = #{index,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="area != null" >-->
+        <!--area = #{area,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="introduction != null" >-->
+        <!--introduction = #{introduction,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="concatName != null" >-->
+        <!--concat_name = #{concatName,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="phone != null" >-->
+        <!--phone = #{phone,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="fax != null" >-->
+        <!--fax = #{fax,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="address != null" >-->
+        <!--address = #{address,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="createdAt != null" >-->
+        <!--created_at = #{createdAt,jdbcType=TIMESTAMP},-->
+      <!--</if>-->
+      <!--<if test="updatedAt != null" >-->
+        <!--updated_at = #{updatedAt,jdbcType=TIMESTAMP},-->
+      <!--</if>-->
+    <!--</set>-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+  <!--</update>-->
+
+</mapper>
