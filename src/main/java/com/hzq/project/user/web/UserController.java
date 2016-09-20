@@ -101,6 +101,7 @@ public class UserController {
         RedisHelper.expire(key, 12 * 60 * 60);
         Cookie cookie = new Cookie("token", key);
         cookie.setMaxAge(3600 * 12);
+        cookie.setPath("/");
         response.addCookie(cookie);
         return new BaseResult("登录成功");
     }
