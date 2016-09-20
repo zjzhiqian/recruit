@@ -158,9 +158,8 @@
             includeHeader();
             includeFoot();
 
-
+            //个人注册
             $("#registerUser").click(function () {
-
                 $.ajax({
                     type: "POST",
                     url: "api/v3/user/registerUser",
@@ -171,12 +170,29 @@
                             alert("完成注册，立即登录！");
                             window.location.href = "Login.html";
                         } else {
-                            alert(rs.data.message);
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+            });
+
+            //企业注册
+            $("#registerCompany").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "api/v3/user/registerCompany",
+                    data: $("#form2").serialize(),
+                    dataType: 'json',
+                    success: function (rs) {
+                        if (rs.success) {
+                            alert("完成注册，立即登录！");
+                            window.location.href = "Login.html";
+                        } else {
+                            alert(rs.data.error);
                         }
                     }
                 });
             })
-
 
         });
     </script>
@@ -206,23 +222,22 @@
                 <form id="form1" action="#">
                     <ul>
                         <li>
-                            <label for="userName" class="regtit">姓名：</label>
-                            <input type="text" id="userName" name="userName" placeholder="请填写真实名称">
+                            <label for="name" class="regtit">姓名：</label>
+                            <input type="text" id="name" name="name" placeholder="请填写真实名称">
                         </li>
                         <li class="sjname">二手车商家请填写车行名称</li>
                         <li>
-                            <label for="logInName" class="regtit">用户名：</label>
-                            <input type="text" id="logInName" name="logInName" placeholder="建议使用英文或3-6位数字注册">
+                            <label for="userName" class="regtit">用户名：</label>
+                            <input type="text" id="userName" name="userName" placeholder="建议使用英文或3-6位数字注册">
                         </li>
                         <li>
-                            <label for="passWord" class="regtit">密码：</label>
-                            <input type="text" id="passWord" name="passWord" placeholder="请输入密码（6位以上）">
+                            <label for="password" class="regtit">密码：</label>
+                            <input type="text" id="password" name="password" placeholder="请输入密码（6位以上）">
                         </li>
                         <li>
-                            <label for="passWord2" class="regtit">确认密码：</label>
-                            <input type="text" id="passWord2" name="passWord2" placeholder="请再次输入密码">
+                            <label for="password2" class="regtit">确认密码：</label>
+                            <input type="text" id="password2" name="password2" placeholder="请再次输入密码">
                         </li>
-                        <li class="hint">抱歉，密码输入不一致</li>
 
                         <div class="agree">
                             <input type="checkbox">我已阅读并同意<a href="Agreement.html" target="_blank">注册协议</a></div>
@@ -236,7 +251,7 @@
                 </form>
             </div>
             <div class="regmainw">
-                <form action="#" method="post">
+                <form id="form2" >
                     <div id="wizard">
                         <ul id="status">
                             <li class="active"><strong>1.</strong>创建账户</li>
@@ -249,20 +264,20 @@
                                 <ul>
                                     <li>
                                         <label for="name" class="regtit">姓名<span class="red">*</span>：</label>
-                                        <input type="text" id="name" placeholder="请填写真实名称">
+                                        <input type="text" id="name" name="name" placeholder="请填写真实名称">
                                         <label class="sjname">二手车商家请填写车行名称</label>
                                     </li>
                                     <li>
                                         <label class="regtit">用户名<span class="red">*</span>：</label>
-                                        <input type="text" class="input" id="user" placeholder="建议使用英文或3-6位数字注册"/>
+                                        <input type="text" class="input" id="user" name="userName" placeholder="建议使用英文或3-6位数字注册"/>
                                     </li>
                                     <li>
                                         <label class="regtit">密码<span class="red">*</span>：</label>
-                                        <input type="password" class="input" id="pass" placeholder="请输入密码（6位以上）"/>
+                                        <input type="password" class="input" id="pass" name="password" placeholder="请输入密码（6位以上）"/>
                                     </li>
                                     <li>
                                         <label class="regtit">确认密码<span class="red">*</span>：</label>
-                                        <input type="password" class="input" id="pass1" placeholder="请再次输入密码"/>
+                                        <input type="password" class="input" id="pass1"  name="password2" placeholder="请再次输入密码"/>
                                     </li>
                                     <div class="btn_nav">
                                         <input type="button" class="next right" value="下一步&raquo;"/>
@@ -273,32 +288,33 @@
                                 <ul id="fillcomme">
                                     <li>
                                         <label class="regtit">公司名称<span class="red">*</span>：</label>
-                                        <input type="text" class="input" placeholder="请输入公司名称"/>
+                                        <input type="text" class="input" name="company" placeholder="请输入公司名称"/>
                                         <label class="regtit">所属行业<span class="red">*</span>：</label>
-                                        <input type="text" class="input" placeholder="请输入密码（6位以上）"/>
+                                        <input type="text" class="input" name="industry" placeholder="请输入所属行业"/>
                                     </li>
                                     <li>
                                         <label class="regtit">公司性质<span class="red">*</span>：</label>
-                                        <input type="text" class="input" name="qq" placeholder="请输入公司性质"/>
+                                        <input type="text" class="input" name="type" placeholder="请输入公司性质"/>
                                         <label class="regtit">成立日期<span class="red">*</span>：</label>
-                                        <input type="text" class="input" placeholder="请输入成立日期"/>
+                                        <input type="text" class="input" name="createDate" placeholder="请输入成立日期"/>
                                     </li>
                                     <li><label class="regtit">员工人数<span class="red">*</span>：</label>
-                                        <input type="text" class="input" placeholder="请输入员工人数"/>
+                                        <input type="text" class="input" name="employees" placeholder="请输入员工人数"/>
                                         <label class="regtit">注册资金<span class="red">*</span>：</label>
-                                        <input type="text" class="input" name="qq" placeholder="请输入注册资金"/><label for=""
+                                        <input type="text" class="input" name="money" placeholder="请输入注册资金"/><label for=""
                                                                                                                  style="font-size: 18px;float:left">元</label>
 
                                     </li>
                                     <li>
                                         <label class="regtit">公司首页：</label>
-                                        <input type="text" class="input" name="qq" placeholder="http://"/>
+                                        <input type="text" class="input" name="html" placeholder="http://"/>
                                         <label class="regtit">所属地区<span class="red">*</span>：</label>
-                                        <input type="text" class="input" placeholder="请输入所属地区"/>
+                                        <input type="text" class="input" name="area" placeholder="请输入所属地区"/>
                                     </li>
+
                                     <li class="compinfo">
                                         <label class="regtit">公司介绍<span class="red">*</span>：</label>
-                                        <textarea name="" id="" cols="60" rows="8" placeholder="请输入公司介绍"></textarea>
+                                        <textarea name="introduction" id="" cols="60" rows="8" placeholder="请输入公司介绍"></textarea>
                                         <div class="cleatbox"></div>
                                     </li>
                                     <div class="btn_nav">
@@ -311,23 +327,23 @@
                                 <ul>
                                     <li>
                                         <label class="regtit">联系人<span class="red">*</span>：</label>
-                                        <input type="text" class="input" placeholder="请输入联系人"/>
+                                        <input type="text" name="concatName" class="input" placeholder="请输入联系人"/>
                                     </li>
                                     <li>
                                         <label class="regtit">联系电话<span class="red">*</span>：</label>
-                                        <input type="text" class="input" placeholder="请输入联系电话"/>
+                                        <input type="text" name="phone" class="input" placeholder="请输入联系电话"/>
                                     </li>
                                     <li>
                                         <label class="regtit">传真号码<span class="red">*</span>：</label>
-                                        <input type="text" class="input" placeholder="请输入传真号码"/>
+                                        <input type="text" name="fax" class="input" placeholder="请输入传真号码"/>
                                     </li>
                                     <li>
                                         <label class="regtit">通讯地址<span class="red">*</span>：</label>
-                                        <input type="text" class="input" placeholder="请输入通讯地址"/>
+                                        <input type="text" name="address" class="input" placeholder="请输入通讯地址"/>
                                     </li>
                                     <li>
                                         <label class="regtit">邮箱地址<span class="red">*</span>：</label>
-                                        <input type="text" class="input" placeholder="请输入邮箱地址"/>
+                                        <input type="text" name="email" class="input" placeholder="请输入邮箱地址"/>
                                     </li>
                                     <div class="btn_nav">
                                         <input type="button" class="prev" style="float:left" value="&laquo;上一步"/>
@@ -340,7 +356,7 @@
                                 <p>请点击“确定”按钮完成注册。</p>
                                 <div class="btn_nav">
                                     <input type="button" class="prev" style="float:left" value="&laquo;上一步"/>
-                                    <input type="button" class="next right" id="sub" value="确定"/>
+                                    <input type="button" class="next right" id="registerCompany" value="确定"/>
                                 </div>
                             </div>
                         </div>
