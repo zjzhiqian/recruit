@@ -16,7 +16,6 @@ import com.hzq.project.user.vo.CompanyVo;
 import com.hzq.project.user.vo.LogInVo;
 import com.hzq.project.user.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.RedisServer;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.Objects;
 
 /**
  * UserController
