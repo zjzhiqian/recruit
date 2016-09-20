@@ -21,16 +21,19 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie[] cookies = request.getCookies();
-        List<Cookie> authCookie = Arrays.stream(cookies).filter(cookie -> cookie.getName().equals("auth")).collect(toList());
-        if (authCookie.size() > 0) {
-            Cookie cookie = authCookie.get(0);
-            String userName = cookie.getValue();
-            String userInfo = RedisHelper.get(userName);
-            if (userInfo != null) {
-                UserInfo userBean = JSON.parseObject(userInfo, UserInfo.class);
-                request.setAttribute("subject",userBean);
+        if (cookies != null) {
+            List<Cookie> authCookie = Arrays.stream(cookies).filter(cookie -> cookie.getName().equals("token")).collect(toList());
+            if (authCookie.size() > 0) {
+                Cookie cookie = authCookie.get(0);
+                String token = cookie.getValue();
+                String userInfo = RedisHelper.get(token);
+                if (userInfo != null) {
+                    UserInfo userBean = JSON.parseObject(userInfo, UserInfo.class);
+                    request.setAttribute("subject", userBean);
+                }
             }
         }
+
         String uri = request.getRequestURI();
         // 如果是请求Token 则不进行拦截
 //        if (uri.contains("/auth/token")) {

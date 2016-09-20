@@ -37,10 +37,10 @@
         if (type == 2) {
             $("#user").removeClass('logintit');
             $("#company").addClass('logintit');
+            $("#type").val("2")
         }
 
-        $("#Login").click(function () {
-
+        $("#logIn").click(function () {
             $.ajax({
                 type: "POST",
                 url: "api/v3/user/logIn",
@@ -48,15 +48,13 @@
                 dataType: 'json',
                 success: function (rs) {
                     if (rs.success) {
-                        alert("完成注册，立即登录！");
-                        window.location.href = "Login.html";
+                        alert("登录成功，回到首页！");
+                        window.location.href = "Index.html";
                     } else {
                         alert(rs.data.error);
                     }
                 }
             });
-
-
         })
     });
 </script>
@@ -76,48 +74,29 @@
             </div>
             <div class="logincon">
                 <div class="loginwr">
-                    <ul>
-                        <li>
-                            <label for="name" class="regtit">用户名：</label>
-                            <input type="text" id="name" name="userName" placeholder="用户名">
-                        </li>
-                        <li class="hint2"></li>
-                        <li>
-                            <label for="pass" class="regtit">密码：</label>
-                            <input type="text" id="pass" name="password" placeholder="请输入密码（6位以上）">
-                        </li>
-                        <li class="hint2"></li>
-                        <div>
-                            <label for="affpas" class="regtit"></label>
-                            <input id="Login" type="button" value="立即登录">
-                        </div>
-                    </ul>
-                    <div class="logps">
-                        若无法正常登录,请与我们联系。 客服电话：0576-82875986
-                    </div>
-                </div>
-                <div class="loginwr">
-                    <ul>
-                        <li>
-                            <label for="name" class="regtit">用户名：</label>
-                            <input type="text" id="name" placeholder="用户名">
-                        </li>
-                        <li class="hint2">用户名不能为空</li>
-                        <li>
-                            <label for="pass" class="regtit">密码：</label>
-                            <input type="text" id="pass" placeholder="请输入密码（6位以上）">
-                        </li>
-                        <li class="hint2">密码不能少于6位字符
+                    <form id="form1">
+                        <ul>
+                            <input id="type" type="hidden" name="type" value="1">
 
-                        </li>
-                        <div>
-                            <label for="affpas" class="regtit"></label>
-                            <input type="button" value="立即登录">
+                            <li>
+                                <label for="name" class="regtit">用户名：</label>
+                                <input type="text" id="name" name="userName" placeholder="用户名">
+                            </li>
+                            <!--<li class="hint2"></li>-->
+                            <li>
+                                <label for="pass" class="regtit">密码：</label>
+                                <input type="text" id="pass" name="password" placeholder="请输入密码（6位以上）">
+                            </li>
+                            <!--<li class="hint2"></li>-->
+                            <div>
+                                <label for="affpas" class="regtit"></label>
+                                <input id="logIn" type="button" value="立即登录">
+                            </div>
+                        </ul>
+                        <div class="logps">
+                            若无法正常登录,请与我们联系。 客服电话：0576-82875986
                         </div>
-                    </ul>
-                    <div class="logps">
-                        若无法正常登录,请与我们联系。 客服电话：0576-82875986
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

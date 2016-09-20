@@ -9,6 +9,8 @@ import java.util.Date;
 public class UserInfo {
 
     private Integer userType; //用户类型 1.个人 2.企业
+    private String token; //token
+    private Long logInTime; //登录时间,AES加密的key
 
     private Integer id;
 
@@ -49,6 +51,22 @@ public class UserInfo {
     private Date createdAt;
 
     private Date updatedAt;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Long getLogInTime() {
+        return logInTime;
+    }
+
+    public void setLogInTime(Long logInTime) {
+        this.logInTime = logInTime;
+    }
 
     public Integer getUserType() {
         return userType;

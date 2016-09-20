@@ -1,7 +1,6 @@
 package com.hzq.project.security.handler;
 
 import com.hzq.project.system.common.entity.UserInfo;
-import com.zhaimi.supers.nami.security.entity.Subject;
 
 import java.lang.annotation.Annotation;
 

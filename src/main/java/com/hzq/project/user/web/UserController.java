@@ -1,6 +1,7 @@
 package com.hzq.project.user.web;
 
 import com.alibaba.fastjson.JSON;
+import com.hzq.project.security.util.AESUtil;
 import com.hzq.project.system.common.entity.UserInfo;
 import com.hzq.project.system.common.redis.RedisHelper;
 import com.hzq.project.system.common.util.Creator;
@@ -74,13 +75,12 @@ public class UserController {
     @RequestMapping(path = "/logIn", method = RequestMethod.POST)
     public BaseResult registerUser(@Valid LogInVo logInVo, BindingResult bindingResult, HttpServletResponse response) {
         ValidatorHelper.validBindingResult(bindingResult);
-
         Integer type = logInVo.getType();
         String userName = logInVo.getUserName();
         String password = logInVo.getPassword();
 
-
-        UserInfo info = null;
+        UserInfo info;
+        long time = System.currentTimeMillis();
         if (type == 1) {
             User user = userService.selectUserByUserName(userName);
             if (user == null || !password.equals(user.getPassword()))
@@ -94,8 +94,12 @@ public class UserController {
             info = Creator.newInstance(company, UserInfo.class);
             info.setUserType(2);
         }
-        RedisHelper.set(userName, JSON.toJSONString(info));
-        Cookie cookie = new Cookie("auth", userName);
+        info.setLogInTime(time);
+        String key = AESUtil.encrypt(userName, time);
+
+        RedisHelper.set(key, JSON.toJSONString(info));
+        RedisHelper.expire(key, 12 * 60 * 60);
+        Cookie cookie = new Cookie("token", key);
         cookie.setMaxAge(3600 * 12);
         response.addCookie(cookie);
         return new BaseResult("登录成功");

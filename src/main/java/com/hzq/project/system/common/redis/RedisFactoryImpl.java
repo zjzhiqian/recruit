@@ -9,8 +9,8 @@ import redis.clients.jedis.JedisPool;
  * DefaultRedisFactory
  * Created by hzq on 16/9/20.
  */
-@Component
-public class DefaultRedisFactory implements RedisFactory {
+@Component(value = "redisFactory")
+public class RedisFactoryImpl implements RedisFactory {
     @Autowired
     private JedisPool jedisPool;
 
