@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzq.project.resume.dao.RecruitmentMapper" >
+
+  <insert id="insert" parameterType="com.hzq.project.resume.dao.entity.Recruitment" >
+    insert into recruitments
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="picture != null" >
+        picture,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="peopleCount != null" >
+        people_count,
+      </if>
+      <if test="workYear != null" >
+        work_year,
+      </if>
+      <if test="salary != null" >
+        salary,
+      </if>
+      <if test="probation != null" >
+        probation,
+      </if>
+      <if test="workArea != null" >
+        work_area,
+      </if>
+      <if test="detailArea != null" >
+        detail_area,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+      <if test="concactName != null" >
+        concact_name,
+      </if>
+      <if test="concactPhone != null" >
+        concact_phone,
+      </if>
+      <if test="createdAt != null" >
+        created_at,
+      </if>
+      <if test="updatedAt != null" >
+        updated_at,
+      </if>
+      <if test="deletedAt != null" >
+        deleted_at,
+      </if>
+      <if test="watch != null" >
+        watch,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="picture != null" >
+        #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=INTEGER},
+      </if>
+      <if test="peopleCount != null" >
+        #{peopleCount,jdbcType=INTEGER},
+      </if>
+      <if test="workYear != null" >
+        #{workYear,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null" >
+        #{salary,jdbcType=INTEGER},
+      </if>
+      <if test="probation != null" >
+        #{probation,jdbcType=INTEGER},
+      </if>
+      <if test="workArea != null" >
+        #{workArea,jdbcType=INTEGER},
+      </if>
+      <if test="detailArea != null" >
+        #{detailArea,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="concactName != null" >
+        #{concactName,jdbcType=VARCHAR},
+      </if>
+      <if test="concactPhone != null" >
+        #{concactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletedAt != null" >
+        #{deletedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="watch != null" >
+        #{watch,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+
+  <select id="getRecruitmentCountByCompanyId" parameterType="int" resultType="int">
+    select count(1) from recruitments where company_id = #{companyId,jdbcType=INTEGER}  and deleted_at is NULL
+  </select>
+
+
+  <select id="getRecruitmentsByCompanyId" parameterType="int" resultType="com.hzq.project.resume.dao.entity.Recruitment">
+    select * from recruitments where company_id = #{companyId,jdbcType=INTEGER}  and deleted_at is NULL
+  </select>
+</mapper>
