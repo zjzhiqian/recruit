@@ -6,5 +6,7 @@ package com.hzq.project.security.util;
  */
 public class Roles {
 
-    public static final String ADMIN = "admin";
+    public static final String USER = "1";
+    public static final String COMPANY = "2";
+
 }

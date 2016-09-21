@@ -14,7 +14,6 @@ public class ResumeVo {
 
     private Integer userId;
 
-
     @Length(min = 1,max = 80,message = "简历标题必须在1~80位之间")
     @NotEmpty(message = "简历标题不能为空")
     private String title;

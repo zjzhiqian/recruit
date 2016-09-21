@@ -8,6 +8,8 @@ import com.hzq.project.system.common.redis.RedisHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * ResumeServiceImpl
  * Created by hzq on 16/9/20.
@@ -29,5 +31,10 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public Integer getResumeCountByUserId(Integer userId) {
         return resumeMapper.getResumeCountByUserId(userId);
+    }
+
+    @Override
+    public List<Resume> getResumeByUserId(Integer userId) {
+        return resumeMapper.getResumeByUserId(userId);
     }
 }

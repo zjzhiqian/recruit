@@ -3,6 +3,8 @@ package com.hzq.project.resume.web;
 import com.hzq.project.resume.dao.entity.Resume;
 import com.hzq.project.resume.service.ResumeService;
 import com.hzq.project.resume.vo.ResumeVo;
+import com.hzq.project.security.annon.RequiresRoles;
+import com.hzq.project.security.util.Roles;
 import com.hzq.project.system.common.util.Creator;
 import com.hzq.project.system.common.util.ValidatorHelper;
 import com.hzq.project.system.common.web.BaseController;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * ResumeController
@@ -29,6 +32,7 @@ public class ResumeController extends BaseController{
     /**
      * 新增简历
      */
+    @RequiresRoles(Roles.USER)
     @RequestMapping(path = "/addResume", method = RequestMethod.POST)
     public BaseResult registerUser(@Valid ResumeVo resumeVo, BindingResult bindingResult) {
         ValidatorHelper.validBindingResult(bindingResult);
@@ -38,16 +42,23 @@ public class ResumeController extends BaseController{
         return new BaseResult("新增简历成功");
     }
 
-
     /**
-     * 新增简历
+     * 查看简历数量
      */
+    @RequiresRoles(Roles.USER)
     @RequestMapping(path = "/getResumeCount", method = RequestMethod.GET)
     public Integer getResumeCount() {
         return resumeService.getResumeCountByUserId(getUserId());
     }
 
-
+    /**
+     * 获取用户所有简历
+     */
+    @RequiresRoles(Roles.USER)
+    @RequestMapping(path = "/getResumeByUserId", method = RequestMethod.GET)
+    public List<Resume> getResumeByUserId(){
+        return resumeService.getResumeByUserId(getUserId());
+    }
 
 
 }

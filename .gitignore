@@ -3,3 +3,4 @@
 #/out
 /recruit.iml
 /src/main/resources/generatorConfig.xml
+/src/main/resources/mysql.properties

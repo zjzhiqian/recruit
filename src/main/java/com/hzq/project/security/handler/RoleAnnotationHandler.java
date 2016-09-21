@@ -3,7 +3,6 @@ package com.hzq.project.security.handler;
 import com.hzq.project.security.annon.RequiresRoles;
 import com.hzq.project.security.exception.MethodNotAllowedException;
 import com.hzq.project.system.common.entity.UserInfo;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
@@ -18,13 +17,11 @@ public class RoleAnnotationHandler implements AuthorizingAnnotationHandler {
 
     @Override
     public void assertAuthorized(Annotation a, UserInfo userInfo) {
-//        if (!(a instanceof RequiresRoles)) return;
-//        RequiresRoles annotation = (RequiresRoles) a;
-//        String[] roles = annotation.value();
-//        final String[] ownRoles = subject.getRoles();
-//        Arrays.stream(roles).forEach(role -> {
-//            if (!ArrayUtils.contains(ownRoles, role))
-//                throw new MethodNotAllowedException("无权访问方法");
-//        });
+        if (!(a instanceof RequiresRoles)) return;
+        RequiresRoles annotation = (RequiresRoles) a;
+        String[] roles = annotation.value();
+        final Integer ownRoles = userInfo.getUserType();
+        if (Arrays.stream(roles).noneMatch(role -> role.equals(ownRoles.toString())))
+            throw new MethodNotAllowedException("您未登录,请前往登录");
     }
 }

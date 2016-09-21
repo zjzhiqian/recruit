@@ -10,64 +10,20 @@
     <link href="images/favicon.ico" rel="Shortcut Icon">
     <link rel="stylesheet" href="css/base.css">
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
+
+
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="js/common-include.js"></script>
+    <script src="js/jquery.luara.0.0.1.min.js"></script>
+
     <script>
-    $(function() {
-        var mydate = new Date();
-        var str = mydate.getDay();
-        var str1 = mydate.getFullYear();
-        var str2 = mydate.getMonth() + 1;
-        var str3 = mydate.getDate();
-        var xq;
-        switch (str) {
-            case 0:
-                xq = "（周日）";
-                break;
-            case 1:
-                xq = "（周一）";
-                break;
-            case 2:
-                xq = "（周二）";
-                break;
-            case 3:
-                xq = "（周三）";
-                break;
-            case 4:
-                xq = "（周四）";
-                break;
-            case 5:
-                xq = "(周五)";
-                break;
-            case 6:
-                xq = "(周六)";
-                break;
-        }
-        $("li.time").html(str1 + "年" + str2 + "月" + str3 + "日" + xq);
+        $(function() {
+            includeHeader();
+            includeFoot();
 
-    });
+        });
     </script>
-    <!-- 切换城市 -->
-    <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
-    <!-- 显示城市名称 -->
-    <script type="text/jscript">
-    $(function() {
-            $('.city_link a').click(function() {
-                $(this).parent().each(function() { //移除其余非点中状态
-                    $('.city_link a').removeClass("special_color");
-                });
-                $(this).addClass("special_color"); //给所点中的增加样式
-                // alert($(this).text()); //输出所点的a的内容
-                $(".adrname").text($(this).text());
 
-            })
-        })
-        // 隐藏城市列表
-    $(function() {
-        $('.city_link').click(function() {
-            this.className = 'city_nav city_hovers';
-            document.getElementById('city_link').className = 'city_link city_hover'
-        })
-    })
-    </script>
     <script>
     function changeSc() {
         alert("收藏成功！");
@@ -91,105 +47,8 @@
 </head>
 
 <body>
-    <!-- 头部S -->
     <div id="header">
-        <!--  -->
-        <div id="header-top">
-            <div id="headcon">
-                <div id="logo">
-                    <a href="Index.html"><img src="images/logo.png" alt=""></a>
-                </div>
-                <div id="adres">
-                    <ul>
-                        <li class="address"><span class="adrname">台州</span><small onclick="this.className='city_nav city_hover';document.getElementById('city_link').className='city_link city_hovers'">[切换城市]</small></li>
-                        <!-- onmouseover= /vs/onclick= -->
-                        <div id="city_link" class="city_link">
-                            <a class="city_links" href="#">椒江</a>
-                            <a class="city_links" href="#">路桥</a>
-                            <a class="city_links" href="#">黄岩</a>
-                            <a class="city_links" href="#">临海</a>
-                            <a class="city_links" href="#">温岭</a>
-                            <a class="city_links" href="#">天台</a>
-                            <a class="city_links" href="#">三门</a>
-                            <a class="city_links" href="#">仙居</a>
-                            <a class="city_links" href="#">玉环</a>
-                            <a class="city_links" href="#">金清</a>
-                        </div>
-                        <li class="wheater">
-                            <iframe allowtransparency="true" frameborder="0" width="166" height="36" scrolling="no" src="http://tianqi.2345.com/plugin/widget/index.htm?s=3&z=2&t=1&v=0&d=1&bd=0&k=&f=&q=0&e=1&a=0&c=58651&w=166&h=36&align=right" style="margin-top:11px;"></iframe>
-                        </li>
-                        <li class="time"></li>
-                    </ul>
-                </div>
-                <div id="message">
-                    <ul>
-                        <li>
-                            <a href="Message.html" target="_blank">
-                                <div id="infowr">
-                                    <div id="inf">通知</div>
-                                    <div id="nums">5</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li><a href="Login.html" target="_blank">个人登录</a></li>
-                        <li><a href="Login.html" target="_blank">企业登录</a></li>
-                        <li><a href="Register.html" target="_blank">新用户注册</a></li>
-                        <li><a href="" class="issue" target="_blank">免费发布信息</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div id="header-banner">
-            <!-- 广告S -->
-            <div id="banner">
-                <ul>
-                    <li><a href="Contact.html" target="_blank"><img src="images/banner.png" alt=""></a></li>
-                    <li><a href="Contact.html" target="_blank"> <img src="images/banner_2.png" alt=""></a></li>
-                    <li> <a href="Contact.html" target="_blank"><img src="images/banner_3.png" alt=""></a></li>
-                </ul>
-                <ol>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ol>
-            </div>
-            <!-- 广告E -->
-        </div>
     </div>
-    <!-- 头部E -->
-    <!-- 滚动图 -->
-    <script src="js/jquery-1.8.3.min.js"></script>
-    <!--Luara js文件-->
-    <script src="js/jquery.luara.0.0.1.min.js"></script>
-    <script>
-    $(function() {
-        <!--调用Luara示例-->
-        $("#banner").luara({
-            width: "100%",
-            height: "313",
-            interval: 6000,
-            selected: "seleted"
-        });
-
-    });
-    </script>
-    <!-- 头部E -->
-    <!-- 清除浮动 S-->
-    <div class="clearbox"></div>
-    <!-- 清除浮动E -->
-    <!-- 菜单S -->
-    <div id="menu">
-        <ul>
-            <li><a href="Index.html" target="_blank">全部招聘</a></li>
-            <li><a href="PartTimeJob.html" target="_blank">兼职招聘</a></li>
-            <li class="high-end"><a href="HighJob.html" target="_blank">高端招聘</a><img src="images/new.png" alt=""></li>
-            <li><a href="Poerscenter.html" target="_blank">个人中心</a></li>
-            <li><a href="BusSear.html" target="_blank">二手车</a></li>
-            <li><a href="HousSear.html" target="_blank">二手房</a></li>
-            <li><a href="Consult.html" target="_blank">合作咨询</a></li>
-        </ul>
-    </div>
-    <!-- 菜单E -->
     <!-- 二手车概述S -->
     <div id="busovvi">
         <div id="busphoto">
@@ -270,55 +129,8 @@
         </div>
     </div>
     <!--   二手车详情S -->
-    <!--版权 S -->
     <div id="footer">
-        <div id="footer-main">
-            <div id="footerlef"><img src="images/photo.png" alt="">
-                <div>客服：0576-82875986</div>
-                <div class="clearboth"></div>
-            </div>
-            <div id="footermid">
-              <ul>
-                    <li>
-                        <div class="about">关于我们</div>
-                        <div id="aboutmain">
-                            <a href="About.html" target="_blank">关于我们</a>
-                            <a href="Register.html" target="_blank">加入我们</a> <a href="Contact.html">联系我们</a><a href="javascipt:;">媒体报道</a>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="work">找工作</div>
-                        <div id="workmain">
-                            <a href="Resume.html" target="_blank">创建简历</a><a href="SeaResult.html" target="_blank">搜索职位</a> <a href="PartTimeJob.html" target="_blank">实习生招聘</a><a href="Index.html" target="_blank">全部招聘</a>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="talents">招人才</div>
-                        <div id="talentsmain">
-                            <a href="PostJob.html">发布工作</a>
-                            <a href="SeaResult.html">招聘管理</a> <a href="index.html">招聘职位大全</a><a href="SeaResult.html">创新企业名录</a>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="help">消息发布</div>
-                        <div id="helpmain">
-                            
-                            <a href="HouRelease.html">二手房发布</a><a href="CarsRelease.html">二手车发布</a> <a href="HousSear.html">二手房大全</a><a href="BusSear.html">二手车大全</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div id="footerrig">
-                <img src="images/wc.png" alt="">
-            </div>
-        </div>
-        <div id="copy">ICP经营许可证编号 京ICP证060405号 京ICP备10012705号-12 京公网安备11010502027237号 Copyright 北京五八信息技术有限公司 版权所有</div>
-        <div id="footer-photo">
-            <img src="images/ba.png" alt="">
-            <img src="images/wl.png" alt="">
-        </div>
     </div>
-    <!--版权 E -->
     <div id="lift">
         <div id="liftcon">
             <div onclick="document.getElementById('lift').style.display='';" style="float:right;text-align:right;cursor:pointer">关闭x</div>
