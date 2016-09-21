@@ -41,7 +41,7 @@ function includeHeader(){
         "                            </a>\n" +
         "                        </li>\n" +
         "                        <li><a href=\"Login.html\" target=\"_blank\">个人登录</a></li>\n" +
-        "                        <li><a href=\"Login.html\" target=\"_blank\">企业登录</a></li>\n" +
+        "                        <li><a href=\"Login.html?type=companyLogIn\" target=\"_blank\">企业登录</a></li>\n" +
         "                        <li><a href=\"Register.html\" target=\"_blank\">新用户注册</a></li>\n" +
         "                        <li><a href=\"\" class=\"issue\" target=\"_blank\">免费发布信息</a></li>\n" +
         "                    </ul>\n" +

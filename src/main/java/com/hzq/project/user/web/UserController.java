@@ -2,6 +2,7 @@ package com.hzq.project.user.web;
 
 import com.alibaba.fastjson.JSON;
 import com.hzq.project.security.util.AESUtil;
+import com.hzq.project.system.common.entity.CookieInfo;
 import com.hzq.project.system.common.entity.UserInfo;
 import com.hzq.project.system.common.redis.RedisHelper;
 import com.hzq.project.system.common.util.Creator;
@@ -84,23 +85,35 @@ public class UserController {
             if (user == null || !password.equals(user.getPassword()))
                 throw new UserException("账号或密码错误");
             info = Creator.newInstance(user, UserInfo.class);
-            info.setUserType(1);
         } else {
             Company company = companyService.selectCompanyByUserName(userName);
             if (company == null || !password.equals(company.getPassword()))
                 throw new UserException("账号或密码错误");
             info = Creator.newInstance(company, UserInfo.class);
-            info.setUserType(2);
+            type = 2;
         }
+        info.setUserType(type);
         info.setLogInTime(time);
         String key = AESUtil.encrypt(userName, time);
 
         RedisHelper.set(key, JSON.toJSONString(info));
+
+        //权限cookie
         RedisHelper.expire(key, 12 * 60 * 60);
         Cookie cookie = new Cookie("token", key);
         cookie.setMaxAge(3600 * 12);
         cookie.setPath("/");
         response.addCookie(cookie);
+
+        //信息cookie
+        CookieInfo cookieInfo = new CookieInfo();
+        cookieInfo.setUserName(userName);
+        cookieInfo.setUserType(type);
+        Cookie cookie2 = new Cookie("info", JSON.toJSONString(cookieInfo));
+        cookie2.setMaxAge(3600 * 12);
+        cookie2.setPath("/");
+        response.addCookie(cookie2);
+
         return new BaseResult("登录成功");
     }
 
