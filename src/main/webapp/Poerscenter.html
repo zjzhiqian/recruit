@@ -36,13 +36,13 @@
                 var userName = json["userName"];
                 $("#name1").html(userName);
                 $("#name2").html(userName);
-                $("#name2").text(userName);
-
+                $("#name3").text(userName);
+                $("#name4").html(userName);
                 var userType = json["userType"];
                 if (userType == 1) {
                     //个人用户
                     $("#zhaopin").hide();
-
+                    getUserInfo();
                     //获取简历数量
                     $.ajax({
                         type: "GET",
@@ -61,6 +61,19 @@
                     //企业用户
                     $("#fabu").hide();
                     $("#qiuzhi").hide();
+                    //招聘职位数量
+                    $.ajax({
+                        type: "GET",
+                        url: "api/v3/recruitment/getRecruitmentCount",
+                        dataType: 'json',
+                        success: function (rs) {
+                            if (rs.success) {
+                                $("#recruitmentCount").text(rs.data);
+                            } else {
+                                alert(rs.data.error);
+                            }
+                        }
+                    });
                 }
             }else{
                 alert("您未登录,请前往登录")
@@ -107,40 +120,40 @@
                         </div>
                         <div class="clearbox"></div>
                     </div>
-                    <div class="pubmain">
-                        <div class="pubmainmenu">
-                            <ul>
-                                <li class="pubmainmese">最近发布</li>
-                                <li>浏览过的</li>
-                            </ul>
-                            <div class="clearbox"></div>
-                        </div>
-                        <div class="pubmaincon">
-                            <div class="maincon" style="display:block">
-                                <ul>
-                                    <li>
-                                        <div class="maintit">法国代购求清仓</div>
-                                        <div class="maintimes">阅读9</div>
-                                    </li>
-                                    <li>
-                                        <div class="maintit">法国代购求清仓</div>
-                                        <div class="maintimes">阅读9</div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="maincon" style="display:none">
-                                <ul>
-                                    <li>
-                                        <div class="maintit">法国代购求清仓</div>
-                                        <div class="maintimes">阅读9</div>
-                                    </li>
-                                    <li>
-                                        <div class="maintit">法国代购求清仓</div>
-                                        <div class="maintimes">阅读9</div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                    <div id="pub01" class="pubmain">
+                        <!--<div class="pubmainmenu">-->
+                            <!--<ul>-->
+                                <!--<li class="pubmainmese">最近发布</li>-->
+                                <!--<li>浏览过的</li>-->
+                            <!--</ul>-->
+                            <!--<div class="clearbox"></div>-->
+                        <!--</div>-->
+                        <!--<div class="pubmaincon">-->
+                            <!--<div class="maincon" style="display:block">-->
+                                <!--<ul>-->
+                                    <!--<li>-->
+                                        <!--<div class="maintit">法国代购求清仓</div>-->
+                                        <!--<div class="maintimes">阅读9</div>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<div class="maintit">法国代购求清仓</div>-->
+                                        <!--<div class="maintimes">阅读9</div>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                            <!--<div class="maincon" style="display:none">-->
+                                <!--<ul>-->
+                                    <!--<li>-->
+                                        <!--<div class="maintit">法国代购求清仓</div>-->
+                                        <!--<div class="maintimes">阅读9</div>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<div class="maintit">法国代购求清仓</div>-->
+                                        <!--<div class="maintimes">阅读9</div>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </div>
@@ -166,39 +179,39 @@
                             </div>
                         </div>
                         <div class="clearbox"></div>
-                        <div class="pubmain">
-                            <div class="pubmainmenu">
-                                <ul>
-                                    <li class="pubmainmese">最近发布</li>
-                                    <li>浏览过的</li>
-                                </ul>
-                                <div class="clearbox"></div>
-                            </div>
-                            <div class="pubmaincon">
-                                <div class="maincon" style="display:block">
-                                    <ul>
-                                        <li>
-                                            <div class="maintit">法国代购求清仓</div>
-                                            <div class="maintimes">阅读9</div>
-                                        </li>
-                                        <li>
-                                            <div class="maintit">法国代购求清仓</div>
-                                            <div class="maintimes">阅读9</div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="maincon" style="display:none">
-                                    <ul>
-                                        <li>
-                                            <div class="maintit">法国代购求清仓</div>
-                                            <div class="maintimes">阅读9</div>
-                                        </li>
-                                        <li>
-                                            <div class="maintit">法国代购求清仓</div>
-                                            <div class="maintimes">阅读9</div>
-                                        </li>
-                                    </ul>
-                                </div>
+                        <div id="pub02" class="pubmain">
+                            <!--<div class="pubmainmenu">-->
+                                <!--<ul>-->
+                                    <!--<li class="pubmainmese">最近发布</li>-->
+                                    <!--<li>浏览过的</li>-->
+                                <!--</ul>-->
+                                <!--<div class="clearbox"></div>-->
+                            <!--</div>-->
+                            <!--<div class="pubmaincon">-->
+                                <!--<div class="maincon" style="display:block">-->
+                                    <!--<ul>-->
+                                        <!--<li>-->
+                                            <!--<div class="maintit">法国代购求清仓</div>-->
+                                            <!--<div class="maintimes">阅读9</div>-->
+                                        <!--</li>-->
+                                        <!--<li>-->
+                                            <!--<div class="maintit">法国代购求清仓</div>-->
+                                            <!--<div class="maintimes">阅读9</div>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
+                                <!--<div class="maincon" style="display:none">-->
+                                    <!--<ul>-->
+                                        <!--<li>-->
+                                            <!--<div class="maintit">法国代购求清仓</div>-->
+                                            <!--<div class="maintimes">阅读9</div>-->
+                                        <!--</li>-->
+                                        <!--<li>-->
+                                            <!--<div class="maintit">法国代购求清仓</div>-->
+                                            <!--<div class="maintimes">阅读9</div>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
                             </div>
                         </div>
                     </div>
@@ -212,12 +225,12 @@
                         </div>
                         <div class="headerinfo">
                             <div class="headername">
-                                <span class="headfirname" id="name3"> </span><span class="accrod">查看符合条件简历（108）</span>
+                                <span class="headfirname" id="name3"> </span><span class="accrod">查看符合条件简历（1）</span>
                                 <div class="clearbox"></div>
                             </div>
                             <div class="headerjob">
                                 <div>
-                                    招聘职位<span class="red">36</span>个,
+                                    招聘职位<span id="recruitmentCount" class="red"></span>个,
                                     <a href="PostJob.html" target="_blank">发布招聘</a></div>
                             </div>
                             <div class="clearbox"></div>
@@ -287,20 +300,19 @@
                             <img src="images/headpor.jpg" alt="">
                         </div>
                         <div class="headerinfo">
-                            <div class="headername">
-                                小飞
+                            <div id="name4" class="headername">
                             </div>
-                            <div class="headerjob">
-                                <ul>
-                                    <li>艺术、设计</li>
-                                    <li class="pa">5年</li>
-                                    <li class="pa">5-8K</li>
-                                </ul>
-                            </div>
-                            <div class="clearbox"></div>
-                            <div class="headeresu">
-                                简历<span class="red">0</span>封，<a href="Resume.html">去写简历</a>
-                            </div>
+                            <!--<div class="headerjob">-->
+                                <!--<ul>-->
+                                    <!--<li>艺术、设计</li>-->
+                                    <!--<li class="pa">5年</li>-->
+                                    <!--<li class="pa">5-8K</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                            <!--<div class="clearbox"></div>-->
+                            <!--<div class="headeresu">-->
+                                <!--简历<span class="red">0</span>封，<a href="Resume.html">去写简历</a>-->
+                            <!--</div>-->
                         </div>
                         <div class="clearbox"></div>
                         <div class="pubmain">

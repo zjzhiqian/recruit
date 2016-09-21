@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>台州创新网 - 招聘发布</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta id="keywords" content="">
     <meta id="description" content="">
     <link href="images/favicon.ico" rel="Shortcut Icon">
@@ -12,31 +12,91 @@
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
 
 
-
     <script src="js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="js/common-include.js"></script>
     <script src="js/jquery.luara.0.0.1.min.js"></script>
 
+    <script type="text/javascript" src="js/common-dic.js"></script>
 
     <script>
-    $(function() {
-        includeHeader();
-        includeFoot();
-    });
+        $(function () {
+            includeHeader();
+            includeFoot();
+
+
+
+            //职位类别
+            var jobStr = "";
+            for (var i = 0; i < jobArr.length; i++) {
+                jobStr = jobStr + "<option value=\"" + i + "\">" + jobArr[i] + "</option>";
+            }
+            $("#models").html(jobStr);
+
+            //工作年限
+            var yearStr = "";
+            for (var i = 0; i < yearArr.length; i++) {
+                yearStr = yearStr + "<option value=\"" + i + "\">" + yearArr[i] + "</option>";
+            }
+            $("#agelimit").html(yearStr);
+
+            //学历
+            var studyStr = "";
+            for (var i = 0; i < studyArr.length; i++) {
+                studyStr = studyStr + "<option value=\"" + i + "\">" + studyArr[i] + "</option>";
+            }
+            $("#edu").html(studyStr);
+
+            //工作区域
+            var workStr = "";
+            for (var i = 0; i < workArr.length; i++) {
+                workStr = workStr + "<option value=\"" + i + "\">" + workArr[i] + "</option>";
+            }
+            $("#area").html(workStr);
+
+            //期望月薪
+            var moneyStr = "";
+            for (var i = 0; i < moneyArr.length; i++) {
+                moneyStr = moneyStr + "<option value=\"" + i + "\">" + moneyArr[i] + "</option>";
+            }
+            $("#money").html(moneyStr);
+
+
+
+            $("#btnre").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "api/v3/recruitment/addRecruitment",
+                    data: $("#form1").serialize(),
+                    dataType: 'json',
+                    success: function (rs) {
+                        if (rs.success) {
+                            console.log(rs);
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+
+            })
+        });
 
     </script>
 </head>
 
 <body>
 
-     <div id="header"></div>
-    <!-- 二手车信息发布s -->
-    <div id="housre">
-        <div class="title2">招聘发布</div>
-        <ul>  
-        <li>
+<div id="header"></div>
+<!-- 二手车信息发布s -->
+<div id="housre">
+    <div class="title2">招聘发布</div>
+    <ul>
+        <form id="form1">
+
+            <li>
                 <label class="reatit" for="describe">企业相册</label>
                 <input type="button" id="carbook" value="上传企业相册">
+                <input type="hidden" name="picture" value="url">
+
                 <div class="clearbox"></div>
             </li>
 
@@ -45,15 +105,13 @@
             </li>
             <li>
                 <label class="reatit"><span class="red">*</span>职位类别</label>
-                <select id="models">
-                    <option value="1">请选择职位类别</option>
+                <select id="models" name="type">
                 </select>
                 <div class="clearbox"></div>
             </li>
             <li>
                 <label class="reatit"><span class="red">*</span>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历</label>
-                <select id="edu">
-                    <option value="1">不限</option>
+                <select id="edu" name="education">
                 </select>
                 <span class="red">
                <img src="images/jb.png" alt="">请填写完整信息
@@ -62,79 +120,81 @@
             </li>
             <li>
                 <label class="reatit"><span class="red">*</span>招聘人数</label>
-                <input id="room" type="text"><span class="room">人</span>
+                <input id="room" name="peopleCount" type="text"><span class="room">人</span>
                 <div class="clearbox"></div>
             </li>
             <li>
                 <label class="reatit"><span class="red">*</span>工作年限</label>
-                <select id="agelimit">
-                    <option value="1">不限</option>
+                <select id="agelimit" name="workYear">
                 </select>
                 <div class="clearbox"></div>
             </li>
-            <li>
-                <label class="reatit"><span class="red">*</span>年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄</label>
-                <select id="ag">
-                    <option value="1">不限</option>
-                </select>
-                <div class="clearbox"></div>
-            </li>
+            <!--<li>-->
+                <!--<label class="reatit"><span class="red">*</span>年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄</label>-->
+                <!--<select id="ag">-->
+                    <!--<option value="1">不限</option>-->
+                <!--</select>-->
+                <!--<div class="clearbox"></div>-->
+            <!--</li>-->
             <li>
                 <label class="reatit" for="times"><span class="red">*</span>月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;薪</label>
-                <select id="pay">
-                    <option value="1">面议</option>
+                <select id="money" name="salary">
+
                 </select>
                 <div class="clearbox"></div>
             </li>
-             <li>
+            <li>
                 <label class="reatit" for="times"><span class="red">*</span>试&nbsp;用&nbsp;期</label>
-                <select id="pay">
-                    <option value="1">2个月</option>
+                <select id="pay" name="probation">
+                    <option value="1">1个月</option>
+                    <option value="2">2个月</option>
+                    <option value="3">3个月</option>
+                    <option value="4">6个月</option>
                 </select>
                 <div class="clearbox"></div>
             </li>
             <li>
                 <label class="reatit" for="money"><span class="red">*</span>工作地点</label>
-                <select id="addr">
-                    <option value="1"></option>
+                <select id="area" name="workArea">
                 </select>
-              <input id="addr2" type="text"  placeholder="详细工作地点（选填）">
+                <input id="addr2" type="text" name="detailArea" placeholder="详细工作地点（选填）">
                 <div class="clearbox"></div>
             </li>
             <li>
                 <label class="reatit" for="title"><span class="red">*</span>标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题</label>
-                <input id="title" type="text" placeholder="写一个吸引力的标题">
+                <input id="title" type="text" name="title" placeholder="写一个吸引力的标题">
                 <div class="clearbox"></div>
             </li>
             <li>
                 <label class="reatit" for="describe"><span class="red">*</span>职位描述</label>
-                <textarea name="describe" id="describe" cols="40" rows="4">岗位职责：任职资格：工作时间：
+                <textarea name="introduction" id="describe" cols="40" rows="4">岗位职责：任职资格：工作时间：
                 </textarea>
                 <div class="clearbox"></div>
             </li>
             <li>
                 <label class="reatit" for="linkman"><span class="red">*</span>联&nbsp;系&nbsp;人</label>
-                <input id="linkman" type="text">  <label class="rent">
-                    <input name="rent" type="radio" value="" /> 女 </label>
-                <label class="rent">
-                    <input name="rent" type="radio" value="" /> 男 </label>
+                <input id="linkman" name="concactName" type="text"> <label class="rent">
+                <!--<input name="rent" type="radio" value=""/> 女 </label>-->
+                <!--<label class="rent">-->
+                    <!--<input name="rent" type="radio" value=""/> 男 </label>-->
                 <div class="clearbox"></div>
             </li>
             <li>
                 <label class="reatit" for="mobi"><span class="red">*</span>联系电话</label>
-                <input id="mobi" type="text">
+                <input id="mobi" type="text" name="concactPhone">
                 <div class="clearbox"></div>
             </li>
             <li>
                 <input id="btnre" type="button" value="提交">
                 <div class="clearbox"></div>
-                <div class="reps">请先登录您的账户！点击<a href="">登录</a></div>
+                <!--<div class="reps">请先登录您的账户！点击<a href="">登录</a></div>-->
             </li>
-        </ul>
-        <div class="clearbox"></div>
-    </div>
-    <!-- 二手车信息发布E -->
-  <div id="footer"></div>
+        </form>
+    </ul>
+    <div class="clearbox"></div>
+</div>
+<!-- 二手车信息发布E -->
+<div id="footer"></div>
 </body>
 
 </html>

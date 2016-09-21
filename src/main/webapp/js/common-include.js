@@ -1,8 +1,7 @@
-function includeHeader(){
-    
-    
-    $("#header").html(
+function includeHeader() {
 
+
+    $("#header").html(
         " <div id=\"header-top\">\n" +
         "            <div id=\"headcon\">\n" +
         "                <div id=\"logo\">\n" +
@@ -51,7 +50,7 @@ function includeHeader(){
 
         +
 
-    " <div id=\"header-banner\">\n" +
+        " <div id=\"header-banner\">\n" +
         "            <!-- 广告S -->\n" +
         "            <div id=\"banner\">\n" +
         "                <ul>\n" +
@@ -70,11 +69,11 @@ function includeHeader(){
 
         +
 
-     "<div class=\"clearbox\"></div>"
+        "<div class=\"clearbox\"></div>"
 
         +
 
-    " <div id=\"menu\">\n" +
+        " <div id=\"menu\">\n" +
         "        <ul>\n" +
         "            <li><a href=\"Index.html\" target=\"_blank\">全部招聘</a></li>\n" +
         "            <li><a href=\"PartTimeJob.html\" target=\"_blank\">兼职招聘</a></li>\n" +
@@ -85,7 +84,6 @@ function includeHeader(){
         "            <li><a href=\"Consult.html\" target=\"_blank\">合作咨询</a></li>\n" +
         "        </ul>\n" +
         "    </div>"
-
     );
     //
     // <!--调用Luara示例-->
@@ -98,8 +96,8 @@ function includeHeader(){
 
     <!-- 切换城市 -->
     <!-- 显示城市名称 -->
-    $('.city_link a').click(function() {
-        $(this).parent().each(function() { //移除其余非点中状态
+    $('.city_link a').click(function () {
+        $(this).parent().each(function () { //移除其余非点中状态
             $('.city_link a').removeClass("special_color");
         });
         $(this).addClass("special_color"); //给所点中的增加样式
@@ -107,7 +105,7 @@ function includeHeader(){
         $(".adrname").text($(this).text());
 
     });
-    $('.city_link').click(function() {
+    $('.city_link').click(function () {
         this.className = 'city_nav city_hovers';
         document.getElementById('city_link').className = 'city_link city_hover'
     });
@@ -147,10 +145,9 @@ function includeHeader(){
 }
 
 
-function includeFoot(){
-    
-    $("#footer").html(
+function includeFoot() {
 
+    $("#footer").html(
         " <div id=\"footer-main\">\n" +
         "            <div id=\"footerlef\"><img src=\"images/photo.png\" alt=\"\">\n" +
         "                <div>客服：0576-82875986</div>\n" +
@@ -196,14 +193,12 @@ function includeFoot(){
         "            <img src=\"images/ba.png\" alt=\"\">\n" +
         "            <img src=\"images/wl.png\" alt=\"\">\n" +
         "        </div>"
-        
     )
-    
+
 }
 
-function includeLink(){
+function includeLink() {
     $("#link").html(
-
         " <div id=\"linkle\">\n" +
         "            <a href=\"FrmDea.html\" target=\"_blank\"><img src=\"images/albb.png\" alt=\"\"></a>\n" +
         "            <a href=\"FrmDea.html\" target=\"_blank\"> <img src=\"images/newyork.png\" alt=\"\"></a>\n" +
@@ -242,9 +237,109 @@ function includeLink(){
         "            <a href=\"FrmDea.html\" target=\"_blank\"> <img src=\"images/yd.png\" alt=\"\"></a>\n" +
         "            <a href=\"FrmDea.html\" target=\"_blank\"> <img src=\"images/cpyc.png\" alt=\"\"></a>\n" +
         "        </div>"
+    );
+}
 
 
-    )
+function getUserInfo() {
+
+    var str =
+        "                            <div class=\"pubmainmenu\">\n" +
+        "                                <ul>\n" +
+        "                                    <li class=\"pubmainmese\">最近发布</li>\n" +
+        "                                    <li>浏览过的</li>\n" +
+        "                                </ul>\n" +
+        "                                <div class=\"clearbox\"></div>\n" +
+        "                            </div>\n" +
+        "                            <div class=\"pubmaincon\">\n" +
+        "                                <div class=\"maincon\" style=\"display:block\">\n" +
+        "                                    <ul>\n" +
+        "                                        <li>\n" +
+        "                                            <div class=\"maintit\">法国代购求清仓</div>\n" +
+        "                                            <div class=\"maintimes\">阅读9</div>\n" +
+        "                                        </li>\n" +
+        "                                        <li>\n" +
+        "                                            <div class=\"maintit\">法国代购求清仓</div>\n" +
+        "                                            <div class=\"maintimes\">阅读9</div>\n" +
+        "                                        </li>\n" +
+        "                                    </ul>\n" +
+        "                                </div>\n" +
+        "                                <div class=\"maincon\" style=\"display:none\">\n" +
+        "                                    <ul>\n" +
+        "                                        <li>\n" +
+        "                                            <div class=\"maintit\">法国代购求清仓</div>\n" +
+        "                                            <div class=\"maintimes\">阅读9</div>\n" +
+        "                                        </li>\n" +
+        "                                        <li>\n" +
+        "                                            <div class=\"maintit\">法国代购求清仓</div>\n" +
+        "                                            <div class=\"maintimes\">阅读9</div>\n" +
+        "                                        </li>\n" +
+        "                                    </ul>\n" +
+        "                                </div>\n" +
+        "                            </div>\n" +
+        "                        </div>";
+
+    $("#pub01").html(str);
+    $("#pub02").html(str);
+
+}
+
+
+function getCompanyInfo(){
+    
+    var str =     "                            <div class=\"pubmainmenu\">\n"+
+        "                                <ul>\n"+
+        "                                    <li class=\"pubmainmese\">最近发布</li>\n"+
+        "                                    <li>浏览过的</li>\n"+
+        "                                </ul>\n"+
+        "                                <div class=\"clearbox\"></div>\n"+
+        "                            </div>\n"+
+        "                            <div class=\"pubmaincon\">\n"+
+        "                                <div class=\"maincon\" style=\"display:block\">\n"+
+        "                                    <ul>\n"+
+        "                                        <li>\n"+
+        "                                            <ul class=\"jobwant\">\n"+
+        "                                                <li style=\"width:300px\">Alibaba</li>\n"+
+        "                                                <li style=\"width:500px\">UED/10-20k</li>\n"+
+        "                                                <li style=\"width:70px\">今天</li>\n"+
+        "                                                <li class=\"times\" style=\"width:250px\">被查看36次</li>\n"+
+        "                                            </ul>\n"+
+        "                                        </li>\n"+
+        "                                        <li>\n"+
+        "                                            <ul class=\"jobwant\">\n"+
+        "                                                <li style=\"width:300px\">Alibaba</li>\n"+
+        "                                                <li style=\"width:500px\">UED/10-20k</li>\n"+
+        "                                                <li style=\"width:70px\">今天</li>\n"+
+        "                                                <li class=\"times\" style=\"width:250px\">被查看36次</li>\n"+
+        "                                            </ul>\n"+
+        "                                        </li>\n"+
+        "                                    </ul>\n"+
+        "                                </div>\n"+
+        "                                <div class=\"maincon\" style=\"display:none\">\n"+
+        "                                    <ul>\n"+
+        "                                        <li>\n"+
+        "                                            <ul class=\"jobwant\">\n"+
+        "                                                <li style=\"width:300px\">小飞</li>\n"+
+        "                                                <li style=\"width:500px\">UED/10-20k</li>\n"+
+        "                                                <li style=\"width:70px\">今天</li>\n"+
+        "                                                <li class=\"times\" style=\"width:250px\">查看简历</li>\n"+
+        "                                            </ul>\n"+
+        "                                        </li>\n"+
+        "                                        <li class=\"saw\">\n"+
+        "                                            <ul class=\"jobwant\">\n"+
+        "                                                <li style=\"width:300px\">小飞</li>\n"+
+        "                                                <li style=\"width:500px\">UED/10-20k</li>\n"+
+        "                                                <li style=\"width:70px\">今天</li>\n"+
+        "                                                <li class=\"times\" style=\"width:250px\">已查看</li>\n"+
+        "                                            </ul>\n"+
+        "                                        </li>\n"+
+        "                                    </ul>\n"+
+        "                                </div>\n"+
+        "                            </div>" ;
+
+    $("#pub03").html(str);
+
+
 
 }
 

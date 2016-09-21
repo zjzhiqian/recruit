@@ -46,7 +46,7 @@
         <!-- 自动生成数据库表的对应关系  -->
 
 
-        <table tableName="resumes" domainObjectName="Resume"
+        <table tableName="recruitments" domainObjectName="Recruitment"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

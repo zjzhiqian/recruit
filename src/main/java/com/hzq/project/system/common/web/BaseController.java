@@ -14,8 +14,6 @@ public class BaseController {
 
     /**
      * 获取用户Id
-     *
-     * @return merchantId
      */
     protected Integer getUserId() {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
@@ -26,5 +24,19 @@ public class BaseController {
             throw new UnauthorizedException("非个人用户,操作失败");
         return userInfo.getId();
     }
+
+    /**
+     * 获取公司Id
+     */
+    protected Integer getCompanyId() {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        UserInfo userInfo = (UserInfo) requestAttributes.getAttribute("subject", RequestAttributes.SCOPE_REQUEST);
+        if (userInfo == null)
+            throw new UnauthorizedException("您未登录,请前往登录");
+        if (userInfo.getUserType() != 2)
+            throw new UnauthorizedException("非企业用户,操作失败");
+        return userInfo.getId();
+    }
+
 
 }
