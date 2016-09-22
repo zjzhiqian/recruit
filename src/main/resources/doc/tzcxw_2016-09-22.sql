@@ -7,7 +7,7 @@
 #
 # Host: 192.168.29.101 (MySQL 5.6.33)
 # Database: tzcxw
-# Generation Time: 2016-09-22 02:41:15 +0000
+# Generation Time: 2016-09-22 04:07:38 +0000
 # ************************************************************
 
 
@@ -39,13 +39,14 @@ CREATE TABLE `companies` (
   `money` varchar(50) NOT NULL DEFAULT '' COMMENT '注册资金',
   `html` varchar(50) NOT NULL DEFAULT '' COMMENT '公司首页',
   `area` varchar(50) NOT NULL DEFAULT '' COMMENT '所属地区',
-  `introduction` varchar(200) NOT NULL DEFAULT '' COMMENT '所属行业',
+  `introduction` varchar(200) NOT NULL DEFAULT '' COMMENT '公司介绍',
   `concat_name` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人',
   `phone` varchar(50) NOT NULL DEFAULT '' COMMENT '联系电话',
   `fax` varchar(50) NOT NULL DEFAULT '' COMMENT '传真号码',
   `address` varchar(50) NOT NULL DEFAULT '' COMMENT '通讯地址',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `watch` int(11) DEFAULT '0' COMMENT '被浏览次数',
   PRIMARY KEY (`id`),
   KEY `IDX_MN` (`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='注册企业';
@@ -53,9 +54,10 @@ CREATE TABLE `companies` (
 LOCK TABLES `companies` WRITE;
 /*!40000 ALTER TABLE `companies` DISABLE KEYS */;
 
-INSERT INTO `companies` (`id`, `name`, `user_name`, `password`, `email`, `company`, `industry`, `type`, `create_date`, `employees`, `money`, `html`, `area`, `introduction`, `concat_name`, `phone`, `fax`, `address`, `created_at`, `updated_at`)
+INSERT INTO `companies` (`id`, `name`, `user_name`, `password`, `email`, `company`, `industry`, `type`, `create_date`, `employees`, `money`, `html`, `area`, `introduction`, `concat_name`, `phone`, `fax`, `address`, `created_at`, `updated_at`, `watch`)
 VALUES
-	(3,'312312321','hzq','123456','2','31','2','2','22','2','2','2','2','2','3','2','2','2','2016-08-06 19:38:32','2016-08-07 07:08:02');
+	(3,'312312321','hzq','123456','2','31','2','2','22','2','2','2','2','2','3','2','2','2','2016-08-06 19:38:32','2016-08-07 08:22:22',15),
+	(4,'312312321','3312313','333333','2','31','2','2','22','2','2','2','2','2','3','2','2','2','2016-08-07 07:18:48',NULL,0);
 
 /*!40000 ALTER TABLE `companies` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -91,6 +93,15 @@ CREATE TABLE `recruitments` (
   KEY `IDX_MN` (`company_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='我的招聘';
 
+LOCK TABLES `recruitments` WRITE;
+/*!40000 ALTER TABLE `recruitments` DISABLE KEYS */;
+
+INSERT INTO `recruitments` (`id`, `company_id`, `picture`, `type`, `education`, `people_count`, `work_year`, `salary`, `probation`, `work_area`, `detail_area`, `title`, `introduction`, `concact_name`, `concact_phone`, `created_at`, `updated_at`, `deleted_at`, `watch`, `is_full`)
+VALUES
+	(1,3,'url',0,0,3,'0',0,1,0,'312','31231','岗位职责：任职资格：工作31231时间：\r\n                ','312','31231 Name','2016-08-07 07:19:57',NULL,NULL,0,1);
+
+/*!40000 ALTER TABLE `recruitments` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table resume_job_relations
@@ -112,6 +123,15 @@ CREATE TABLE `resume_job_relations` (
   KEY `IDX_MM` (`recruitment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='简历,招聘关系表';
 
+LOCK TABLES `resume_job_relations` WRITE;
+/*!40000 ALTER TABLE `resume_job_relations` DISABLE KEYS */;
+
+INSERT INTO `resume_job_relations` (`id`, `resume_id`, `user_id`, `recruitment_id`, `company_id`, `created_at`, `updated_at`, `is_watch`)
+VALUES
+	(7,1,1,1,3,'2016-08-07 07:50:35',NULL,0);
+
+/*!40000 ALTER TABLE `resume_job_relations` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table resumes
@@ -148,6 +168,16 @@ CREATE TABLE `resumes` (
   KEY `IDX_MN` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='简历信息';
 
+LOCK TABLES `resumes` WRITE;
+/*!40000 ALTER TABLE `resumes` DISABLE KEYS */;
+
+INSERT INTO `resumes` (`id`, `user_id`, `title`, `type`, `picture`, `name`, `sex`, `birth_year`, `birth_date`, `work_year`, `education`, `work_area`, `detail_area`, `salary`, `phone`, `email`, `address`, `introduction`, `concact_name`, `concact_phone`, `created_at`, `updated_at`, `deleted_at`, `watch`)
+VALUES
+	(1,1,'\"简历标题\"',1,'\"picture\"','\"用户名\"','\"1\"','\"1992\"','12','2','1',2,'\"detail\"',1,'\"18868815433\"','\"123@qq\"','\"机关\"','\"介绍\"','\"12\"','\"phone\"','2016-08-07 07:42:42',NULL,NULL,0),
+	(2,3,'\"简历标题\"',1,'\"picture\"','\"用户名\"','\"1\"','\"1992\"','12','2','1',2,'\"detail\"',1,'\"18868815433\"','\"123@qq\"','\"机关\"','\"介绍\"','\"12\"','\"phone\"','2016-08-07 07:42:47','2016-08-07 07:42:57',NULL,0);
+
+/*!40000 ALTER TABLE `resumes` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table users
