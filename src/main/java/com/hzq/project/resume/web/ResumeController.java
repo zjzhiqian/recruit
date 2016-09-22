@@ -1,6 +1,7 @@
 package com.hzq.project.resume.web;
 
 import com.hzq.project.resume.dao.entity.Resume;
+import com.hzq.project.resume.exception.ResumeException;
 import com.hzq.project.resume.service.ResumeService;
 import com.hzq.project.resume.vo.ResumeVo;
 import com.hzq.project.security.annon.RequiresRoles;
@@ -11,6 +12,7 @@ import com.hzq.project.system.common.web.BaseController;
 import com.hzq.project.system.common.web.BaseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/resume")
-public class ResumeController extends BaseController{
+public class ResumeController extends BaseController {
 
     @Autowired
     private ResumeService resumeService;
@@ -56,9 +58,21 @@ public class ResumeController extends BaseController{
      */
     @RequiresRoles(Roles.USER)
     @RequestMapping(path = "/getResumeByUserId", method = RequestMethod.GET)
-    public List<Resume> getResumeByUserId(){
+    public List<Resume> getResumeByUserId() {
         return resumeService.getResumeByUserId(getUserId());
     }
 
+
+    /**
+     * 投递简历
+     */
+    @RequiresRoles(Roles.USER)
+    @RequestMapping(path = "/postResume/{jobId}", method = RequestMethod.POST)
+    public BaseResult postResume(@PathVariable Integer jobId, Integer resumeId) {
+        if (resumeId == null || jobId == null)
+            throw new ResumeException("请求参数不合法");
+        resumeService.postResume(resumeId, jobId, getUserId());
+        return new BaseResult("投递简历成功");
+    }
 
 }

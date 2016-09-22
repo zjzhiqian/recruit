@@ -14,4 +14,6 @@ public interface CompanyMapper extends Dao<Company,Integer>{
      * 更新企业最后更新时间
      */
     int updateCompanyUpdateTime(Integer companyId);
+
+    int addWatchCount(Integer id);
 }

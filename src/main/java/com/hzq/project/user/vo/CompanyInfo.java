@@ -1,15 +1,16 @@
-package com.hzq.project.user.dao.entity;
+package com.hzq.project.user.vo;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.hzq.project.system.common.util.DateFormatSerializer;
 
 import java.util.Date;
 
-public class Company {
+/**
+ * CompanyInfo
+ * Created by hzq on 16/9/22.
+ */
+public class CompanyInfo {
     private Integer id;
-
-    private String name;
-
-    private String userName;
-
-    private String password;
 
     private String email;
 
@@ -39,19 +40,11 @@ public class Company {
 
     private String address;
 
+    @JsonSerialize(using = DateFormatSerializer.class)
     private Date createdAt;
 
-    private Date updatedAt;
 
     private Integer watch;
-
-    public Integer getWatch() {
-        return watch;
-    }
-
-    public void setWatch(Integer watch) {
-        this.watch = watch;
-    }
 
     public Integer getId() {
         return id;
@@ -59,30 +52,6 @@ public class Company {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmail() {
@@ -205,11 +174,11 @@ public class Company {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
+    public Integer getWatch() {
+        return watch;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setWatch(Integer watch) {
+        this.watch = watch;
     }
 }

@@ -20,4 +20,9 @@ public class CompanyMapperImpl extends BaseDao<Company, Integer> implements Comp
     public int updateCompanyUpdateTime(Integer companyId) {
         return updateByParam("updateCompanyUpdateTime",companyId);
     }
+
+    @Override
+    public int addWatchCount(Integer id) {
+        return updateByParam("addWatchCount",id);
+    }
 }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzq.project.resume.dao.ResumeJobRelationMapper" >
+
+  <insert id="insert" parameterType="com.hzq.project.resume.dao.entity.ResumeJobRelation" >
+    insert into resume_job_relations
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="resumeId != null" >
+        resume_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="recruitmentId != null" >
+        recruitment_id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="createdAt != null" >
+        created_at,
+      </if>
+      <if test="updatedAt != null" >
+        updated_at,
+      </if>
+      <if test="isWatch != null" >
+        is_watch,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="resumeId != null" >
+        #{resumeId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="recruitmentId != null" >
+        #{recruitmentId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isWatch != null" >
+        #{isWatch,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+
+  <select id="getRelationByRsumeIdAndJobId" parameterType="map" resultType="com.hzq.project.resume.dao.entity.ResumeJobRelation">
+    select * from resume_job_relations where resume_id=#{resumeId,jdbcType=INTEGER} and recruitment_id=#{jobId,jdbcType=INTEGER}
+  </select>
+</mapper>

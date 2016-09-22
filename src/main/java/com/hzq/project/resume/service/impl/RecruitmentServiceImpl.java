@@ -28,7 +28,7 @@ public class RecruitmentServiceImpl implements RecruitmentService {
     public boolean addRecruitment(Recruitment recruitment) {
         Integer companyId = recruitment.getCompanyId();
 
-        if (RedisHelper.compareAndSetRequest("RecruitmentServiceImpl ", "addRecruitment:", companyId+"", 5))
+        if (RedisHelper.compareAndSetRequest("RecruitmentServiceImpl ", "addRecruitment:", companyId + "", 5))
             throw new BusyOperationException("简历新增中,请稍后");
         recruitmentMapper.insert(recruitment);
         companyMapper.updateCompanyUpdateTime(companyId);
@@ -45,4 +45,5 @@ public class RecruitmentServiceImpl implements RecruitmentService {
     public List<Recruitment> getRecruitmentsByCompanyId(Integer companyId) {
         return recruitmentMapper.getRecruitmentsByCompanyId(companyId);
     }
+
 }

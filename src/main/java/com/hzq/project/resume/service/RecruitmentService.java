@@ -23,4 +23,5 @@ public interface RecruitmentService {
      * 查询公司下所有招聘
      */
     List<Recruitment> getRecruitmentsByCompanyId(Integer companyId);
+
 }

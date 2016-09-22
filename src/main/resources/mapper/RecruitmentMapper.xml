@@ -139,4 +139,9 @@
   <select id="getRecruitmentsByCompanyId" parameterType="int" resultType="com.hzq.project.resume.dao.entity.Recruitment">
     select * from recruitments where company_id = #{companyId,jdbcType=INTEGER}  and deleted_at is NULL
   </select>
+
+  <select id="getByPk" parameterType="int" resultType="com.hzq.project.resume.dao.entity.Recruitment">
+     select * from recruitments where id = #{id,jdbcType=INTEGER}  and deleted_at is NULL
+  </select>
+
 </mapper>

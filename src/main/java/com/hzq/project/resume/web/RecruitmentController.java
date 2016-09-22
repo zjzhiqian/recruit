@@ -1,10 +1,9 @@
 package com.hzq.project.resume.web;
 
 import com.hzq.project.resume.dao.entity.Recruitment;
-import com.hzq.project.resume.dao.entity.Resume;
+import com.hzq.project.resume.exception.RecruitmentException;
 import com.hzq.project.resume.service.RecruitmentService;
 import com.hzq.project.resume.vo.RecruitmentVo;
-import com.hzq.project.resume.vo.ResumeVo;
 import com.hzq.project.security.annon.RequiresRoles;
 import com.hzq.project.security.util.Roles;
 import com.hzq.project.system.common.util.Creator;
@@ -13,6 +12,7 @@ import com.hzq.project.system.common.web.BaseController;
 import com.hzq.project.system.common.web.BaseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,19 +48,19 @@ public class RecruitmentController extends BaseController {
     /**
      * 查看招聘数量
      */
-    @RequiresRoles(Roles.COMPANY)
-    @RequestMapping(path = "/getRecruitmentCount", method = RequestMethod.GET)
-    public Integer getResumeCount() {
-        return recruitmentService.getRecruitmentCountByCompanyId(getCompanyId());
+    @RequestMapping(path = "/getJobsByCompanyIdCount/{id}", method = RequestMethod.GET)
+    public Integer getResumeCount(@PathVariable Integer id) {
+        if (id == null) throw new RecruitmentException();
+        return recruitmentService.getRecruitmentCountByCompanyId(id);
     }
 
     /**
-     * 获取用户所有简历
+     * 获取公司招聘的所有职位
      */
-    @RequiresRoles(Roles.COMPANY)
-    @RequestMapping(path = "/getResumeByCompanyId", method = RequestMethod.GET)
-    public List<Recruitment> getResumeByCompanyId(){
-        return recruitmentService.getRecruitmentsByCompanyId(getCompanyId());
+    @RequestMapping(path = "/getJobsByCompanyId/{id}", method = RequestMethod.GET)
+    public List<Recruitment> getResumeByCompanyId(@PathVariable Integer id) {
+        if (id == null) throw new RecruitmentException();
+        return recruitmentService.getRecruitmentsByCompanyId(id);
     }
 
 

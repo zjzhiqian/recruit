@@ -12,14 +12,15 @@ import java.util.List;
  * Created by hzq on 16/9/21.
  */
 @Repository
-public class RecruitmentMapperImpl extends BaseDao<Recruitment,Integer> implements RecruitmentMapper {
+public class RecruitmentMapperImpl extends BaseDao<Recruitment, Integer> implements RecruitmentMapper {
     @Override
     public Integer getRecruitmentCountByCompanyId(Integer companyId) {
-        return getSqlSession().selectOne(getIbatisSqlMapNamespace()+".getRecruitmentCountByCompanyId", companyId);
+        return getSqlSession().selectOne(getIbatisSqlMapNamespace() + ".getRecruitmentCountByCompanyId", companyId);
     }
 
     @Override
     public List<Recruitment> getRecruitmentsByCompanyId(Integer companyId) {
-        return selectList("getRecruitmentsByCompanyId",companyId);
+        return selectList("getRecruitmentsByCompanyId", companyId);
     }
+
 }

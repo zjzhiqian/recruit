@@ -13,11 +13,13 @@ import com.hzq.project.user.dao.entity.User;
 import com.hzq.project.user.exception.UserException;
 import com.hzq.project.user.service.CompanyService;
 import com.hzq.project.user.service.UserService;
+import com.hzq.project.user.vo.CompanyInfo;
 import com.hzq.project.user.vo.CompanyVo;
 import com.hzq.project.user.vo.LogInVo;
 import com.hzq.project.user.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -69,6 +71,17 @@ public class UserController {
 
 
     /**
+     * 获取企业详情
+     */
+    @RequestMapping(path = "/companyInfo/{id}", method = RequestMethod.GET)
+    public CompanyInfo registerCompany(@PathVariable Integer id) {
+        if (id == null)
+            throw new UserException();
+        return companyService.getCompanyInfoById(id);
+    }
+
+
+    /**
      * 登录
      */
     @RequestMapping(path = "/logIn", method = RequestMethod.POST)
@@ -116,8 +129,6 @@ public class UserController {
 
         return new BaseResult("登录成功");
     }
-
-
 
 
 }

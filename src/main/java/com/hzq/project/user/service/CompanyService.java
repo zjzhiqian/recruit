@@ -1,6 +1,7 @@
 package com.hzq.project.user.service;
 
 import com.hzq.project.user.dao.entity.Company;
+import com.hzq.project.user.vo.CompanyInfo;
 
 /**
  * CompanyService
@@ -11,4 +12,5 @@ public interface CompanyService {
 
     Company selectCompanyByUserName(String compnayName);
 
+    CompanyInfo getCompanyInfoById(Integer id);
 }

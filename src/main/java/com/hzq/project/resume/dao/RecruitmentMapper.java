@@ -9,4 +9,5 @@ public interface RecruitmentMapper extends Dao<Recruitment,Integer> {
     Integer getRecruitmentCountByCompanyId(Integer companyId);
 
     List<Recruitment> getRecruitmentsByCompanyId(Integer companyId);
+
 }
