@@ -136,6 +136,14 @@
       </if>
     </trim>
   </insert>
+
+
+  <update id="updateCompanyUpdateTime" parameterType="int">
+    update companies set updated_at = now() where id =  #{companyId,jdbcType=INTEGER}
+  </update>
+
+
+
   <!--<update id="updateByPrimaryKeySelective" parameterType="com.hzq.project.user.dao.entity.Company" >-->
     <!--update companies-->
     <!--<set >-->

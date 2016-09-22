@@ -5,6 +5,7 @@ import com.hzq.project.resume.dao.entity.Recruitment;
 import com.hzq.project.resume.service.RecruitmentService;
 import com.hzq.project.system.common.exception.BusyOperationException;
 import com.hzq.project.system.common.redis.RedisHelper;
+import com.hzq.project.user.dao.CompanyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +20,19 @@ public class RecruitmentServiceImpl implements RecruitmentService {
     @Autowired
     private RecruitmentMapper recruitmentMapper;
 
+
+    @Autowired
+    private CompanyMapper companyMapper;
+
     @Override
     public boolean addRecruitment(Recruitment recruitment) {
-        if (RedisHelper.compareAndSetRequest("RecruitmentServiceImpl ", "addRecruitment:", recruitment.getCompanyId().toString(), 5))
+        Integer companyId = recruitment.getCompanyId();
+
+        if (RedisHelper.compareAndSetRequest("RecruitmentServiceImpl ", "addRecruitment:", companyId+"", 5))
             throw new BusyOperationException("简历新增中,请稍后");
         recruitmentMapper.insert(recruitment);
+        companyMapper.updateCompanyUpdateTime(companyId);
+
         return true;
     }
 

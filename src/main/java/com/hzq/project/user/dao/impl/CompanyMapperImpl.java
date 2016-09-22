@@ -15,4 +15,9 @@ public class CompanyMapperImpl extends BaseDao<Company, Integer> implements Comp
     public Company selectCompanyByUserName(String userName) {
         return selectOne("selectCompanyByUserName", userName);
     }
+
+    @Override
+    public int updateCompanyUpdateTime(Integer companyId) {
+        return updateByParam("updateCompanyUpdateTime",companyId);
+    }
 }
