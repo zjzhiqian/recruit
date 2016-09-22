@@ -1,8 +1,8 @@
-package com.hzq.project.security;
+package com.hzq.project.system.security;
 
-import com.hzq.project.security.annon.RequiresRoles;
-import com.hzq.project.security.exception.MethodNotAllowedException;
-import com.hzq.project.security.handler.RoleAnnotationHandler;
+import com.hzq.project.system.security.annon.RequiresRoles;
+import com.hzq.project.system.security.exception.MethodNotAllowedException;
+import com.hzq.project.system.security.handler.RoleAnnotationHandler;
 import com.hzq.project.system.common.entity.UserInfo;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package com.hzq.project.security.annon;
+package com.hzq.project.system.security.annon;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

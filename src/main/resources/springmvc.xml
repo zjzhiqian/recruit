@@ -23,7 +23,7 @@
 
 
     <mvc:interceptors>
-        <bean class="com.hzq.project.security.AuthInterceptor"/>
+        <bean class="com.hzq.project.system.security.AuthInterceptor"/>
     </mvc:interceptors>
 
 

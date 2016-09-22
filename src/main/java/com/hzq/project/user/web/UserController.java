@@ -1,7 +1,7 @@
 package com.hzq.project.user.web;
 
 import com.alibaba.fastjson.JSON;
-import com.hzq.project.security.util.AESUtil;
+import com.hzq.project.system.security.util.AESUtil;
 import com.hzq.project.system.common.entity.CookieInfo;
 import com.hzq.project.system.common.entity.UserInfo;
 import com.hzq.project.system.common.redis.RedisHelper;
@@ -110,9 +110,9 @@ public class UserController {
         String key = AESUtil.encrypt(userName, time);
 
         RedisHelper.set(key, JSON.toJSONString(info));
+        RedisHelper.expire(key, 12 * 60 * 60);
 
         //权限cookie
-        RedisHelper.expire(key, 12 * 60 * 60);
         Cookie cookie = new Cookie("token", key);
         cookie.setMaxAge(3600 * 12);
         cookie.setPath("/");

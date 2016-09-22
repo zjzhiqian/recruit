@@ -1,7 +1,7 @@
-package com.hzq.project.security.handler;
+package com.hzq.project.system.security.handler;
 
-import com.hzq.project.security.annon.RequiresRoles;
-import com.hzq.project.security.exception.MethodNotAllowedException;
+import com.hzq.project.system.security.annon.RequiresRoles;
+import com.hzq.project.system.security.exception.MethodNotAllowedException;
 import com.hzq.project.system.common.entity.UserInfo;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package com.hzq.project.security.handler;
+package com.hzq.project.system.security.handler;
 
 import com.hzq.project.system.common.entity.UserInfo;
 

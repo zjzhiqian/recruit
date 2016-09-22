@@ -1,10 +1,7 @@
-package com.hzq.project.security.util;
+package com.hzq.project.system.security.util;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 /**

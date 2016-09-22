@@ -1,6 +1,6 @@
-package com.hzq.project.security;
+package com.hzq.project.system.security;
 
-import com.hzq.project.security.annon.RequiresRoles;
+import com.hzq.project.system.security.annon.RequiresRoles;
 import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;

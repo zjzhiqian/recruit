@@ -1,4 +1,4 @@
-package com.hzq.project.security.util;
+package com.hzq.project.system.security.util;
 
 /**
  * 存Roles相关信息

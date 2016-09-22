@@ -1,4 +1,4 @@
-package com.hzq.project.security;
+package com.hzq.project.system.security;
 
 import com.alibaba.fastjson.JSON;
 import com.hzq.project.system.common.entity.UserInfo;
@@ -34,7 +34,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             }
         }
 
-        String uri = request.getRequestURI();
+//        String uri = request.getRequestURI();
         // 如果是请求Token 则不进行拦截
 //        if (uri.contains("/auth/token")) {
 //            return true;

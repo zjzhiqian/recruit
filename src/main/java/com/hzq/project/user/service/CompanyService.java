@@ -9,8 +9,6 @@ import com.hzq.project.user.vo.CompanyInfo;
  */
 public interface CompanyService {
     boolean addCompany(Company company);
-
     Company selectCompanyByUserName(String compnayName);
-
     CompanyInfo getCompanyInfoById(Integer id);
 }

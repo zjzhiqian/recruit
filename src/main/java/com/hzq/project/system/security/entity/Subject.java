@@ -1,4 +1,4 @@
-package com.hzq.project.security.entity;
+package com.hzq.project.system.security.entity;
 
 /**
  * 储存用户权限信息的subject
