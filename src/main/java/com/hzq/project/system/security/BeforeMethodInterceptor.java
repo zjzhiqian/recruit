@@ -51,7 +51,6 @@ public class BeforeMethodInterceptor implements MethodBeforeAdvice {
                     .collect(toList());
             roleAnnotations.forEach(annotation -> roleAnnotationHandler.assertAuthorized(annotation, subject));
         } catch (Exception e) {
-            logger.error("校验权限异常{}", e);
             throw new MethodNotAllowedException("您未登录,请前往登录");
         }
     }
