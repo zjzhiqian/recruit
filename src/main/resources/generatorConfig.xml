@@ -15,7 +15,7 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://192.168.29.101:3306/tzcxw"
+                        connectionURL="jdbc:mysql://192.168.145.202:3306/tzcxw"
                         userId="root" password="root"/>
 
         <!-- 指定生成的类型为java类型，避免数据库中number等类型字段 -->
@@ -46,7 +46,7 @@
         <!-- 自动生成数据库表的对应关系  -->
 
 
-        <table tableName="resume_job_relations" domainObjectName="ResumeJobRelation"
+        <table tableName="job_news" domainObjectName="JobNews"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

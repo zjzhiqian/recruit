@@ -46,4 +46,9 @@ public class RecruitmentServiceImpl implements RecruitmentService {
         return recruitmentMapper.getRecruitmentsByCompanyId(companyId);
     }
 
+    @Override
+    public List<Recruitment> getHotJobs() {
+        return recruitmentMapper.getHotJobs();
+    }
+
 }

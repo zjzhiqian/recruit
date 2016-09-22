@@ -10,4 +10,9 @@ public interface RecruitmentMapper extends Dao<Recruitment,Integer> {
 
     List<Recruitment> getRecruitmentsByCompanyId(Integer companyId);
 
+    /**
+     * 获取热门职位
+     */
+    List<Recruitment> getHotJobs();
+
 }

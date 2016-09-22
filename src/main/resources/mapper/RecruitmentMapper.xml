@@ -144,4 +144,8 @@
      select * from recruitments where id = #{id,jdbcType=INTEGER}  and deleted_at is NULL
   </select>
 
+
+  <select id="getHotJobs" resultType="com.hzq.project.resume.dao.entity.Recruitment">
+    select * from recruitments order by updated_at desc limit 5
+  </select>
 </mapper>

@@ -63,5 +63,16 @@ public class RecruitmentController extends BaseController {
         return recruitmentService.getRecruitmentsByCompanyId(id);
     }
 
+    /**
+     * 获取热门职位
+     */
+    @RequestMapping(path = "/getHotJobs", method = RequestMethod.GET)
+    public List<Recruitment> getHotJobs() {
+        return recruitmentService.getHotJobs();
+    }
+
+
+
+
 
 }

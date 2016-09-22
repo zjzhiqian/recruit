@@ -23,4 +23,9 @@ public class RecruitmentMapperImpl extends BaseDao<Recruitment, Integer> impleme
         return selectList("getRecruitmentsByCompanyId", companyId);
     }
 
+    @Override
+    public List<Recruitment> getHotJobs() {
+        return selectList("getHotJobs", null);
+    }
+
 }

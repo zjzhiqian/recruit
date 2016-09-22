@@ -20,6 +20,8 @@
     <script type="text/javascript" src="js/common-include.js"></script>
     <script src="js/jquery.luara.0.0.1.min.js"></script>
 
+    <script type="text/javascript" src="js/common-dic.js"></script>
+
     <script>
         $(function () {
             includeHeader();
@@ -33,6 +35,65 @@
                 var index = $tab_li.index(this);
                 $('div.logincon>div').eq(index).show().siblings().hide();
             });
+
+            //职位类别
+            var jobStr = "";
+            for (var i = 0; i < jobArr.length; i++) {
+                jobStr = jobStr + "<option value=\"" + i + "\">" + jobArr[i] + "</option>";
+            }
+            $("#jobType").html(jobStr);
+
+            //职场资讯
+            $.ajax({
+                type: "GET",
+                url: "api/v3/jobNews/getJobNews",
+                dataType: 'json',
+                async:false,
+                success: function (rs) {
+                    if (rs.success) {
+                        var data = rs.data;
+                        var str = "";
+                        for (var i = 0; i < data.length; i++) {
+                            str = str + "<li><a href=\"Rigcon.html?id=\"+data[i]['id']+>白菜都涨价了，我们的齐心也该涨了</a></li>"
+                        }
+                        $("#jobMessage").html(str)
+
+                    } else {
+                        alert(rs.data.error);
+                    }
+                }
+            });
+
+
+            //热门职位
+            $.ajax({
+                type: "GET",
+                url: "api/v3/recruitment/getHotJobs",
+                dataType: 'json',
+                async:false,
+                success: function (rs) {
+                    if (rs.success) {
+                        var data = rs.data;
+                        var str = "";
+                        for (var i = 0; i < data.length; i++) {
+                            str = str + "<li><a href=\"FrmDea.html?id=" + data[i]["companyId"] + "\" target=\"_blank\">" + data[i]["title"] + "</a></li>";
+                        }
+                        $("#hotJobs").html(str)
+
+                    } else {
+                        alert(rs.data.error);
+                    }
+                }
+            });
+
+
+            //搜索
+            $("#searchBtn").click(function () {
+                var title = $("#searchText").val();
+                var option = $("#jobType option:selected");
+                window.location.href="SeaResult.html?type="+option.val()+"&title="+title
+            })
+
         });
     </script>
 
@@ -51,16 +112,12 @@
         </div>
         <div class="clearbox"></div>
         <div class="searinput">
-            <select name="jobname" id="">
-                <option value="1">请选择职位类别</option>
-            </select>
-            <select name="jobname1" id="">
-                <option value="1">请选择职位类别</option>
+            <select name="jobname1" id="jobType">
             </select>
             <div id="searinput">
-                <input type="text" placeholder="关键字搜索">
-                <a href="SeaResult.html">
-                    <input type="button" value="搜索">
+                <input type="text" placeholder="关键字搜索" id="searchText">
+                <a href="#">
+                    <input type="button" value="搜索" id="searchBtn">
                 </a>
             </div>
             <div class="clearbox"></div>
@@ -79,20 +136,10 @@
                 </li>
             </ul>
             <div class="leftcon">
-                <ul>
-                    <li><a href="FrmDea.html" target="_blank">软件测试实习生/游戏测试实习生</a></li>
-                    <li class="red"><a href="FrmDea.html" target="_blank">整车发运管理工程师【长安福特汽车有限公司】</a></li>
-                    <li><a href="FrmDea.html" target="_blank">大学生飞行员【海南航空股份有限公司】</a></li>
-                    <li><a href="FrmDea.html" target="_blank">呼叫中心服务人员（派遣制）【上汽通用有限公司】</a></li>
-                    <li class="red"><a href="FrmDea.html" target="_blank">售前支撑【中移全通系统集成有限公司】</a></li>
-                </ul>
+                <ul id="hotJobs"></ul>
             </div>
             <div class="rigcon">
-                <ul>
-                    <li class="red"><a href="Rigcon.html">[简历]因为这些错误，你的简历零回复！</a></li>
-                    <li><a href="Rigcon.html">白菜都涨价了，我们的齐心也该涨了</a></li>
-                    <li><a href="Rigcon.html">错过了跳槽好时机，千万别错过的最新的设计岗位！</a></li>
-                    <li><a href="Rigcon.html">[面试]薪资不满就该终止面试</a></li>
+                <ul id="jobMessage">
                 </ul>
             </div>
         </div>
@@ -1110,7 +1157,7 @@
                     </div>
                 </div>
             </li>
-       </ul>
+        </ul>
     </div>
     <div class="clearbox"></div>
 </div>

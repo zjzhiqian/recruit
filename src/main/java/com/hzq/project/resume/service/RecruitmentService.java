@@ -24,4 +24,9 @@ public interface RecruitmentService {
      */
     List<Recruitment> getRecruitmentsByCompanyId(Integer companyId);
 
+    /**
+     * 获取热门职位
+     */
+    List<Recruitment> getHotJobs();
+
 }
