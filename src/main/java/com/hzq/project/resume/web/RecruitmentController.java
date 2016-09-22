@@ -46,7 +46,7 @@ public class RecruitmentController extends BaseController {
 
 
     /**
-     * 查看招聘数量
+     * 查看公司招聘数量(用户查看)
      */
     @RequestMapping(path = "/getJobsByCompanyIdCount/{id}", method = RequestMethod.GET)
     public Integer getResumeCount(@PathVariable Integer id) {
@@ -55,7 +55,25 @@ public class RecruitmentController extends BaseController {
     }
 
     /**
-     * 获取公司招聘的所有职位
+     * 查看公司招聘数量(企业查看)
+     */
+    @RequestMapping(path = "/getRecruitmentCount", method = RequestMethod.GET)
+    public Integer getResumeCount() {
+        return recruitmentService.getRecruitmentCountByCompanyId(getCompanyId());
+    }
+
+    /**
+     * 获取公司招聘的所有职位(企业查看)
+     */
+    @RequiresRoles((Roles.COMPANY))
+    @RequestMapping(path = "/getJobsByCompanyId", method = RequestMethod.GET)
+    public List<Recruitment> getResumeByCompanyId2() {
+        return recruitmentService.getRecruitmentsByCompanyId(getCompanyId());
+    }
+
+
+    /**
+     * 获取公司招聘的所有职位(用户查看)
      */
     @RequestMapping(path = "/getJobsByCompanyId/{id}", method = RequestMethod.GET)
     public List<Recruitment> getResumeByCompanyId(@PathVariable Integer id) {
@@ -70,9 +88,6 @@ public class RecruitmentController extends BaseController {
     public List<Recruitment> getHotJobs() {
         return recruitmentService.getHotJobs();
     }
-
-
-
 
 
 }

@@ -79,4 +79,9 @@ public class ResumeServiceImpl implements ResumeService {
         resumeJobRelationMapper.insert(relation);
         return true;
     }
+
+    @Override
+    public Integer getReceivedResumeCount(Integer companyId) {
+        return resumeJobRelationMapper.getRelationByCompanyId(companyId).size();
+    }
 }

@@ -38,6 +38,7 @@ public class Recruitment {
 
     private String concactPhone;
 
+    @JsonSerialize(using = DateFormatSerializer.class)
     private Date createdAt;
 
     @JsonSerialize(using = DateFormatSerializer.class)

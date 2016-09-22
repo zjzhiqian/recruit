@@ -36,7 +36,6 @@
                 success: function (rs) {
                     if (rs.success) {
                         var info = rs.data;
-                        console.log(info)
                         $("#company").html(info.company);
                         $("#introduction").html(info.introduction);
                         $("#watch").html("浏览次数:" + info.watch + "人");
@@ -73,13 +72,10 @@
                 type: "GET",
                 url: "api/v3/recruitment/getJobsByCompanyId/" + companyId,
                 dataType: 'json',
-                async:false,
+                async: false,
                 success: function (rs) {
                     if (rs.success) {
                         var info = rs.data;
-                        console.log(info);
-
-
                         for (var i = 0; i < info.length; i++) {
                             var salary = info[i]['salary'];
                             var salaryStr = moneyArr[salary];
@@ -99,7 +95,7 @@
                                     "            <td>" + info[i]['updatedAt'] + "</td>\n" +
                                     "            <td class=\"sendoresume\">\n" +
                                     "                <input type=\"button\"  style=\"position:relative\" value=\"申请职位\"\n" +
-                                    "                       onclick=\"document.getElementById('tk').style.display='block';\"></td>\n" +
+                                    "                       onclick=showResumes(" + info[i]['id'] + ")></td>\n" +
                                     "        </tr>\n";
                         }
                         body = body + "        </tbody>";
@@ -116,13 +112,67 @@
     </script>
 
 
-
     <script>
-        function showResumes(String jobId){
-            console.log(jobId)
-            document.getElementById('tk').style.display='block'
+        function showResumes(jobId) {
+            document.getElementById('tk').style.display = 'block';
+            $("#hiddenJobId").val(jobId)
+            //简历详情
+            $.ajax({
+                type: "GET",
+                url: "api/v3/resume/getResumeByUserId",
+                dataType: 'json',
+                success: function (rs) {
+                    if (rs.success) {
+                        var info = rs.data;
+                        var resumeStr = "";
+                        for (var i = 0; i < info.length; i++) {
+                            resumeStr = resumeStr + "<label class=\"resum\">\n" +
+                                    "<input name=\"resum\" type=\"radio\" value=\"" + info[i]['id'] + "\"/> " + info[i]['title'] + " </label>\n" +
+                                    "<br>";
+                        }
+                        $("#tkresu").html(resumeStr)
+
+
+                    } else {
+                        alert(rs.data.error);
+                    }
+                }
+            })
         }
 
+
+        //投递简历
+        function tjreme() {
+
+            var resumeId = -1;
+            var resumes = document.getElementsByName("resum")
+            for (var i = 0; i < resumes.length; i++) { //遍历Radio
+                if (resumes[i].checked) {
+                    resumeId = resumes[i].value;
+                }
+            }
+            if (resumeId == -1) {
+                alert("请先选择您的简历")
+                return;
+            }
+
+            var jobId = $("#hiddenJobId").val();
+            alert("jobId:" + jobId);
+            //投递简历
+            $.ajax({
+                type: "POST",
+                url: "api/v3/resume/postResume/" + 1 + "?resumeId=" + resumeId,
+                dataType: 'json',
+                success: function (rs) {
+                    if (rs.success) {
+                        alert(rs.data.message);
+                    } else {
+                        alert(rs.data.error);
+                    }
+                }
+            })
+
+        }
 
 
         function changeSc() {
@@ -155,10 +205,6 @@
             jb.style.paddingLeft = "20px";
             jb.style.backgroundPosition = " left center";
         }
-        function tjreme() {
-
-            alert("提交成功！");
-        }
     </script>
 </head>
 
@@ -184,12 +230,12 @@
         </div>
         <div class="sj">
             <ul>
-                <li>
-                    <input id="sc" type="button" onclick="changeSc()" value="收藏">
-                </li>
-                <li>
-                    <input id="jb" type="button" onclick="changeJb()" value="举报">
-                </li>
+                <!--<li>-->
+                    <!--<input id="sc" type="button" onclick="changeSc()" value="收藏">-->
+                <!--</li>-->
+                <!--<li>i
+                    <!--<input id="jb" type="button" onclick="changeJb()" value="举报">-->
+                <!--</li>-->
             </ul>
         </div>
         <div class="lg">
@@ -362,13 +408,9 @@
             已有简历<img src="images/down.png" alt="">
         </div>
         <div id="tkresu" style="display: none;width:360px;">
-            <label class="resum">
-                <input name="resum" type="radio" value=""/> 简历一 </label>
-            <br>
-            <label class="resum">
-                <input name="resum" type="radio" value=""/> 简历二 </label>
         </div>
         <div class="butt">
+            <input id="hiddenJobId" type="hidden" value=""/>
             <a class="bred" onclick="tjreme()">提交简历</a>
             <a href="Resume.html" class="bgre">填写简历</a>
             <div class="clearbox"></div>

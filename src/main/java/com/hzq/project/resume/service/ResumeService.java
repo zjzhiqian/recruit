@@ -23,4 +23,9 @@ public interface ResumeService {
      * @return 结果
      */
     boolean postResume(Integer resumeId, Integer jobId, Integer userId);
+
+    /**
+     * 查询企业收到的简历数量
+     */
+    Integer getReceivedResumeCount(Integer companyId);
 }

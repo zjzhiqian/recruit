@@ -38,8 +38,8 @@
 
             //职位类别
             var jobStr = "";
-            for (var i = 0; i < jobArr.length; i++) {
-                jobStr = jobStr + "<option value=\"" + i + "\">" + jobArr[i] + "</option>";
+            for (var i = 0; i < jobArrSearch.length; i++) {
+                jobStr = jobStr + "<option value=\"" + (i - 1) + "\">" + jobArrSearch[i] + "</option>";
             }
             $("#jobType").html(jobStr);
 
@@ -48,7 +48,7 @@
                 type: "GET",
                 url: "api/v3/jobNews/getJobNews",
                 dataType: 'json',
-                async:false,
+                async: false,
                 success: function (rs) {
                     if (rs.success) {
                         var data = rs.data;
@@ -70,7 +70,7 @@
                 type: "GET",
                 url: "api/v3/recruitment/getHotJobs",
                 dataType: 'json',
-                async:false,
+                async: false,
                 success: function (rs) {
                     if (rs.success) {
                         var data = rs.data;
@@ -91,7 +91,7 @@
             $("#searchBtn").click(function () {
                 var title = $("#searchText").val();
                 var option = $("#jobType option:selected");
-                window.location.href="SeaResult.html?type="+option.val()+"&title="+title
+                window.location.href = "SeaResult.html?type=" + option.val() + "&title=" + title
             })
 
         });

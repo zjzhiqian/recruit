@@ -17,6 +17,8 @@
     <script src="js/jquery.luara.0.0.1.min.js"></script>
     <script src="js/idangerous.swiper.min.js"></script>
 
+    <script type="text/javascript" src="js/common-dic.js"></script>
+
     <script>
         function getCookie(name) {
             var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
@@ -74,6 +76,50 @@
                             }
                         }
                     });
+
+                    //企业查询收到简历的数量
+                    $.ajax({
+                        type: "GET",
+                        url: "api/v3/resume/receivedResumeCount",
+                        dataType: 'json',
+                        success: function (rs) {
+                            if (rs.success) {
+                                $("#receivedResumeCount").text(rs.data);
+                            } else {
+                                alert(rs.data.error);
+                            }
+                        }
+                    });
+                    //企业最近发布招聘
+                    $.ajax({
+                        type: "GET",
+                        url: "api/v3/recruitment/getJobsByCompanyId",
+                        dataType: 'json',
+                        success: function (rs) {
+                            if (rs.success) {
+                                var info = rs.data;
+                                var recruitment = "<ul>";
+                                for (var i = 0; i < info.length; i++) {
+                                    var salary = info[i]['salary'];
+                                    var salaryStr = moneyArr[salary];
+                                    recruitment = recruitment +  "<li>\n" +
+                                            "<ul class=\"jobwant\">\n"+
+                                            "    <li style=\"width:300px\">"+info[i]['title']+"</li>\n"+
+                                            "    <li style=\"width:500px\">"+salaryStr+"</li>\n"+
+                                            "    <li style=\"width:70px\">"+info[i]['createdAt']+"</li>\n"+
+                                            "    <li class=\"times\" style=\"width:250px\">被查看"+info[i]['watch']+"次</li>\n"+
+                                            "</ul>"+
+                                            "      </li>";
+                                }
+                                recruitment=recruitment+"</ul>";
+                                $("#companyRecentPost").html(recruitment)
+                            } else {
+                                alert(rs.data.error);
+                            }
+                        }
+                    });
+
+
                 }
             }else{
                 alert("您未登录,请前往登录")
@@ -236,7 +282,7 @@
                             </div>
                             <div class="clearbox"></div>
                             <div class="headeresu">
-                                收到简历<span class="red">0</span>封，<a href="ResumeList.html" target="_blank">查看简历</a>
+                                收到简历<span  id="receivedResumeCount" class="red"></span>封，<a href="ResumeList.html" target="_blank">查看简历</a>
                             </div>
                         </div>
                         <div class="clearbox"></div>
@@ -249,25 +295,8 @@
                                 <div class="clearbox"></div>
                             </div>
                             <div class="pubmaincon">
-                                <div class="maincon" style="display:block">
-                                    <ul>
-                                        <li>
-                                            <ul class="jobwant">
-                                                <li style="width:300px">Alibaba</li>
-                                                <li style="width:500px">UED/10-20k</li>
-                                                <li style="width:70px">今天</li>
-                                                <li class="times" style="width:250px">被查看36次</li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <ul class="jobwant">
-                                                <li style="width:300px">Alibaba</li>
-                                                <li style="width:500px">UED/10-20k</li>
-                                                <li style="width:70px">今天</li>
-                                                <li class="times" style="width:250px">被查看36次</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                <div  id="companyRecentPost" class="maincon" style="display:block">
+
                                 </div>
                                 <div class="maincon" style="display:none">
                                     <ul>

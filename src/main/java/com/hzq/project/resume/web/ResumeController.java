@@ -75,4 +75,14 @@ public class ResumeController extends BaseController {
         return new BaseResult("投递简历成功");
     }
 
+
+    /**
+     * 企业查看收到简历的数量
+     */
+    @RequiresRoles(Roles.COMPANY)
+    @RequestMapping(path = "/receivedResumeCount", method = RequestMethod.GET)
+    public Integer receivedResumeCount() {
+        return resumeService.getReceivedResumeCount(getCompanyId());
+    }
+
 }
