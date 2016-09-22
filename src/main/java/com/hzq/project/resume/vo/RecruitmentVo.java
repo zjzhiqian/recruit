@@ -12,11 +12,14 @@ public class RecruitmentVo {
 
     private Integer companyId;
 
-    @Length(min = 1,max = 160,message = "照片url不合法,请联系管理员")
+    @Length(min = 1, max = 160, message = "照片url不合法,请联系管理员")
     @NotEmpty(message = "请上传照片")
     private String picture;
 
     private Integer type;
+
+    @NotNull(message = "选择是否全职")
+    private Integer isFull;
 
     @NotNull(message = "学历不能为空")
     private Integer education;
@@ -36,24 +39,33 @@ public class RecruitmentVo {
     @NotNull(message = "工作地点不能为空")
     private Integer workArea;
 
-    @Length(max = 50,message = "工作区域地点必须在0~50位之间")
+    @Length(max = 50, message = "工作区域地点必须在0~50位之间")
     private String detailArea;
 
-    @Length(min = 1,max = 80,message = "招聘标题必须在1~80位之间")
+    @Length(min = 1, max = 80, message = "招聘标题必须在1~80位之间")
     @NotEmpty(message = "招聘标题不能为空")
     private String title;
 
-    @Length(min = 1,max = 500,message = "职位描述必须在1~500位之间")
+    @Length(min = 1, max = 500, message = "职位描述必须在1~500位之间")
     private String introduction;
 
 
-    @Length(min = 1,max = 50,message = "联系人姓名长度必须在1~50位之间")
+    @Length(min = 1, max = 50, message = "联系人姓名长度必须在1~50位之间")
     @NotNull(message = "联系人姓名不能为空")
     private String concactName;
 
-    @Length(min = 1,max = 50,message = "联系人电话长度必须在1~50位之间")
+    @Length(min = 1, max = 50, message = "联系人电话长度必须在1~50位之间")
     @NotNull(message = "联系人电话不能为空")
     private String concactPhone;
+
+
+    public Integer getIsFull() {
+        return isFull;
+    }
+
+    public void setIsFull(Integer isFull) {
+        this.isFull = isFull;
+    }
 
     public Integer getCompanyId() {
         return companyId;

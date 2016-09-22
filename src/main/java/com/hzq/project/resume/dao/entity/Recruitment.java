@@ -9,6 +9,8 @@ public class Recruitment {
 
     private String picture;
 
+    private Integer isFull;
+
     private Integer type;
 
     private Integer education;
@@ -40,6 +42,14 @@ public class Recruitment {
     private Date deletedAt;
 
     private Integer watch;
+
+    public Integer getIsFull() {
+        return isFull;
+    }
+
+    public void setIsFull(Integer isFull) {
+        this.isFull = isFull;
+    }
 
     public Integer getId() {
         return id;

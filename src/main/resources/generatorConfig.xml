@@ -7,7 +7,7 @@
     <classPathEntry
 
 
-            location="/Users/hzq/.m2/repository/mysql/mysql-connector-java/5.1.12/mysql-connector-java-5.1.12.jar"/>
+            location="/Users/hzq/.m2/repository/mysql/mysql-connector-java/5.1.8/mysql-connector-java-5.1.8.jar"/>
     <context id="mysqlTables" targetRuntime="MyBatis3">
         <!--去除注释  -->
         <commentGenerator>
@@ -15,7 +15,7 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://192.168.145.202:3306/tzcxw"
+                        connectionURL="jdbc:mysql://192.168.29.101:3306/tzcxw"
                         userId="root" password="root"/>
 
         <!-- 指定生成的类型为java类型，避免数据库中number等类型字段 -->
@@ -46,7 +46,7 @@
         <!-- 自动生成数据库表的对应关系  -->
 
 
-        <table tableName="recruitments" domainObjectName="Recruitment"
+        <table tableName="resume_job_relations" domainObjectName="resumeJobRelation"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
