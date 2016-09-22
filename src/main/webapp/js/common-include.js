@@ -285,61 +285,68 @@ function getUserInfo() {
 }
 
 
-function getCompanyInfo(){
-    
-    var str =     "                            <div class=\"pubmainmenu\">\n"+
-        "                                <ul>\n"+
-        "                                    <li class=\"pubmainmese\">最近发布</li>\n"+
-        "                                    <li>浏览过的</li>\n"+
-        "                                </ul>\n"+
-        "                                <div class=\"clearbox\"></div>\n"+
-        "                            </div>\n"+
-        "                            <div class=\"pubmaincon\">\n"+
-        "                                <div class=\"maincon\" style=\"display:block\">\n"+
-        "                                    <ul>\n"+
-        "                                        <li>\n"+
-        "                                            <ul class=\"jobwant\">\n"+
-        "                                                <li style=\"width:300px\">Alibaba</li>\n"+
-        "                                                <li style=\"width:500px\">UED/10-20k</li>\n"+
-        "                                                <li style=\"width:70px\">今天</li>\n"+
-        "                                                <li class=\"times\" style=\"width:250px\">被查看36次</li>\n"+
-        "                                            </ul>\n"+
-        "                                        </li>\n"+
-        "                                        <li>\n"+
-        "                                            <ul class=\"jobwant\">\n"+
-        "                                                <li style=\"width:300px\">Alibaba</li>\n"+
-        "                                                <li style=\"width:500px\">UED/10-20k</li>\n"+
-        "                                                <li style=\"width:70px\">今天</li>\n"+
-        "                                                <li class=\"times\" style=\"width:250px\">被查看36次</li>\n"+
-        "                                            </ul>\n"+
-        "                                        </li>\n"+
-        "                                    </ul>\n"+
-        "                                </div>\n"+
-        "                                <div class=\"maincon\" style=\"display:none\">\n"+
-        "                                    <ul>\n"+
-        "                                        <li>\n"+
-        "                                            <ul class=\"jobwant\">\n"+
-        "                                                <li style=\"width:300px\">小飞</li>\n"+
-        "                                                <li style=\"width:500px\">UED/10-20k</li>\n"+
-        "                                                <li style=\"width:70px\">今天</li>\n"+
-        "                                                <li class=\"times\" style=\"width:250px\">查看简历</li>\n"+
-        "                                            </ul>\n"+
-        "                                        </li>\n"+
-        "                                        <li class=\"saw\">\n"+
-        "                                            <ul class=\"jobwant\">\n"+
-        "                                                <li style=\"width:300px\">小飞</li>\n"+
-        "                                                <li style=\"width:500px\">UED/10-20k</li>\n"+
-        "                                                <li style=\"width:70px\">今天</li>\n"+
-        "                                                <li class=\"times\" style=\"width:250px\">已查看</li>\n"+
-        "                                            </ul>\n"+
-        "                                        </li>\n"+
-        "                                    </ul>\n"+
-        "                                </div>\n"+
-        "                            </div>" ;
+function getCompanyInfo() {
+
+    var str = "                            <div class=\"pubmainmenu\">\n" +
+        "                                <ul>\n" +
+        "                                    <li class=\"pubmainmese\">最近发布</li>\n" +
+        "                                    <li>浏览过的</li>\n" +
+        "                                </ul>\n" +
+        "                                <div class=\"clearbox\"></div>\n" +
+        "                            </div>\n" +
+        "                            <div class=\"pubmaincon\">\n" +
+        "                                <div class=\"maincon\" style=\"display:block\">\n" +
+        "                                    <ul>\n" +
+        "                                        <li>\n" +
+        "                                            <ul class=\"jobwant\">\n" +
+        "                                                <li style=\"width:300px\">Alibaba</li>\n" +
+        "                                                <li style=\"width:500px\">UED/10-20k</li>\n" +
+        "                                                <li style=\"width:70px\">今天</li>\n" +
+        "                                                <li class=\"times\" style=\"width:250px\">被查看36次</li>\n" +
+        "                                            </ul>\n" +
+        "                                        </li>\n" +
+        "                                        <li>\n" +
+        "                                            <ul class=\"jobwant\">\n" +
+        "                                                <li style=\"width:300px\">Alibaba</li>\n" +
+        "                                                <li style=\"width:500px\">UED/10-20k</li>\n" +
+        "                                                <li style=\"width:70px\">今天</li>\n" +
+        "                                                <li class=\"times\" style=\"width:250px\">被查看36次</li>\n" +
+        "                                            </ul>\n" +
+        "                                        </li>\n" +
+        "                                    </ul>\n" +
+        "                                </div>\n" +
+        "                                <div class=\"maincon\" style=\"display:none\">\n" +
+        "                                    <ul>\n" +
+        "                                        <li>\n" +
+        "                                            <ul class=\"jobwant\">\n" +
+        "                                                <li style=\"width:300px\">小飞</li>\n" +
+        "                                                <li style=\"width:500px\">UED/10-20k</li>\n" +
+        "                                                <li style=\"width:70px\">今天</li>\n" +
+        "                                                <li class=\"times\" style=\"width:250px\">查看简历</li>\n" +
+        "                                            </ul>\n" +
+        "                                        </li>\n" +
+        "                                        <li class=\"saw\">\n" +
+        "                                            <ul class=\"jobwant\">\n" +
+        "                                                <li style=\"width:300px\">小飞</li>\n" +
+        "                                                <li style=\"width:500px\">UED/10-20k</li>\n" +
+        "                                                <li style=\"width:70px\">今天</li>\n" +
+        "                                                <li class=\"times\" style=\"width:250px\">已查看</li>\n" +
+        "                                            </ul>\n" +
+        "                                        </li>\n" +
+        "                                    </ul>\n" +
+        "                                </div>\n" +
+        "                            </div>";
 
     $("#pub03").html(str);
 
 
+}
 
+
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null)return unescape(r[2]);
+    return null;
 }
 

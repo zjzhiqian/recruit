@@ -1,5 +1,8 @@
 package com.hzq.project.resume.dao.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.hzq.project.system.common.util.DateFormatSerializer;
+
 import java.util.Date;
 
 public class Recruitment {
@@ -37,7 +40,9 @@ public class Recruitment {
 
     private Date createdAt;
 
+    @JsonSerialize(using = DateFormatSerializer.class)
     private Date updatedAt;
+
 
     private Date deletedAt;
 

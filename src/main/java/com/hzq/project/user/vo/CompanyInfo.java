@@ -43,8 +43,20 @@ public class CompanyInfo {
     @JsonSerialize(using = DateFormatSerializer.class)
     private Date createdAt;
 
+    @JsonSerialize(using = DateFormatSerializer.class)
+    private Date updatedAt;
+
 
     private Integer watch;
+
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
     public Integer getId() {
         return id;
@@ -181,4 +193,6 @@ public class CompanyInfo {
     public void setWatch(Integer watch) {
         this.watch = watch;
     }
+
+
 }
