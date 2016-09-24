@@ -5,6 +5,8 @@ import java.util.Date;
 public class JobNews {
     private Integer id;
 
+    private String title;
+
     private String content;
 
     private Date createdAt;
@@ -14,6 +16,14 @@ public class JobNews {
     private Date deletedAt;
 
     private Integer watch;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public Integer getId() {
         return id;

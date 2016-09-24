@@ -36,4 +36,14 @@ public interface RecruitmentService {
      * 根据参数查询
      */
     PageResult<RecruitmentSearchResult> getPageResult(RecruitmentQueryParam param);
+
+    /**
+     * 所有兼职
+     */
+    PageResult<Recruitment> getPartTimeJob(Integer page);
+
+    /**
+     * 高端招聘
+     */
+    PageResult<Recruitment> getHighJob(Integer page);
 }

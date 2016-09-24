@@ -8,14 +8,49 @@ public class RecruitmentQueryParam {
 
     private String title;
     private Integer workArea;
+    private Integer salary;
     private Integer type;
+
+    private String beginDate;
+    private String endDate;
 
 
     /**分页**/
     private Integer start;
     private Integer per;
     private Integer current;
+
+
+    public String getBeginDate() {
+        return beginDate;
+    }
+
+    public void setBeginDate(String beginDate) {
+        this.beginDate = beginDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
     /**分页**/
+
+
+
+
+
+    public Integer getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Integer salary) {
+        this.salary = salary;
+    }
+
 
     public String getTitle() {
         return title;

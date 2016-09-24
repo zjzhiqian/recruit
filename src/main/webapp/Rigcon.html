@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>台州创新网 - 职场资讯详情页</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <link href="images/favicon.ico" rel="Shortcut Icon">
@@ -16,23 +16,28 @@
     <script src="js/jquery.luara.0.0.1.min.js"></script>
 
     <script>
-        $(function() {
+        $(function () {
             includeHeader();
             includeFoot();
+
+            var title = getQueryString('title');
+            var content = getQueryString('content');
+            $("#title").html(decodeURI(title));
+            $("#content").html(decodeURI(content));
         });
     </script>
 </head>
 
 <body>
 
-   <div id="header"></div>
-    <div id="rigmain">
-    <h2>职场资讯</h2>
-    <p>职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯职场资讯</p>
-    </div>
-    <!-- 链接 E -->
-  <div id="footer">
-  </div>
+<div id="header"></div>
+<div id="rigmain">
+    <h2 id="title"></h2>
+    <p id="content"></p>
+</div>
+<!-- 链接 E -->
+<div id="footer">
+</div>
 </body>
 
 </html>

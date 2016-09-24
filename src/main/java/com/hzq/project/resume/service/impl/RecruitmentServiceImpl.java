@@ -1,11 +1,11 @@
 package com.hzq.project.resume.service.impl;
 
+import com.google.common.collect.ImmutableMap;
 import com.hzq.project.resume.dao.RecruitmentMapper;
 import com.hzq.project.resume.dao.entity.Recruitment;
 import com.hzq.project.resume.dao.entity.RecruitmentSearchResult;
 import com.hzq.project.resume.service.RecruitmentService;
 import com.hzq.project.resume.vo.RecruitmentQueryParam;
-import com.hzq.project.system.common.dao.PageList;
 import com.hzq.project.system.common.dao.PageResult;
 import com.hzq.project.system.common.exception.BusyOperationException;
 import com.hzq.project.system.common.redis.RedisHelper;
@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hzq on 16/9/21.
@@ -62,6 +63,29 @@ public class RecruitmentServiceImpl implements RecruitmentService {
         List<RecruitmentSearchResult> pageData = recruitmentMapper.getRecruitmentParamList(param);
         Integer count = recruitmentMapper.getRecruitmentParamCount(param);
         return new PageResult<>(current, per, count, pageData);
+    }
+
+    @Override
+    public PageResult<Recruitment> getPartTimeJob(Integer page) {
+        Integer per = 10;
+        if (page == null) page = 1;
+
+        Map<String, Integer> map = ImmutableMap.of("start", (page - 1) * per, "per", per);
+        List<Recruitment> pageData = recruitmentMapper.getPartTimeJobList(map);
+        Integer count = recruitmentMapper.getPartTimeJobCount(map);
+        return new PageResult<>(page, per, count, pageData);
+
+    }
+
+    @Override
+    public PageResult<Recruitment> getHighJob(Integer page) {
+        Integer per = 10;
+        if (page == null) page = 1;
+
+        Map<String, Integer> map = ImmutableMap.of("start", (page - 1) * per, "per", per);
+        List<Recruitment> pageData = recruitmentMapper.getHighJobList(map);
+        Integer count = recruitmentMapper.getHighJobCount(map);
+        return new PageResult<>(page, per, count, pageData);
     }
 
 }

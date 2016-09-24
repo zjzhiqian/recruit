@@ -9,7 +9,26 @@ public class RecruitmentQueryParamVo{
     private String title;
     private Integer workArea;
     private Integer type;
+    private Integer salary;
     private Integer page;
+    private Integer postDate;
+
+
+    public Integer getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(Integer postDate) {
+        this.postDate = postDate;
+    }
+
+    public Integer getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Integer salary) {
+        this.salary = salary;
+    }
 
     public Integer getPage() {
         return page;
@@ -42,4 +61,7 @@ public class RecruitmentQueryParamVo{
     public void setType(Integer type) {
         this.type = type;
     }
+
+
+
 }

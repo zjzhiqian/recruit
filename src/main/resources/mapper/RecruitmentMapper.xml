@@ -167,6 +167,15 @@
         <if test="title != null">
             and rc.title like concat('%',#{title},'%')
         </if>
+        <if test="salary !=null">
+            and rc.salary = #{salary,jdbcType=INTEGER}
+        </if>
+        <if test="beginDate!=null">
+            and rc.created_at &gt;= #{beginDate,jdbcType = TIMESTAMP}
+        </if>
+        <if test="endDate!=null">
+            AND rc.created_at &lt; #{endDate,jdbcType = TIMESTAMP}
+        </if>
         and rc.deleted_at is null
         order by rc.updated_at desc
         <if test="start!=null">
@@ -175,8 +184,8 @@
     </select>
 
 
-
-    <select id="getRecruitmentParamCount" parameterType="com.hzq.project.resume.vo.RecruitmentQueryParam" resultType="int">
+    <select id="getRecruitmentParamCount" parameterType="com.hzq.project.resume.vo.RecruitmentQueryParam"
+            resultType="int">
         select count(1) from
         recruitments rc,companies cp
         where rc.company_id =cp.id
@@ -189,7 +198,45 @@
         <if test="title != null">
             and rc.title like concat('%',#{title},'%')
         </if>
+        <if test="salary !=null">
+            and rc.salary = #{salary,jdbcType=INTEGER}
+        </if>
+        <if test="beginDate!=null">
+            and rc.created_at &gt;= #{beginDate,jdbcType = TIMESTAMP}
+        </if>
+        <if test="endDate!=null">
+            AND rc.created_at &lt; #{endDate,jdbcType = TIMESTAMP}
+        </if>
         and rc.deleted_at is null
     </select>
+
+
+    <select id="getPartTimeJobList" parameterType="map" resultType="com.hzq.project.resume.dao.entity.Recruitment">
+        select * from recruitments where is_full = 0 and deleted_at is null
+        order by updated_at desc
+        <if test="start!=null">
+            limit #{start},#{per}
+        </if>
+
+    </select>
+
+    <select id="getPartTimeJobCount" parameterType="map" resultType="int">
+      select count(1) from recruitments where is_full = 0 and deleted_at is null
+    </select>
+
+
+    <select id="getHighJobList" parameterType="map" resultType="com.hzq.project.resume.dao.entity.Recruitment">
+        select * from recruitments where is_full = 1 and deleted_at is null
+        order by updated_at desc
+        <if test="start!=null">
+            limit #{start},#{per}
+        </if>
+
+    </select>
+
+    <select id="getHighJobCount" parameterType="map" resultType="int">
+        select count(1) from recruitments where is_full = 1 and deleted_at is null
+    </select>
+
 
 </mapper>

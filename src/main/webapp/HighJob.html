@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>台州创新网 - 高端招聘</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <link href="images/favicon.ico" rel="Shortcut Icon">
     <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/jquery.pagination.css">
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
 
 
@@ -16,356 +17,189 @@
     <script type="text/javascript" src="js/common-include.js"></script>
     <script src="js/jquery.luara.0.0.1.min.js"></script>
 
+    <script type="text/javascript" src="js/jquery.pagination.js"></script>
+    <script type="text/javascript" src="js/common-dic.js"></script>
+
 
     <script>
-    $(function() {
+        $(function () {
 
-        includeHeader();
-        includeFoot();
-        includeLink();
-    });
+            includeHeader();
+            includeFoot();
+            includeLink();
+
+
+            //工作区域
+            var workStr = "";
+            for (var i = 0; i < workArr.length; i++) {
+                workStr = workStr + "<option value=\"" + i + "\">" + workArr[i] + "</option>";
+            }
+            $("#heiadd").html(workStr);
+
+
+            //职位类别
+            var jobStr = "";
+            for (var i = 0; i < jobArrSearch.length; i++) {
+                jobStr = jobStr + "<option value=\"" + (i - 1) + "\">" + jobArrSearch[i] + "</option>";
+            }
+            $("#heipost").html(jobStr);
+
+
+            //期望月薪
+            var moneyStr = "";
+            for (var i = 0; i < moneyArr.length; i++) {
+                moneyStr = moneyStr + "<option value=\"" + i + "\">" + moneyArr[i] + "</option>";
+            }
+            $("#starsal").html(moneyStr);
+
+
+
+
+
+            function pageSelectCallback(page, jq) {
+                var title = $("#searchText").val();
+                var type = $("#jobType").val();
+                var area = $("#area").val();
+                sendAjaxQuery(page, type, title, area);
+                return false;
+            }
+
+
+            function pageSelectCallback(page, jq) {
+                sendAjaxQuery(page);
+                return false;
+            }
+
+            function sendAjaxQuery(page) {
+                //查询兼职
+                $.ajax({
+                    type: "GET",
+                    url: "api/v3/recruitment/highJob?page=" + (page + 1),
+                    dataType: 'json',
+                    async: false,
+                    success: function (rs) {
+                        if (rs.success) {
+                            var resultDatas = rs.data.resultList;
+                            var pageData = rs.data.page;
+
+                            var resultDataStr = "";
+                            for (var i = 0; i < resultDatas.length; i++) {
+                                var salary = resultDatas[i]['salary'];
+                                var salaryStr = moneyArr[salary];
+                                var workArea = resultDatas[i]['workArea'];
+                                var workAreaStr = workArr[workArea];
+
+                                resultDataStr = resultDataStr +
+                                        " <li>\n" +
+                                        "     <a href=\"WorkInfo.html?id=" + resultDatas[i]['id'] + "&companyId=" + resultDatas[i]['companyId'] + "\">\n" +
+                                        "         <ul>\n" +
+                                        "            <li class=\"jobnames\">" + resultDatas[i]['title'] + "</li>\n" +
+                                        "            <li class=\"jobsa\">" + salaryStr + "</li>\n" +
+                                        "            <li class=\"jobadd\">" + workAreaStr + "</li>\n" +
+                                        "         </ul>\n" +
+                                        "     </a>\n" +
+                                        "</li>"
+                            }
+
+                            $("#resultData").html(resultDataStr);
+
+                            $(".pagination").pagination(pageData.count, {
+                                callback: pageSelectCallback,
+                                items_per_page: pageData.per,
+                                next_text: '下一页',
+                                prev_text: '上一页',
+                                num_edge_entries: 1,
+                                current_page: page
+                            });
+
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+
+            }
+
+            sendAjaxQuery(0);
+
+
+            $("#searchBtn").click(function () {
+                var title = $("#title").val();
+                var area = $("#heiadd").val();
+                var type = $("#heipost").val();
+                var salary = $("#starsal").val();
+                var postDate = $("#pubdate").val();
+                window.open("SeaResult.html?title=" + title + "&area=" + area + "&type=" + type + "&salary=" + salary + "&postDate=" + postDate);
+                return false;
+            });
+
+        });
     </script>
 </head>
 
 <body>
-     <div id="header"></div>
-    <!-- 高端招聘 S-->
-    <div id="heijob">
-        <div class="title2">
-            搜索职位
-        </div>
-        <div id="heicondi">
-            <ul>
-                <li><span>关键词</span>
-                    <input type="text" placeholder="请输入职位关键字">
-                </li>
-                <li><span>工作地点</span>
-                    <select id="heiadd">
-                        <option value="1">请选择工作地点</option>
-                        <option value="2">黄岩</option>
-                        <option value="3">天台</option>
-                    </select>
-                </li>
-                <li><span>行业类别</span>
-                    <select id="heij">
-                        <option value="1">请选择行业</option>
-                    </select>
-                </li>
-                <li><span>职位类别</span>
-                    <select id="heipost">
-                        <option value="1">请选择职位类别</option>
-                    </select>
-                </li>
-            </ul>
-            <div id="heitj"><span>年薪范围</span>
-                <select id="starsal">
-                    <option value="1">不限</option>
-                    <option value="2">10</option>
-                </select><span class="line">-</span>
-                <select id="endsal">
-                    <option value="1">不限</option>
-                    <option value="2">10</option>
-                </select><span class="mon">万元</span>
-                <span>企业性质</span>
-                <select id="business">
-                    <option value="1">不限</option>
-                    <option value="2">个体</option>
-                </select> <span>职位性质</span>
-                <select id="jobnature">
-                    <option value="1">不限</option>
-                    <option value="2">个体</option>
-                </select><span>发布时间</span>
-                <select id="pubdate">
-                    <option value="1">不限</option>
-                    <option value="2">个体</option>
+<div id="header"></div>
+<!-- 高端招聘 S-->
+<div id="heijob">
+    <div class="title2">
+        搜索职位
+    </div>
+    <div id="heicondi">
+        <ul>
+            <li><span>关键词</span>
+                <input id="title" type="text" placeholder="请输入职位关键字">
+            </li>
+            <li><span>工作地点</span>
+
+                <select id="heiadd">
                 </select>
-                <div class="clearbox"></div>
-            </div>
-            <div class="submit">
-                <a href="SeaResult.html" target="_blank"><input type="submit" value="搜索职位"></a>
-            </div>
-        </div>
-        <!-- 高端招聘主要内容 S -->
-        <div id="heimain">
-            <div class="heimle marti">
-                <div class="heijobt"><span>|</span>最新发布职位</div>
-                <ul>
-                    <li class="hea">
-                        <a href="FrmDea.html"></a>
-                        <ul>
-                            <li class="jobnames">职位</li>
-                            <li class="jobsa black">年薪</li>
-                            <li class="jobadd">地点</li>
-                        </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="heimri">
-                <div class="heijobt"><span>|</span>高薪推荐职位</div>
-                <ul>
-                    <li class="hea">
-                        <a href="FrmDea.html"></a>
-                        <ul>
-                            <li class="jobnames">职位</li>
-                            <li class="jobsa black">年薪</li>
-                            <li class="jobadd">地点</li>
-                        </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="heimle marti">
-                <div class="heijobt"><span>|</span>热门招聘职位</div>
-               <ul>
-                    <li class="hea">
-                        <a href="FrmDea.html"></a>
-                        <ul>
-                            <li class="jobnames">职位</li>
-                            <li class="jobsa black">年薪</li>
-                            <li class="jobadd">地点</li>
-                        </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="heimri">
-                <div class="heijobt"><span>|</span>最佳信用职位</div>
-               <ul>
-                    <li class="hea">
-                        <a href="FrmDea.html"></a>
-                        <ul>
-                            <li class="jobnames">职位</li>
-                            <li class="jobsa black">年薪</li>
-                            <li class="jobadd">地点</li>
-                        </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="FrmDea.html">
-                            <ul>
-                                <li class="jobnames">聘兼职380天做完算薪资</li>
-                                <li class="jobsa">20-30万</li>
-                                <li class="jobadd">椒江</li>
-                            </ul>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            </li>
+            <li><span>职位类别</span>
+                <select id="heipost">
+                </select>
+            </li>
+        </ul>
+        <div id="heitj"><span>月薪范围</span>
+            <select id="starsal">
+            </select><span class="line">    </span>
+
+            <!--<span>企业性质</span>-->
+            <!--<select id="business">-->
+            <!--<option value="1">不限</option>-->
+            <!--<option value="2">个体</option>-->
+            <!--</select> <span>职位性质</span>-->
+            <!--<select id="jobnature">-->
+            <!--<option value="1">不限</option>-->
+            <!--<option value="2">个体</option>-->
+            </select><span>发布时间</span>
+            <select id="pubdate">
+                <option value="0">不限</option>
+                <option value="1">一天内</option>
+                <option value="2">三天内</option>
+                <option value="3">一周内</option>
+                <option value="4">一个月内</option>
+            </select>
             <div class="clearbox"></div>
         </div>
-        <!-- 高端招聘主要内容 E-->
+        <div class="submit">
+            <a href="#" target="_blank"><input id="searchBtn" type="submit" value="搜索职位"></a>
+        </div>
     </div>
-    <!-- 高端招聘 E-->
-    <div id="link"></div>
-    <div id="footer"></div>
+    <!-- 高端招聘主要内容 S -->
+    <div id="heimain">
+        <div class="heimle marti">
+            <div class="heijobt"><span>|</span>最新发布职位</div>
+            <ul id="resultData">
+
+            </ul>
+        </div>
+        <div class="clearbox"></div>
+    </div>
+    <!-- 高端招聘主要内容 E-->
+</div>
+<!-- 高端招聘 E-->
+<div id="link"></div>
+<div id="footer"></div>
 </body>
 
 </html>

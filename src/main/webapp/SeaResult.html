@@ -51,27 +51,39 @@
                 $("#searchText").val(titleParam);
             }
 
-            sendAjaxQuery(0, typeParam, titleParam, null);
-
-
-            function pageSelectCallback(page, jq) {
-                sendAjaxQuery(page);
-                return false;
+            //行业
+            var areaParam = getQueryString("area");
+            if (areaParam != null && areaParam != "null") {
+                $("#area").val(areaParam);
             }
+
+            var salaryParam = getQueryString("salary");
+            var postDate = getQueryString("postDate");
+
+            sendAjaxQuery(0, typeParam, titleParam, areaParam,salaryParam, postDate);
+
+
 
             /**
              * 查询
              * @param page 页码
              */
-            function sendAjaxQuery(page, type, title, area) {
-                if (type == null || type == "null") {
+            function sendAjaxQuery(page, type, title, area, salary, postDate) {
+                if (type == undefined || type == null || type == "null") {
                     type = -1
                 }
-                if (title == null || title == "null") {
+                if (title == undefined || title == null || title == "null") {
                     title = ""
                 }
-                if (area == null || area == "null" || area == 0) {
+                if (area == undefined || area == null || area == "null" || area == 0) {
                     area = -1
+                }
+
+                if (salary == undefined || salary == null || salary == "null" || salary == 0) {
+                    salary = -1
+                }
+                if (postDate == undefined || postDate == "") {
+                    postDate = -1;
                 }
 
                 function pageSelectCallback(page, jq) {
@@ -104,7 +116,7 @@
                 //查询职位
                 $.ajax({
                     type: "GET",
-                    url: "api/v3/recruitment/searchJob?type=" + type + "&title=" + title + "&page=" + (page + 1) + "&workArea=" + area,
+                    url: "api/v3/recruitment/searchJob?type=" + type + "&title=" + title + "&page=" + (page + 1) + "&workArea=" + area + "&salary=" + salary + "&postDate=" + postDate,
                     dataType: 'json',
                     async: false,
                     success: function (rs) {
@@ -124,7 +136,7 @@
                                 var studyStr = studyArr[study];
 
 
-                                var resultDataStr = resultDataStr +
+                                resultDataStr = resultDataStr +
                                         " <li>\n" +
                                         "                    <a href=\"WorkInfo.html?id=" + resultDatas[i]['id'] + "&companyId=" + resultDatas[i]['companyId'] + "\" target=\"_blank\">\n" +
                                         "                        <div class=\"searemlist\">\n" +
@@ -206,7 +218,7 @@
                 <div class="clearbox"></div>
             </div>
             <div id="btnsearch">
-                <input  type="submit">
+                <input type="submit">
             </div>
         </div>
     </div>

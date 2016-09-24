@@ -54,7 +54,7 @@
                         var data = rs.data;
                         var str = "";
                         for (var i = 0; i < data.length; i++) {
-                            str = str + "<li><a href=\"Rigcon.html?id=\"+data[i]['id']+>白菜都涨价了，我们的齐心也该涨了</a></li>"
+                            str = str + $.formatString("<li><a href=\"Rigcon.html?id={0}&title={1}&content={2}\">{3}</a></li>", data[i]['id'], data[i]['title'], data[i]['content'], data[i]['title'])
                         }
                         $("#jobMessage").html(str)
 
@@ -76,7 +76,7 @@
                         var data = rs.data;
                         var str = "";
                         for (var i = 0; i < data.length; i++) {
-                            str = str + "<li><a href=\"FrmDea.html?id=" + data[i]["companyId"] + "\" target=\"_blank\">" + data[i]["title"] + "</a></li>";
+                            str = str + "<li><a href=\"WorkInfo.html?id=" + data[i]["id"] + "&companyId=" + data[i]['companyId'] + "\" target=\"_blank\">" + data[i]["title"] + "</a></li>";
                         }
                         $("#hotJobs").html(str)
 
@@ -88,7 +88,7 @@
 
 
             $("a").click(function (e) {
-               var href = $(this).attr("href");
+                var href = $(this).attr("href");
                 if (href == "SeaResult.html") {
                     e.preventDefault();
                     var title = $(this).html();

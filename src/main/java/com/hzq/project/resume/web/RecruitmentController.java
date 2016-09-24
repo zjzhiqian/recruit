@@ -23,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -95,6 +98,24 @@ public class RecruitmentController extends BaseController {
 
 
     /**
+     * 获取兼职职位
+     */
+    @RequestMapping(path = "/partTimeJob", method = RequestMethod.GET)
+    public PageResult<Recruitment> partTimeJob(Integer page) {
+        return recruitmentService.getPartTimeJob(page);
+    }
+
+
+    /**
+     * 获取高端职位
+     */
+    @RequestMapping(path = "/highJob", method = RequestMethod.GET)
+    public PageResult<Recruitment> highJob(Integer page) {
+        return recruitmentService.getHighJob(page);
+    }
+
+
+    /**
      * 用户搜索职位
      */
     @RequestMapping(path = "/searchJob", method = RequestMethod.GET)
@@ -114,8 +135,37 @@ public class RecruitmentController extends BaseController {
         if (StringUtils.isBlank(paramVo.getTitle()) || "null".equals(paramVo.getTitle()))
             paramVo.setTitle(null);
 
+        Integer salary = paramVo.getSalary();
+        if (salary == null || salary == -1) {
+            paramVo.setSalary(null);
+        }
 
         RecruitmentQueryParam param = Creator.newInstance(paramVo, RecruitmentQueryParam.class);
+
+        //发布时间处理
+        Integer postDate = paramVo.getPostDate();
+        if (postDate != null && postDate != -1) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+            Calendar calendar = Calendar.getInstance();
+            if (postDate == 1)
+                calendar.add(Calendar.DATE, -1);
+            if (postDate == 2)
+                calendar.add(Calendar.DATE, -3);
+            if (postDate == 3)
+                calendar.add(Calendar.DATE, -7);
+            if (postDate == 4)
+                calendar.add(Calendar.DATE, -30);
+            param.setBeginDate(sdf.format(calendar.getTime()));
+
+            //endDate
+            Calendar calendar1 = Calendar.getInstance();
+            calendar1.add(Calendar.DATE, 1);
+            param.setEndDate(sdf.format(calendar1.getTime()));
+
+
+        }
+
 
         //分页
         Integer per = 20;
