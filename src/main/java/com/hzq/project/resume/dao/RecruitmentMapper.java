@@ -1,6 +1,7 @@
 package com.hzq.project.resume.dao;
 
 import com.hzq.project.resume.dao.entity.Recruitment;
+import com.hzq.project.resume.vo.RecruitmentQueryParam;
 import com.hzq.project.system.common.dao.Dao;
 
 import java.util.List;
@@ -15,4 +16,13 @@ public interface RecruitmentMapper extends Dao<Recruitment,Integer> {
      */
     List<Recruitment> getHotJobs();
 
+    /**
+     *搜索列表
+     */
+    List<Recruitment> getRecruitmentParamList(RecruitmentQueryParam param);
+
+    /**
+     * 搜索列表数量
+     */
+    Integer getRecruitmentParamCount(RecruitmentQueryParam param);
 }

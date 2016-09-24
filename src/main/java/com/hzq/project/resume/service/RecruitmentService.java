@@ -1,6 +1,8 @@
 package com.hzq.project.resume.service;
 
 import com.hzq.project.resume.dao.entity.Recruitment;
+import com.hzq.project.resume.vo.RecruitmentQueryParam;
+import com.hzq.project.system.common.dao.PageResult;
 
 import java.util.List;
 
@@ -29,4 +31,8 @@ public interface RecruitmentService {
      */
     List<Recruitment> getHotJobs();
 
+    /**
+     * 根据参数查询
+     */
+    PageResult<Recruitment> getPageResult(RecruitmentQueryParam param);
 }

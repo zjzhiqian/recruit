@@ -9,6 +9,7 @@
     <meta name="description" content="">
     <link href="images/favicon.ico" rel="Shortcut Icon">
     <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet"  href="css/jquery.pagination.css">
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
 
 
@@ -16,10 +17,98 @@
     <script type="text/javascript" src="js/common-include.js"></script>
     <script src="js/jquery.luara.0.0.1.min.js"></script>
 
+    <script type="text/javascript" src="js/common-dic.js"></script>
+    <script type="text/javascript" src="js/jquery.pagination.js"></script>
+
     <script>
         $(function () {
             includeHeader();
             includeFoot();
+
+            //职位类别
+            var jobStr = "";
+            for (var i = 0; i < jobArrSearch.length; i++) {
+                jobStr = jobStr + "<option value=\"" + (i - 1) + "\">" + jobArrSearch[i] + "</option>";
+            }
+            $("#jobType").html(jobStr);
+
+            //工作区域
+            var workStr = "";
+            for (var i = 0; i < workArr.length; i++) {
+                workStr = workStr + "<option value=\"" + i + "\">" + workArr[i] + "</option>";
+            }
+            $("#area").html(workStr);
+
+            var typeParam = getQueryString("type");
+            $("#jobType").val(typeParam);
+            var titleParam = decodeURI(getQueryString("title"));
+            $("#searchText").val(titleParam);
+
+            //查询职位
+            $.ajax({
+                type: "GET",
+                url: "api/v3/recruitment/searchJob?type="+typeParam+"&title="+titleParam,
+                dataType: 'json',
+                async: false,
+                success: function (rs) {
+                    if (rs.success) {
+                        var data = rs.data;
+
+                        var resultData=
+                        " <li>\n"+
+                        "                    <a href=\"WorkInfo.html\" target=\"_blank\">\n"+
+                        "                        <div class=\"searemlist\">\n"+
+                        "                            <div class=\"searemlle\">\n"+
+                        "                                <div class=\"jobname\">java高级开发</div>\n"+
+                        "                                <ul class=\"clearbox\">\n"+
+                        "                                    <li class=\"red\">18-24万</li>\n"+
+                        "                                    <li>深圳-南山区</li>\n"+
+                        "                                    <li>本科或以上</li>\n"+
+                        "                                    <li>3年工作经验</li>\n"+
+                        "                                </ul>\n"+
+                        "                                <div class=\"sjian\">\n"+
+                        "                                    <ul>\n"+
+                        "                                        <li class=\"sjiand\">发布于：5小时前</li>\n"+
+                        "                                        <li class=\"red tickling\">24小时反馈</li>\n"+
+                        "                                    </ul>\n"+
+                        "                                </div>\n"+
+                        "                            </div>\n"+
+                        "                            <div class=\"searemlri\">\n"+
+                        "                                <div class=\"comname\">深圳市农产品股份有限公司</div>\n"+
+                        "                                <div class=\"elses\">其他\n"+
+                        "                                </div>\n"+
+                        "                                <ul>\n"+
+                        "                                    <li>年终奖</li>\n"+
+                        "                                    <li>带薪年假</li>\n"+
+                        "                                    <li>午餐补助</li>\n"+
+                        "                                </ul>\n"+
+                        "                            </div>\n"+
+                        "                            <div class=\"clearbox\"></div>\n"+
+                        "                        </div>\n"+
+                        "                    </a>\n"+
+                        "                </li>"
+                        $("#resultData").html(resultData)
+
+                        $(".pagination").pagination(135, {
+                            callback: pageselectCallback,
+                            items_per_page	:20,
+                            next_text :'下一页',
+                            prev_text :'上一页',
+                            num_edge_entries:1,
+                            current_page:page
+                        });
+
+                    } else {
+                        alert(rs.data.error);
+                    }
+                }
+            });
+
+
+            function pageselectCallback(){
+                alert(1)
+            }
+
 
         });
     </script>
@@ -36,18 +125,14 @@
     <div id="seawrap">
         <div id="seatit">
             <div id="key"><span>关键字</span>
-                <input type="text"><a href="" class="clear">清空搜索条件</a>
+                <input id="searchText" type="text"><a href="" class="clear">清空搜索条件</a>
                 <div class="clearbox"></div>
             </div>
             <div id="nextkey">
                 <span class="nextktit">行业</span>
-                <select>
-                    <option value="1"></option>
-                    <option value="2"></option>
+                <select id="jobType">
                 </select><span class="nextktit">地区</span>
-                <select>
-                    <option value="1"></option>
-                    <option value="2"></option>
+                <select id="area">
                 </select>
                 <div class="clearbox"></div>
             </div>
@@ -58,346 +143,10 @@
     </div>
     <div id="searemain">
         <div id="searemle">
-            <ul>
-                <li>
-                    <a href="WorkInfo.html" target="_blank">
-                        <div class="searemlist">
-                            <div class="searemlle">
-                                <div class="jobname">java高级开发</div>
-                                <ul class="clearbox">
-                                    <li class="red">18-24万</li>
-                                    <li>深圳-南山区</li>
-                                    <li>本科或以上</li>
-                                    <li>3年工作经验</li>
-                                </ul>
-                                <div class="sjian">
-                                    <ul>
-                                        <li class="sjiand">发布于：5小时前</li>
-                                        <li class="red tickling">24小时反馈</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="searemlri">
-                                <div class="comname">深圳市农产品股份有限公司</div>
-                                <div class="elses">其他
-                                </div>
-                                <ul>
-                                    <li>年终奖</li>
-                                    <li>带薪年假</li>
-                                    <li>午餐补助</li>
-                                </ul>
-                            </div>
-                            <div class="clearbox"></div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="WorkInfo.html" target="_blank">
-                        <div class="searemlist">
-                            <div class="searemlle">
-                                <div class="jobname">java高级开发</div>
-                                <ul class="clearbox">
-                                    <li class="red">18-24万</li>
-                                    <li>深圳-南山区</li>
-                                    <li>本科或以上</li>
-                                    <li>3年工作经验</li>
-                                </ul>
-                                <div class="sjian">
-                                    <ul>
-                                        <li class="sjiand">发布于：5小时前</li>
-                                        <li class="red tickling">24小时反馈</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="searemlri">
-                                <div class="comname">深圳市农产品股份有限公司</div>
-                                <div class="elses">其他
-                                </div>
-                                <ul>
-                                    <li>年终奖</li>
-                                    <li>带薪年假</li>
-                                    <li>午餐补助</li>
-                                </ul>
-                            </div>
-                            <div class="clearbox"></div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <div class="searemlist">
-                            <div class="searemlle">
-                                <div class="jobname">java高级开发</div>
-                                <ul class="clearbox">
-                                    <li class="red">18-24万</li>
-                                    <li>深圳-南山区</li>
-                                    <li>本科或以上</li>
-                                    <li>3年工作经验</li>
-                                </ul>
-                                <div class="sjian">
-                                    <ul>
-                                        <li class="sjiand">发布于：5小时前</li>
-                                        <li class="red tickling">24小时反馈</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="searemlri">
-                                <div class="comname">深圳市农产品股份有限公司</div>
-                                <div class="elses">其他
-                                </div>
-                                <ul>
-                                    <li>年终奖</li>
-                                    <li>带薪年假</li>
-                                    <li>午餐补助</li>
-                                </ul>
-                            </div>
-                            <div class="clearbox"></div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <div class="searemlist">
-                            <div class="searemlle">
-                                <div class="jobname">java高级开发</div>
-                                <ul class="clearbox">
-                                    <li class="red">18-24万</li>
-                                    <li>深圳-南山区</li>
-                                    <li>本科或以上</li>
-                                    <li>3年工作经验</li>
-                                </ul>
-                                <div class="sjian">
-                                    <ul>
-                                        <li class="sjiand">发布于：5小时前</li>
-                                        <li class="red tickling">24小时反馈</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="searemlri">
-                                <div class="comname">深圳市农产品股份有限公司</div>
-                                <div class="elses">其他
-                                </div>
-                                <ul>
-                                    <li>年终奖</li>
-                                    <li>带薪年假</li>
-                                    <li>午餐补助</li>
-                                </ul>
-                            </div>
-                            <div class="clearbox"></div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="WorkInfo.html" target="_blank">
-                        <div class="searemlist">
-                            <div class="searemlle">
-                                <div class="jobname">java高级开发</div>
-                                <ul class="clearbox">
-                                    <li class="red">18-24万</li>
-                                    <li>深圳-南山区</li>
-                                    <li>本科或以上</li>
-                                    <li>3年工作经验</li>
-                                </ul>
-                                <div class="sjian">
-                                    <ul>
-                                        <li class="sjiand">发布于：5小时前</li>
-                                        <li class="red tickling">24小时反馈</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="searemlri">
-                                <div class="comname">深圳市农产品股份有限公司</div>
-                                <div class="elses">其他
-                                </div>
-                                <ul>
-                                    <li>年终奖</li>
-                                    <li>带薪年假</li>
-                                    <li>午餐补助</li>
-                                </ul>
-                            </div>
-                            <div class="clearbox"></div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="WorkInfo.html" target="_blank">
-                        <div class="searemlist">
-                            <div class="searemlle">
-                                <div class="jobname">java高级开发</div>
-                                <ul class="clearbox">
-                                    <li class="red">18-24万</li>
-                                    <li>深圳-南山区</li>
-                                    <li>本科或以上</li>
-                                    <li>3年工作经验</li>
-                                </ul>
-                                <div class="sjian">
-                                    <ul>
-                                        <li class="sjiand">发布于：5小时前</li>
-                                        <li class="red tickling">24小时反馈</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="searemlri">
-                                <div class="comname">深圳市农产品股份有限公司</div>
-                                <div class="elses">其他
-                                </div>
-                                <ul>
-                                    <li>年终奖</li>
-                                    <li>带薪年假</li>
-                                    <li>午餐补助</li>
-                                </ul>
-                            </div>
-                            <div class="clearbox"></div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="WorkInfo.html" target="_blank">
-                        <div class="searemlist">
-                            <div class="searemlle">
-                                <div class="jobname">java高级开发</div>
-                                <ul class="clearbox">
-                                    <li class="red">18-24万</li>
-                                    <li>深圳-南山区</li>
-                                    <li>本科或以上</li>
-                                    <li>3年工作经验</li>
-                                </ul>
-                                <div class="sjian">
-                                    <ul>
-                                        <li class="sjiand">发布于：5小时前</li>
-                                        <li class="red tickling">24小时反馈</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="searemlri">
-                                <div class="comname">深圳市农产品股份有限公司</div>
-                                <div class="elses
-">其他
-                                </div>
-                                <ul>
-                                    <li>年终奖</li>
-                                    <li>带薪年假</li>
-                                    <li>午餐补助</li>
-                                </ul>
-                            </div>
-                            <div class="clearbox"></div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="WorkInfo.html" target="_blank">
-                        <div class="searemlist">
-                            <div class="searemlle">
-                                <div class="jobname">java高级开发</div>
-                                <ul class="clearbox">
-                                    <li class="red">18-24万</li>
-                                    <li>深圳-南山区</li>
-                                    <li>本科或以上</li>
-                                    <li>3年工作经验</li>
-                                </ul>
-                                <div class="sjian">
-                                    <ul>
-                                        <li class="sjiand">发布于：5小时前</li>
-                                        <li class="red tickling">24小时反馈</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="searemlri">
-                                <div class="comname">深圳市农产品股份有限公司</div>
-                                <div class="elses
-">其他
-                                </div>
-                                <ul>
-                                    <li>年终奖</li>
-                                    <li>带薪年假</li>
-                                    <li>午餐补助</li>
-                                </ul>
-                            </div>
-                            <div class="clearbox"></div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="WorkInfo.html" target="_blank">
-                        <div class="searemlist">
-                            <div class="searemlle">
-                                <div class="jobname">java高级开发</div>
-                                <ul class="clearbox">
-                                    <li class="red">18-24万</li>
-                                    <li>深圳-南山区</li>
-                                    <li>本科或以上</li>
-                                    <li>3年工作经验</li>
-                                </ul>
-                                <div class="sjian">
-                                    <ul>
-                                        <li class="sjiand">发布于：5小时前</li>
-                                        <li class="red tickling">24小时反馈</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="searemlri">
-                                <div class="comname">深圳市农产品股份有限公司</div>
-                                <div class="elses
-">其他
-                                </div>
-                                <ul>
-                                    <li>年终奖</li>
-                                    <li>带薪年假</li>
-                                    <li>午餐补助</li>
-                                </ul>
-                            </div>
-                            <div class="clearbox"></div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="WorkInfo.html" target="_blank">
-                        <div class="searemlist">
-                            <div class="searemlle">
-                                <div class="jobname">java高级开发</div>
-                                <ul class="clearbox">
-                                    <li class="red">18-24万</li>
-                                    <li>深圳-南山区</li>
-                                    <li>本科或以上</li>
-                                    <li>3年工作经验</li>
-                                </ul>
-                                <div class="sjian">
-                                    <ul>
-                                        <li class="sjiand">发布于：5小时前</li>
-                                        <li class="red tickling">24小时反馈</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="searemlri">
-                                <div class="comname">深圳市农产品股份有限公司</div>
-                                <div class="elses
-">其他
-                                </div>
-                                <ul>
-                                    <li>年终奖</li>
-                                    <li>带薪年假</li>
-                                    <li>午餐补助</li>
-                                </ul>
-                            </div>
-                            <div class="clearbox"></div>
-                        </div>
-                    </a>
-                </li>
+            <ul id="resultData">
+
             </ul>
-            <div id="page">
-                <ul>
-                    <li class="on">1</li>
-                    <li>2</li>
-                    <li>3</li>
-                    <li>4</li>
-                    <li>5</li>
-                    <li>6</li>
-                    <li>7</li>
-                    <li>8</li>
-                    <li>9</li>
-                    <li>10</li>
-                    <li>11</li>
-                    <li style="width:60px;">下一页</li>
+            <div id="page" class="pagination">
                     <div class="clearbox"></div>
                 </ul>
             </div>
@@ -417,33 +166,6 @@
         <div class="clearbox"></div>
     </div>
 </div>
-<!-- 链接 S -->
-<!--   <div id="link">
-    <div id="linkle">
-        <a href="" target="_blank"><img src="images/albb.png" alt=""></a>
-        <a href="" target="_blank"> <img src="images/newyork.png" alt=""></a>
-    </div>
-    <div id="linkmid">
-        <ul>
-            <li> <a href="" target="_blank"><img src="images/hxbank.png" alt=""></a></li>
-            <li> <a href="" target="_blank"><img src="images/bm.png" alt=""></a></li>
-            <li> <a href="" target="_blank"><img src="images/sh.png" alt=""></a></li>
-            <li> <a href="" target="_blank"><img src="images/zg.png" alt=""></a></li>
-            <li> <a href="" target="_blank"><img src="images/xzbank.png" alt=""></a></li>
-            <li> <a href="" target="_blank"><img src="images/rczp.png" alt=""></a></li>
-            <li> <a href="" target="_blank"><img src="images/bjjz.png" alt=""></a></li>
-            <li> <a href="" target="_blank"><img src="images/yn.png" alt=""></a></li>
-        </ul>
-    </div>
-    <div id="linkri">
-        <a href="" target="_blank"> <img src="images/chto.png" alt=""></a>
-       <a href="" target="_blank">  <img src="images/chd.png" alt=""></a>
-        <a href="" target="_blank"> <img src="images/yd.png" alt=""></a>
-            <a href="" target="_blank"> <img src="images/cpyc.png" alt=""></a>
-    </div>
-</div> -->
-<!-- 链接 E -->
-<!--版权 S -->
 <div id="footer">
 </div>
 </body>

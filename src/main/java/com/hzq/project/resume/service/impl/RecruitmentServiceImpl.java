@@ -3,6 +3,9 @@ package com.hzq.project.resume.service.impl;
 import com.hzq.project.resume.dao.RecruitmentMapper;
 import com.hzq.project.resume.dao.entity.Recruitment;
 import com.hzq.project.resume.service.RecruitmentService;
+import com.hzq.project.resume.vo.RecruitmentQueryParam;
+import com.hzq.project.system.common.dao.PageList;
+import com.hzq.project.system.common.dao.PageResult;
 import com.hzq.project.system.common.exception.BusyOperationException;
 import com.hzq.project.system.common.redis.RedisHelper;
 import com.hzq.project.user.dao.CompanyMapper;
@@ -49,6 +52,15 @@ public class RecruitmentServiceImpl implements RecruitmentService {
     @Override
     public List<Recruitment> getHotJobs() {
         return recruitmentMapper.getHotJobs();
+    }
+
+    @Override
+    public PageResult<Recruitment> getPageResult(RecruitmentQueryParam param) {
+        Integer current = param.getCurrent();
+        Integer per = param.getPer();
+        List<Recruitment> pageData = recruitmentMapper.getRecruitmentParamList(param);
+        Integer count = recruitmentMapper.getRecruitmentParamCount(param);
+        return new PageResult<>(current, per, count, pageData);
     }
 
 }

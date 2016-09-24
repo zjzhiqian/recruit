@@ -3,5 +3,6 @@
 //3.企业 个人中心收到简历xx封 查看符合条件简历
 
 
-//FrmDea.html 企业招聘详情页面  TODO 企业照片         收藏和举报功能没做
-//Index.html  首页 //TODO 首页最下面所有职位搜索的时候 关键字插入进去
+//FrmDea.html 企业招聘详情页面  TODO 企业照片    收藏和举报功能没做
+//Index.html  首页 //TODO 下面所有公司url以及数据库插入
+//Poerscenter 个人中心  //TODO 我的收藏展示进

@@ -85,4 +85,5 @@ public class ResumeController extends BaseController {
         return resumeService.getReceivedResumeCount(getCompanyId());
     }
 
+
 }

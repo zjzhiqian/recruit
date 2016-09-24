@@ -87,6 +87,19 @@
             });
 
 
+            $("a").click(function (e) {
+               var href = $(this).attr("href");
+                if (href == "SeaResult.html") {
+                    e.preventDefault();
+                    var title = $(this).html();
+                    if (title.length > 1) {
+                        window.location.href = "SeaResult.html?title=" + title
+                    }
+                    return;
+                }
+            });
+
+
             //搜索
             $("#searchBtn").click(function () {
                 var title = $("#searchText").val();
