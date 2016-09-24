@@ -6,3 +6,10 @@
 //FrmDea.html 企业招聘详情页面  TODO 企业照片    收藏和举报功能没做
 //Index.html  首页 //TODO 下面所有公司url以及数据库插入
 //Poerscenter 个人中心  //TODO 我的收藏展示进
+//SeaResult.html 搜索结果页  //TODO 后面的广告超链接新增
+
+
+
+
+
+涉及广告部分的修改  1.Index.html 2.SeaResult.html

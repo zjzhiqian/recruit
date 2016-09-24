@@ -1,6 +1,7 @@
 package com.hzq.project.resume.service;
 
 import com.hzq.project.resume.dao.entity.Recruitment;
+import com.hzq.project.resume.dao.entity.RecruitmentSearchResult;
 import com.hzq.project.resume.vo.RecruitmentQueryParam;
 import com.hzq.project.system.common.dao.PageResult;
 
@@ -34,5 +35,5 @@ public interface RecruitmentService {
     /**
      * 根据参数查询
      */
-    PageResult<Recruitment> getPageResult(RecruitmentQueryParam param);
+    PageResult<RecruitmentSearchResult> getPageResult(RecruitmentQueryParam param);
 }

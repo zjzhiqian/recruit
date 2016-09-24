@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <link href="images/favicon.ico" rel="Shortcut Icon">
     <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet"  href="css/jquery.pagination.css">
+    <link rel="stylesheet" href="css/jquery.pagination.css">
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
 
 
@@ -39,74 +39,143 @@
             }
             $("#area").html(workStr);
 
+            //行业
             var typeParam = getQueryString("type");
-            $("#jobType").val(typeParam);
+            if (typeParam != null && typeParam != "null") {
+                $("#jobType").val(typeParam);
+            }
+
+            //关键字
             var titleParam = decodeURI(getQueryString("title"));
-            $("#searchText").val(titleParam);
+            if (titleParam != null && titleParam != "null") {
+                $("#searchText").val(titleParam);
+            }
 
-            //查询职位
-            $.ajax({
-                type: "GET",
-                url: "api/v3/recruitment/searchJob?type="+typeParam+"&title="+titleParam,
-                dataType: 'json',
-                async: false,
-                success: function (rs) {
-                    if (rs.success) {
-                        var data = rs.data;
+            sendAjaxQuery(0, typeParam, titleParam, null);
 
-                        var resultData=
-                        " <li>\n"+
-                        "                    <a href=\"WorkInfo.html\" target=\"_blank\">\n"+
-                        "                        <div class=\"searemlist\">\n"+
-                        "                            <div class=\"searemlle\">\n"+
-                        "                                <div class=\"jobname\">java高级开发</div>\n"+
-                        "                                <ul class=\"clearbox\">\n"+
-                        "                                    <li class=\"red\">18-24万</li>\n"+
-                        "                                    <li>深圳-南山区</li>\n"+
-                        "                                    <li>本科或以上</li>\n"+
-                        "                                    <li>3年工作经验</li>\n"+
-                        "                                </ul>\n"+
-                        "                                <div class=\"sjian\">\n"+
-                        "                                    <ul>\n"+
-                        "                                        <li class=\"sjiand\">发布于：5小时前</li>\n"+
-                        "                                        <li class=\"red tickling\">24小时反馈</li>\n"+
-                        "                                    </ul>\n"+
-                        "                                </div>\n"+
-                        "                            </div>\n"+
-                        "                            <div class=\"searemlri\">\n"+
-                        "                                <div class=\"comname\">深圳市农产品股份有限公司</div>\n"+
-                        "                                <div class=\"elses\">其他\n"+
-                        "                                </div>\n"+
-                        "                                <ul>\n"+
-                        "                                    <li>年终奖</li>\n"+
-                        "                                    <li>带薪年假</li>\n"+
-                        "                                    <li>午餐补助</li>\n"+
-                        "                                </ul>\n"+
-                        "                            </div>\n"+
-                        "                            <div class=\"clearbox\"></div>\n"+
-                        "                        </div>\n"+
-                        "                    </a>\n"+
-                        "                </li>"
-                        $("#resultData").html(resultData)
 
-                        $(".pagination").pagination(135, {
-                            callback: pageselectCallback,
-                            items_per_page	:20,
-                            next_text :'下一页',
-                            prev_text :'上一页',
-                            num_edge_entries:1,
-                            current_page:page
-                        });
+            function pageSelectCallback(page, jq) {
+                sendAjaxQuery(page);
+                return false;
+            }
 
-                    } else {
-                        alert(rs.data.error);
-                    }
+            /**
+             * 查询
+             * @param page 页码
+             */
+            function sendAjaxQuery(page, type, title, area) {
+                if (type == null || type == "null") {
+                    type = -1
                 }
-            });
+                if (title == null || title == "null") {
+                    title = ""
+                }
+                if (area == null || area == "null" || area == 0) {
+                    area = -1
+                }
+
+                function pageSelectCallback(page, jq) {
+                    var title = $("#searchText").val();
+                    var type = $("#jobType").val();
+                    var area = $("#area").val();
+                    sendAjaxQuery(page, type, title, area);
+                    return false;
+                }
 
 
-            function pageselectCallback(){
-                alert(1)
+                $("#btnsearch").unbind().bind().click(function (e) {
+                    var title = $("#searchText").val();
+                    var type = $("#jobType").val();
+                    var area = $("#area").val();
+                    sendAjaxQuery(0, type, title, area);
+                    return false;
+                })
+
+
+                $("#flush").click(function (e) {
+                    e.preventDefault();
+                    $("#jobType").val(-1);
+                    $("#area").val(0);
+                    $("#searchText").val("");
+                    return false;
+                })
+
+
+                //查询职位
+                $.ajax({
+                    type: "GET",
+                    url: "api/v3/recruitment/searchJob?type=" + type + "&title=" + title + "&page=" + (page + 1) + "&workArea=" + area,
+                    dataType: 'json',
+                    async: false,
+                    success: function (rs) {
+                        if (rs.success) {
+                            var resultDatas = rs.data.resultList;
+                            var pageData = rs.data.page;
+
+                            var resultDataStr = "";
+                            for (var i = 0; i < resultDatas.length; i++) {
+                                var salary = resultDatas[i]['salary'];
+                                var salaryStr = moneyArr[salary];
+                                var workYear = resultDatas[i]['workYear'];
+                                var workYearStr = yearArr[workYear];
+                                var workArea = resultDatas[i]['workArea'];
+                                var workAreaStr = workArr[workArea];
+                                var study = resultDatas[i]['education'];
+                                var studyStr = studyArr[study];
+
+
+                                var resultDataStr = resultDataStr +
+                                        " <li>\n" +
+                                        "                    <a href=\"WorkInfo.html?id=" + resultDatas[i]['id'] + "&companyId=" + resultDatas[i]['companyId'] + "\" target=\"_blank\">\n" +
+                                        "                        <div class=\"searemlist\">\n" +
+                                        "                            <div class=\"searemlle\">\n" +
+                                        "                                <div class=\"jobname\">" + resultDatas[i]['title'] + "</div>\n" +
+                                        "                                <ul class=\"clearbox\">\n" +
+                                        "                                    <li class=\"red\">" + salaryStr + "</li>\n" +
+                                        "                                    <li>" + "地点:" + workAreaStr + "</li></li>\n" +
+                                        "                                    <li>" + "学历:" + studyStr + "</li>\n" +
+                                        "                                    <li>" + "工作经验:" + workYearStr + "</li>\n" +
+                                        "                                </ul>\n" +
+                                        "                                <div class=\"sjian\">\n" +
+                                        "                                    <ul>\n" +
+                                        "                                        <li class=\"sjiand\">发布于：" + resultDatas[i]['createdAt'] + "</li>\n" +
+                                        "                                        <li class=\"red tickling\">24小时反馈</li>\n" +
+                                        "                                    </ul>\n" +
+                                        "                                </div>\n" +
+                                        "                            </div>\n" +
+                                        "                            <div class=\"searemlri\">\n" +
+                                        "                                <div class=\"comname\">" + resultDatas[i]['company'] + "</div>\n" +
+                                        "                                <div class=\"elses\">" + resultDatas[i]['industry'] + "\n" +
+                                        "                                </div>\n" +
+                                        "                                <ul>\n" +
+                                        "                                    <li>年终奖</li>\n" +
+//                                        "                                    <li>带薪年假</li>\n" +
+//                                        "                                    <li>午餐补助</li>\n" +
+                                        "                                </ul>\n" +
+                                        "                            </div>\n" +
+                                        "                            <div class=\"clearbox\"></div>\n" +
+                                        "                        </div>\n" +
+                                        "                    </a>\n" +
+                                        "                </li>"
+                            }
+
+                            $("#resultData").html(resultDataStr);
+
+                            $(".pagination").pagination(pageData.count, {
+                                callback: pageSelectCallback,
+                                items_per_page: pageData.per,
+                                next_text: '下一页',
+                                prev_text: '上一页',
+                                num_edge_entries: 1,
+                                current_page: page
+                            });
+
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+
             }
 
 
@@ -125,7 +194,7 @@
     <div id="seawrap">
         <div id="seatit">
             <div id="key"><span>关键字</span>
-                <input id="searchText" type="text"><a href="" class="clear">清空搜索条件</a>
+                <input id="searchText" type="text"><a href="" class="clear" id="flush">清空搜索条件</a>
                 <div class="clearbox"></div>
             </div>
             <div id="nextkey">
@@ -137,7 +206,7 @@
                 <div class="clearbox"></div>
             </div>
             <div id="btnsearch">
-                <input type="submit">
+                <input  type="submit">
             </div>
         </div>
     </div>
@@ -147,7 +216,7 @@
 
             </ul>
             <div id="page" class="pagination">
-                    <div class="clearbox"></div>
+                <div class="clearbox"></div>
                 </ul>
             </div>
         </div>

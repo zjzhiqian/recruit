@@ -2,6 +2,7 @@ package com.hzq.project.resume.service.impl;
 
 import com.hzq.project.resume.dao.RecruitmentMapper;
 import com.hzq.project.resume.dao.entity.Recruitment;
+import com.hzq.project.resume.dao.entity.RecruitmentSearchResult;
 import com.hzq.project.resume.service.RecruitmentService;
 import com.hzq.project.resume.vo.RecruitmentQueryParam;
 import com.hzq.project.system.common.dao.PageList;
@@ -55,10 +56,10 @@ public class RecruitmentServiceImpl implements RecruitmentService {
     }
 
     @Override
-    public PageResult<Recruitment> getPageResult(RecruitmentQueryParam param) {
+    public PageResult<RecruitmentSearchResult> getPageResult(RecruitmentQueryParam param) {
         Integer current = param.getCurrent();
         Integer per = param.getPer();
-        List<Recruitment> pageData = recruitmentMapper.getRecruitmentParamList(param);
+        List<RecruitmentSearchResult> pageData = recruitmentMapper.getRecruitmentParamList(param);
         Integer count = recruitmentMapper.getRecruitmentParamCount(param);
         return new PageResult<>(current, per, count, pageData);
     }

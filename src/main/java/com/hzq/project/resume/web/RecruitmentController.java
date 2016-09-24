@@ -1,6 +1,7 @@
 package com.hzq.project.resume.web;
 
 import com.hzq.project.resume.dao.entity.Recruitment;
+import com.hzq.project.resume.dao.entity.RecruitmentSearchResult;
 import com.hzq.project.resume.exception.RecruitmentException;
 import com.hzq.project.resume.service.RecruitmentService;
 import com.hzq.project.resume.vo.RecruitmentQueryParam;
@@ -13,6 +14,7 @@ import com.hzq.project.system.common.util.Creator;
 import com.hzq.project.system.common.util.ValidatorHelper;
 import com.hzq.project.system.common.web.BaseController;
 import com.hzq.project.system.common.web.BaseResult;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -96,13 +98,22 @@ public class RecruitmentController extends BaseController {
      * 用户搜索职位
      */
     @RequestMapping(path = "/searchJob", method = RequestMethod.GET)
-    public PageResult<Recruitment> searchJob(RecruitmentQueryParamVo paramVo) {
+    public PageResult<RecruitmentSearchResult> searchJob(RecruitmentQueryParamVo paramVo) {
         return recruitmentService.getPageResult(buildQueryParam(paramVo));
     }
 
     private RecruitmentQueryParam buildQueryParam(RecruitmentQueryParamVo paramVo) {
-        if (paramVo.getType() == -1)
+        Integer type = paramVo.getType();
+        if (type == null || type == -1)
             paramVo.setType(null);
+
+        Integer workArea = paramVo.getWorkArea();
+        if (workArea == null || workArea == -1)
+            paramVo.setWorkArea(null);
+
+        if (StringUtils.isBlank(paramVo.getTitle()) || "null".equals(paramVo.getTitle()))
+            paramVo.setTitle(null);
+
 
         RecruitmentQueryParam param = Creator.newInstance(paramVo, RecruitmentQueryParam.class);
 
@@ -114,8 +125,6 @@ public class RecruitmentController extends BaseController {
         param.setStart((page - 1) * per);
         param.setCurrent(page);
 
-        if (paramVo.getType() == -1)
-            param.setType(null);
         return param;
     }
 }

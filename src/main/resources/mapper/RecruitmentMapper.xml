@@ -149,4 +149,47 @@
     <select id="getHotJobs" resultType="com.hzq.project.resume.dao.entity.Recruitment">
     select * from recruitments order by updated_at desc limit 5
   </select>
+
+
+    <select id="getRecruitmentParamList" parameterType="com.hzq.project.resume.vo.RecruitmentQueryParam"
+            resultType="com.hzq.project.resume.dao.entity.RecruitmentSearchResult">
+        select
+        rc.id,rc.company_id,rc.title,rc.salary,rc.work_area,rc.education,rc.work_year,rc.created_at,cp.company,cp.industry
+        from
+        recruitments rc,companies cp
+        where rc.company_id =cp.id
+        <if test="workArea != null">
+            and rc.work_area = #{workArea,jdbcType=INTEGER}
+        </if>
+        <if test="type != null">
+            and rc.type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="title != null">
+            and rc.title like concat('%',#{title},'%')
+        </if>
+        and rc.deleted_at is null
+        order by rc.updated_at desc
+        <if test="start!=null">
+            limit #{start},#{per}
+        </if>
+    </select>
+
+
+
+    <select id="getRecruitmentParamCount" parameterType="com.hzq.project.resume.vo.RecruitmentQueryParam" resultType="int">
+        select count(1) from
+        recruitments rc,companies cp
+        where rc.company_id =cp.id
+        <if test="workArea != null">
+            and rc.work_area = #{workArea,jdbcType=INTEGER}
+        </if>
+        <if test="type != null">
+            and rc.type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="title != null">
+            and rc.title like concat('%',#{title},'%')
+        </if>
+        and rc.deleted_at is null
+    </select>
+
 </mapper>

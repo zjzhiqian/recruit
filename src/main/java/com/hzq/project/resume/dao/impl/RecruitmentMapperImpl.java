@@ -2,6 +2,7 @@ package com.hzq.project.resume.dao.impl;
 
 import com.hzq.project.resume.dao.RecruitmentMapper;
 import com.hzq.project.resume.dao.entity.Recruitment;
+import com.hzq.project.resume.dao.entity.RecruitmentSearchResult;
 import com.hzq.project.resume.vo.RecruitmentQueryParam;
 import com.hzq.project.system.common.dao.BaseDao;
 import org.springframework.stereotype.Repository;
@@ -30,13 +31,13 @@ public class RecruitmentMapperImpl extends BaseDao<Recruitment, Integer> impleme
     }
 
     @Override
-    public List<Recruitment> getRecruitmentParamList(RecruitmentQueryParam param) {
-        return selectList("getRecruitmentParamList",param);
+    public List<RecruitmentSearchResult> getRecruitmentParamList(RecruitmentQueryParam param) {
+        return getSqlSession().selectList("getRecruitmentParamList",param);
     }
 
     @Override
     public Integer getRecruitmentParamCount(RecruitmentQueryParam param) {
-        return getSqlSession().selectOne("getRecruitmentParamCount",null);
+        return getSqlSession().selectOne("getRecruitmentParamCount",param);
     }
 
 }
