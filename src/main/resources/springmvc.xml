@@ -28,9 +28,9 @@
 
 
     <!--图片上传 -->
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <bean id="multipartResolver" class="com.hzq.project.system.common.web.CustomMultiPartResolver">
         <!--1024*2000即2m-->
-        <property name="maxUploadSize" value="2048000"/>
+        <property name="maxUploadSize" value="10240000"/>
         <!--resolveLazily属性启用是为了推迟文件解析，以便在UploadAction 中捕获文件大小异常-->
         <property name="resolveLazily" value="true"/>
     </bean>

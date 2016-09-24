@@ -18,13 +18,13 @@
 
 
     <script type="text/javascript" src="js/common-dic.js"></script>
+    <script type="text/javascript" src="js/ajaxfileupload.js"></script>
 
 
     <script>
         $(function () {
             includeHeader();
             includeFoot();
-
 
 
             //职位类别
@@ -77,12 +77,27 @@
                         }
                     }
                 });
-            })
-
-
-
+            });
         });
 
+
+        function ajaxFileUpload() {
+
+            $.ajaxFileUpload({
+                url: '/api/v3/upload/userResume',
+                secureuri: false,
+                fileElementId: 'fileToUpload',
+                dataType: 'json',
+                data: {name: $('#name').val()},
+                success: function (rs) {
+                    console.log(rs);
+                    var message = rs.data['message'];
+                    console.log(message)
+                }
+            });
+
+            return false;
+        }
     </script>
 
 
@@ -112,7 +127,10 @@
             <li>
                 <label class="reatit" for="describe">我的相册</label>
                 <input type="hidden" value="123" name="picture">
-                <input type="button" id="carbook" value="上传照片">
+
+                <input id="fileToUpload" , name="uploadFile" type="file" class="input"> <br/>
+                <br><br>
+                <input id="carbook" type="button" onclick="return ajaxFileUpload();" value="上传照片"><br/>
                 <div class="clearbox"></div>
             </li>
 
