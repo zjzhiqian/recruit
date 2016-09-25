@@ -15,4 +15,9 @@ public class UserMapperImpl extends BaseDao<User, Integer> implements UserMapper
     public User selectUserByUserName(String userName) {
         return selectOne("selectUserByUserName", userName);
     }
+
+    @Override
+    public Integer setUserAsCarMerchant(Integer userId) {
+        return updateByParam("setUserAsCarMerchant",userId);
+    }
 }

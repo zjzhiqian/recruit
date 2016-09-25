@@ -7,4 +7,6 @@ import com.hzq.project.user.dao.entity.User;
 public interface UserMapper extends Dao<User,Integer> {
 
     User selectUserByUserName(String userName);
+
+    Integer setUserAsCarMerchant(Integer userId);
 }

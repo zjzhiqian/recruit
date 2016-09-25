@@ -25,15 +25,36 @@ public class UpLoadController extends BaseController {
 
     public static final String USER_RESUME = "userResume";
     public static final String COMPANY_PIC = "companyPic";
+    public static final String CAR_MERCHANT = "carMerchant";
+
 
     /**
      * 用户简历上传头像
      */
     @RequiresRoles(Roles.USER)
     @RequestMapping(value = "userResume", method = RequestMethod.POST)
-    public BaseResult fileUpload2(@RequestParam("uploadFile") CommonsMultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public BaseResult userResume(@RequestParam("uploadFile") CommonsMultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
         return new BaseResult(UploadAndGetFileName(file, USER_RESUME, request));
     }
+
+
+    /**
+     * 企业注册上传企业照片
+     */
+    @RequestMapping(value = "companyPic", method = RequestMethod.POST)
+    public BaseResult companyPic(@RequestParam("uploadFile") CommonsMultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        return new BaseResult(UploadAndGetFileName(file, COMPANY_PIC, request));
+    }
+
+    /**
+     * 企业注册上传企业照片
+     */
+    @RequestMapping(value = "carMerchant", method = RequestMethod.POST)
+    public BaseResult carMerchant(@RequestParam("uploadFile") CommonsMultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        return new BaseResult(UploadAndGetFileName(file, CAR_MERCHANT, request));
+    }
+
+
 
     private String UploadAndGetFileName(@RequestParam("uploadFile") CommonsMultipartFile file, String uploadPath, HttpServletRequest request) throws IOException {
         if (file.getSize() == 0)

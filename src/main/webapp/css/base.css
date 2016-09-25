@@ -2443,6 +2443,7 @@ input[type="radio"] {
 }
 
 #area,
+#province,
 #row {
     width: 200px;
     height: 44px;

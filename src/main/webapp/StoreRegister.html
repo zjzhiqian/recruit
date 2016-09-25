@@ -16,12 +16,95 @@
     <script type="text/javascript" src="js/common-include.js"></script>
     <script src="js/jquery.luara.0.0.1.min.js"></script>
 
+    <script type="text/javascript" src="js/common-dic.js"></script>
+    <script type="text/javascript" src="js/ajaxfileupload.js"></script>
+
     <script>
         $(function () {
             includeHeader();
             includeFoot();
 
+            //店铺类型
+            var carStoreStr = "";
+            for (var i = 0; i < carStoreArr.length; i++) {
+                carStoreStr = carStoreStr + "<option value=\"" + i + "\">" + carStoreArr[i] + "</option>";
+            }
+            $("#area").html(carStoreStr);
+            //省份
+            var provinceStr ="";
+            for (var i = 0; i < ProvinceArr.length; i++) {
+                provinceStr = provinceStr + "<option value=\"" + i + "\">" + ProvinceArr[i] + "</option>";
+            }
+            $("#province").html(provinceStr);
+
+
+            $("#btnre").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "api/v3/cartMerchant/addCarMerchant",
+                    data: $("#form1").serialize(),
+                    dataType: 'json',
+                    success: function (rs) {
+                        if (rs.success) {
+                            alert(rs.data.message)
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+
+            })
         });
+
+        function ajaxFileUpload() {
+            $('#loading').show();
+            $.ajaxFileUpload({
+                url: '/api/v3/upload/carMerchant',
+                secureuri: false,
+                fileElementId: 'fileToUpload',
+                dataType: 'text/json',
+                success: function (rs, status) {
+                    var result = $.parseJSON($(parseDom(rs)[0]).text());
+                    $('#loading').hide();
+                    if (result.success) {
+                        var message = result.data['message'];
+                        $("#picture").val(message);
+                        $("#info").text('图片已上传');
+                        alert('图片上传成功,请继续操作')
+                    } else {
+                        alert(result.data.error);
+                    }
+                }
+            });
+
+            return false;
+        }
+
+
+        function ajaxFileUpload2() {
+            $('#loading2').show();
+            $.ajaxFileUpload({
+                url: '/api/v3/upload/carMerchant',
+                secureuri: false,
+                fileElementId: 'fileToUpload2',
+                dataType: 'text/json',
+                success: function (rs, status) {
+                    var result = $.parseJSON($(parseDom(rs)[0]).text());
+                    $('#loading2').hide();
+                    if (result.success) {
+                        var message = result.data['message'];
+                        $("#idCard").val(message);
+                        $("#info2").text('图片已上传');
+                        alert('图片上传成功,请继续操作')
+                    } else {
+                        alert(result.data.error);
+                    }
+                }
+            });
+
+            return false;
+        }
+
     </script>
 
     <script type="text/javascript">
@@ -55,19 +138,16 @@
 <!-- 二手房信息发布s -->
 <div id="storere">
     <div class="title4">商家二手车店铺注册</div>
+    <form id="form1">
     <ul>
         <li>
             <label class="reatit"><span class="red">*</span>公司名称：</label>
-            <input type="text" class="storenames" placeholder="请输入公司名称">
+            <input name="company" type="text" class="storenames" placeholder="请输入公司名称">
             <div class="clearbox"></div>
         </li>
         <li>
             <label class="reatit"><span class="red">*</span>店铺类型</label>
-            <select id="area">
-                <option value="1">经济公司</option>
-                <option value="2">4s店</option>
-                <option value="3">代理中介</option>
-                <option value="4">个人经纪</option>
+            <select id="area" name = "type">
             </select>
                 <span class="red">
                <img src="images/jb.png" alt="">请填写完整信息</span>
@@ -75,54 +155,83 @@
         </li>
         <li>
             <label class="reatit"><span class="red">*</span>负责人</label>
-            <input type="text" class="stroname" placeholder="请输入负责人姓名">
+            <input type="text" class="stroname" name="name" placeholder="请输入负责人姓名">
             <div class="clearbox"></div>
         </li>
         <li>
             <label class="reatit"><span class="red">*</span>电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</label>
-            <input type="text" class="stropho" placeholder="请输入负责人手机号码">
+            <input type="text" class="stropho" name ="phone" placeholder="请输入负责人手机号码">
             <div class="clearbox"></div>
         </li>
         <li>
-            <label class="reatit"><span class="red">*</span>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label>
-            <select id="area">
+            <label class="reatit"><span class="red">*</span>省&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label>
+            <select id="province" name="province">
                 <option value="1">省份</option>
-            </select><select id="area">
-            <option value="1">城市</option>
-        </select>
+            </select>
             <div class="clearbox"></div>
         </li>
         <li>
             <label class="reatit"><span class="red">*</span>详细地址</label>
-            <input type="text" class="storeadd" placeholder="请输入公司地址">
+            <input type="text" class="storeadd" name="address" placeholder="请输入公司地址">
             <div class="clearbox"></div>
         </li>
+        <!--<li>-->
+            <!--<label class="reatit" for="times"><span class="red">*</span>验证码</label>-->
+            <!--<input type="text" class="storecode" placeholder="请输入验证码"><input type="button" class="sencode" value="发送验证码"-->
+                                                                             <!--onclick="sendCode(this)">-->
+            <!--<div class="clearbox"></div>-->
+        <!--</li>-->
+
+
+
+        <!--<li><label class="reatit" for="times"><span class="red">*</span>营业执照</label>-->
+            <!--<input type="text" class="storecode" placeholder="请上传清晰营业执照照片"> <br/> <input id="btnphoto" type="button">-->
+
+            <!--<span class="phops">最大10MB</span>-->
+            <!--<div class="clearbox">-->
+            <!--</div>-->
+        <!--</li>-->
+
+
         <li>
-            <label class="reatit" for="times"><span class="red">*</span>验证码</label>
-            <input type="text" class="storecode" placeholder="请输入验证码"><input type="button" class="sencode" value="发送验证码"
-                                                                             onclick="sendCode(this)">
+            <label class="reatit" for="describe">营业执照</label>
+            <input type="hidden" id="picture" value="" name="picture">
+            <input id="fileToUpload" style="width: 200px;margin-top: 20px;" name="uploadFile" type="file"
+                   class="input">
+            <img id="loading" src="images/loading.gif" style="display:none;margin-top: 10px;">
+            <span id="info"></span>
+            <input type="button" onclick="return ajaxFileUpload();" value="上传照片"><br/>
             <div class="clearbox"></div>
         </li>
-        <li><label class="reatit" for="times"><span class="red">*</span>营业执照</label>
-            <input type="text" class="storecode" placeholder="请上传清晰营业执照照片"> <br/> <input id="btnphoto" type="button">
 
-            <span class="phops">最大10MB</span>
-            <div class="clearbox">
-            </div>
-        </li>
-        <li><label class="reatit" for="times"><span class="red">*</span>身份证</label>
-            <input type="text" class="storecode" placeholder="请上传清晰负责人身份证照片"> <br/> <input id="btnphoto" type="button">
 
-            <span class="phops">最大10MB</span>
-            <div class="clearbox">
-            </div>
+        <li>
+            <label class="reatit" for="describe">身份证</label>
+            <input type="hidden" id="idCard" value="" name="idCard">
+            <input id="fileToUpload2" style="width: 200px;margin-top: 20px;" name="uploadFile" type="file"
+                   class="input">
+            <img id="loading2" src="images/loading.gif" style="display:none;margin-top: 10px;">
+            <span id="info2"></span>
+            <input type="button" onclick="return ajaxFileUpload2();" value="上传照片"><br/>
+            <div class="clearbox"></div>
         </li>
+
+
+
+        <!--<li><label class="reatit" for="times"><span class="red">*</span>身份证</label>-->
+            <!--<input type="text" class="storecode" placeholder="请上传清晰负责人身份证照片"> <br/> <input id="btnphoto" type="button">-->
+<!---->
+            <!--<span class="phops">最大10MB</span>-->
+            <!--<div class="clearbox">-->
+            <!--</div>-->
+        <!--</li>-->
         <li>
             <input id="btnre" type="button" value="提交">
             <div class="clearbox"></div>
             <div class="reps">请先登录您的账户！点击<a href="Login.html">登录</a></div>
         </li>
     </ul>
+    </form>
     <div class="clearbox"></div>
 </div>
 <!-- 二手车信息发布E -->
