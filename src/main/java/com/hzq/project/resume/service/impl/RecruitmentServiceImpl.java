@@ -34,7 +34,7 @@ public class RecruitmentServiceImpl implements RecruitmentService {
         Integer companyId = recruitment.getCompanyId();
 
         if (RedisHelper.compareAndSetRequest("RecruitmentServiceImpl ", "addRecruitment:", companyId + "", 5))
-            throw new BusyOperationException("简历新增中,请稍后");
+            throw new BusyOperationException("招聘发布中,请稍后");
         recruitmentMapper.insert(recruitment);
         companyMapper.updateCompanyUpdateTime(companyId);
 

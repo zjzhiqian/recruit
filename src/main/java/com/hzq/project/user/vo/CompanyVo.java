@@ -18,6 +18,11 @@ public class CompanyVo {
     @NotEmpty(message = "登录名不能为空")
     private String userName;
 
+    @Length(min = 1,max = 160,message = "照片url不合法,请联系管理员")
+    @NotEmpty(message = "请上传照片")
+    private String picture;
+
+
     @Length(min = 6,max = 15,message = "密码必须在6~15位之间")
     @NotNull(message = "密码不能为空")
     private String password;
@@ -81,6 +86,14 @@ public class CompanyVo {
     @Length(min = 1,max = 50,message = "公司地址必须在1~50位之间")
     @NotNull(message = "公司地址不能为空")
     private String address;
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
     public String getName() {
         return name;

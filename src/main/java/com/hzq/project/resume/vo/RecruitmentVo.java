@@ -12,10 +12,6 @@ public class RecruitmentVo {
 
     private Integer companyId;
 
-    @Length(min = 1, max = 160, message = "照片url不合法,请联系管理员")
-    @NotEmpty(message = "请上传照片")
-    private String picture;
-
     private Integer type;
 
     @NotNull(message = "选择是否全职")
@@ -73,14 +69,6 @@ public class RecruitmentVo {
 
     public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
     }
 
     public Integer getType() {

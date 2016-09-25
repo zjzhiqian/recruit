@@ -1,6 +1,7 @@
 package com.hzq.project.user.web;
 
 import com.alibaba.fastjson.JSON;
+import com.hzq.project.picture.web.UpLoadController;
 import com.hzq.project.system.security.util.AESUtil;
 import com.hzq.project.system.common.entity.CookieInfo;
 import com.hzq.project.system.common.entity.UserInfo;
@@ -62,6 +63,7 @@ public class UserController {
     @RequestMapping(path = "/registerCompany", method = RequestMethod.POST)
     public BaseResult registerCompany(@Valid CompanyVo companyVo, BindingResult bindingResult) {
         ValidatorHelper.validBindingResult(bindingResult);
+        companyVo.setPicture("/upload/" + UpLoadController.COMPANY_PIC + "/" + companyVo.getPicture());
         if (!companyVo.getPassword().equals(companyVo.getPassword2()))
             throw new UserException("抱歉,输入密码不一致");
         Company company = Creator.newInstance(companyVo, Company.class);

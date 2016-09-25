@@ -16,6 +16,8 @@ public class CompanyInfo {
 
     private String company;
 
+    private String picture;
+
     private String industry;
 
     private String type;
@@ -49,6 +51,13 @@ public class CompanyInfo {
 
     private Integer watch;
 
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
     public Date getUpdatedAt() {
         return updatedAt;

@@ -82,17 +82,23 @@
 
 
         function ajaxFileUpload() {
-
+            $('#loading').show();
             $.ajaxFileUpload({
                 url: '/api/v3/upload/userResume',
                 secureuri: false,
                 fileElementId: 'fileToUpload',
-                dataType: 'json',
-                data: {name: $('#name').val()},
-                success: function (rs) {
-                    console.log(rs);
-                    var message = rs.data['message'];
-                    console.log(message)
+                dataType: 'text/json',
+                success: function (rs, status) {
+                    var result = $.parseJSON($(parseDom(rs)[0]).text());
+                    $('#loading').hide();
+                    if (result.success) {
+                        var message = result.data['message'];
+                        $("#picture").val(message);
+                        $("#info").text('图片已上传');
+                        alert('图片上传成功,请继续操作')
+                    } else {
+                        alert(result.data.error);
+                    }
                 }
             });
 
@@ -126,11 +132,12 @@
             </li>
             <li>
                 <label class="reatit" for="describe">我的相册</label>
-                <input type="hidden" value="123" name="picture">
-
-                <input id="fileToUpload" , name="uploadFile" type="file" class="input"> <br/>
-                <br><br>
-                <input id="carbook" type="button" onclick="return ajaxFileUpload();" value="上传照片"><br/>
+                <input type="hidden" id="picture" value="" name="picture">
+                <input id="fileToUpload" style="width: 200px;margin-top: 20px;" name="uploadFile" type="file"
+                       class="input">
+                <img id="loading" src="images/loading.gif" style="display:none;margin-top: 10px;">
+                <span id="info"></span>
+                <input type="button" onclick="return ajaxFileUpload();" value="上传照片"><br/>
                 <div class="clearbox"></div>
             </li>
 

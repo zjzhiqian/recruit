@@ -11,9 +11,6 @@
             <if test="companyId != null">
                 company_id,
             </if>
-            <if test="picture != null">
-                picture,
-            </if>
             <if test="type != null">
                 type,
             </if>
@@ -72,9 +69,6 @@
             </if>
             <if test="companyId != null">
                 #{companyId,jdbcType=INTEGER},
-            </if>
-            <if test="picture != null">
-                #{picture,jdbcType=VARCHAR},
             </if>
             <if test="type != null">
                 #{type,jdbcType=INTEGER},

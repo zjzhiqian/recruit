@@ -70,7 +70,7 @@
                     dataType: 'json',
                     success: function (rs) {
                         if (rs.success) {
-                            console.log(rs);
+                            alert(rs.data.message)
                         } else {
                             alert(rs.data.error);
                         }
@@ -92,17 +92,17 @@
     <ul>
         <form id="form1">
 
-            <li>
-                <label class="reatit" for="describe">企业相册</label>
-                <input type="button" id="carbook" value="上传企业相册">
-                <input type="hidden" name="picture" value="url">
+            <!--<li>-->
+                <!--<label class="reatit" for="describe">企业相册</label>-->
+                <!--<input type="button" id="carbook" value="上传企业相册">-->
+                <!--<input type="hidden" name="picture" value="url">-->
+<!---->
+                <!--<div class="clearbox"></div>-->
+            <!--</li>-->
 
-                <div class="clearbox"></div>
-            </li>
-
-            <li>
-                <img src="images/frm_03.png" alt="" style="padding-left: 130px;width:220px;height:220px;">
-            </li>
+            <!--<li>-->
+                <!--<img src="images/frm_03.png" alt="" style="padding-left: 130px;width:220px;height:220px;">-->
+            <!--</li>-->
             <li>
                 <label class="reatit"><span class="red">*</span>职位类别</label>
                 <select id="models" name="type">
@@ -159,6 +159,13 @@
                 </select>
                 <input id="addr2" type="text" name="detailArea" placeholder="详细工作地点（选填）">
                 <div class="clearbox"></div>
+            </li>
+            <li>
+                <label class="reatit" for="money"><span class="red">*</span>是否全职</label>
+                <select  id="isFull" name="isFull">
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                </select>
             </li>
             <li>
                 <label class="reatit" for="title"><span class="red">*</span>标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题</label>

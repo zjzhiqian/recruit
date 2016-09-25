@@ -20,6 +20,8 @@
     <script src="js/jquery.luara.0.0.1.min.js"></script>
     <script type="text/javascript" src="js/scrollable.js"></script>
 
+    <script type="text/javascript" src="js/ajaxfileupload.js"></script>
+
 
     <style type="text/css">
         #wizard {
@@ -194,7 +196,33 @@
                 });
             })
 
+
+
         });
+
+        function ajaxFileUpload() {
+            $('#loading').show();
+            $.ajaxFileUpload({
+                url: '/api/v3/upload/userResume',
+                secureuri: false,
+                fileElementId: 'fileToUpload',
+                dataType: 'text/json',
+                success: function (rs, status) {
+                    var result = $.parseJSON($(parseDom(rs)[0]).text());
+                    $('#loading').hide();
+                    if (result.success) {
+                        var message = result.data['message'];
+                        $("#picture").val(message);
+                        $("#info").text('图片已上传');
+                        alert('图片上传成功,请继续操作')
+                    } else {
+                        alert(result.data.error);
+                    }
+                }
+            });
+
+            return false;
+        }
     </script>
 
 </head>
@@ -278,6 +306,16 @@
                                     <li>
                                         <label class="regtit">确认密码<span class="red">*</span>：</label>
                                         <input type="password" class="input" id="pass1"  name="password2" placeholder="请再次输入密码"/>
+                                    </li>
+                                    <li>
+                                        <label class="regtit" >企业图片<span class="red">*</span>：</label>
+                                        <input type="hidden" id="picture" value="" name="picture">
+                                        <input id="fileToUpload" style="width: 200px;margin-top: 20px;" name="uploadFile" type="file"
+                                               class="input">
+                                        <img id="loading" src="images/loading.gif" style="display:none;margin-top: 10px;">
+                                        <span id="info"></span>
+                                        <input style="width: 70px;height: 30px" type="button" onclick="return ajaxFileUpload();" value="上传照片"><br/>
+                                        <div class="clearbox"></div>
                                     </li>
                                     <div class="btn_nav">
                                         <input type="button" class="next right" value="下一步&raquo;"/>

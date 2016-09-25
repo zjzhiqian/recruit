@@ -13,6 +13,8 @@ public class Company {
 
     private String email;
 
+    private String picture;
+
     private String company;
 
     private String industry;
@@ -44,6 +46,14 @@ public class Company {
     private Date updatedAt;
 
     private Integer watch;
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
     public Integer getWatch() {
         return watch;

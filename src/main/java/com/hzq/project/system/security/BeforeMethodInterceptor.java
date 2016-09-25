@@ -38,21 +38,17 @@ public class BeforeMethodInterceptor implements MethodBeforeAdvice {
     private static final Logger logger = LoggerFactory.getLogger(BeforeMethodInterceptor.class);
 
     @Override
-    public void before(Method method, Object[] args, Object target) throws Throwable {
-        try {
-            RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-            UserInfo subject = (UserInfo) requestAttributes.getAttribute("subject", RequestAttributes.SCOPE_REQUEST);
-            Annotation[] methodAnnotations = method.getAnnotations();
-            Annotation[] clazzAnnotations = target.getClass().getAnnotations();
-            Annotation[] annotations = ArrayUtils.addAll(methodAnnotations, clazzAnnotations);
-            //RequireRoles注解 角色权限校验
-            List<Annotation> roleAnnotations = Arrays.stream(annotations)
-                    .filter(annotation -> annotation.annotationType() == RequiresRoles.class)
-                    .collect(toList());
-            roleAnnotations.forEach(annotation -> roleAnnotationHandler.assertAuthorized(annotation, subject));
-        } catch (Exception e) {
-            throw new MethodNotAllowedException("您未登录,请前往登录");
-        }
+    public void before(Method method, Object[] args, Object target) {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        UserInfo subject = (UserInfo) requestAttributes.getAttribute("subject", RequestAttributes.SCOPE_REQUEST);
+        Annotation[] methodAnnotations = method.getAnnotations();
+        Annotation[] clazzAnnotations = target.getClass().getAnnotations();
+        Annotation[] annotations = ArrayUtils.addAll(methodAnnotations, clazzAnnotations);
+        //RequireRoles注解 角色权限校验
+        List<Annotation> roleAnnotations = Arrays.stream(annotations)
+                .filter(annotation -> annotation.annotationType() == RequiresRoles.class)
+                .collect(toList());
+        roleAnnotations.forEach(annotation -> roleAnnotationHandler.assertAuthorized(annotation, subject));
     }
 
 }

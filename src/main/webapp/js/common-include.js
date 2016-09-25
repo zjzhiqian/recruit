@@ -358,3 +358,12 @@ $.formatString = function(str) {
     return str;
 };
 
+function parseDom(arg) {
+
+    var objE = document.createElement("div");
+
+    objE.innerHTML = arg;
+
+    return objE.childNodes;
+
+};

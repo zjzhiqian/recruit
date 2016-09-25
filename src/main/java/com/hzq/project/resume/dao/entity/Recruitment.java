@@ -10,8 +10,6 @@ public class Recruitment {
 
     private Integer companyId;
 
-    private String picture;
-
     private Integer isFull;
 
     private Integer type;
@@ -73,13 +71,6 @@ public class Recruitment {
         this.companyId = companyId;
     }
 
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
 
     public Integer getType() {
         return type;

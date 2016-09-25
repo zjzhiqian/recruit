@@ -1,5 +1,6 @@
 package com.hzq.project.resume.web;
 
+import com.hzq.project.picture.web.UpLoadController;
 import com.hzq.project.resume.dao.entity.Resume;
 import com.hzq.project.resume.exception.ResumeException;
 import com.hzq.project.resume.service.ResumeService;
@@ -38,6 +39,7 @@ public class ResumeController extends BaseController {
     @RequestMapping(path = "/addResume", method = RequestMethod.POST)
     public BaseResult registerUser(@Valid ResumeVo resumeVo, BindingResult bindingResult) {
         ValidatorHelper.validBindingResult(bindingResult);
+        resumeVo.setPicture("/upload/" + UpLoadController.USER_RESUME + "/"+resumeVo.getPicture());
         resumeVo.setUserId(getUserId());
         Resume resume = Creator.newInstance(resumeVo, Resume.class);
         resumeService.addResume(resume);
@@ -84,9 +86,6 @@ public class ResumeController extends BaseController {
     public Integer receivedResumeCount() {
         return resumeService.getReceivedResumeCount(getCompanyId());
     }
-
-
-
 
 
 }

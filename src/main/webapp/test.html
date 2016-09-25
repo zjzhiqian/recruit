@@ -9,8 +9,21 @@
 
     <script type="text/javascript">
 
+        //定时器对象
+        var uploadProcessTimer = null;
+
+        //获取文件上传进度
+        function getFileUploadProcess() {
+            $('#fileUploadProcess').html(123);
+//            $.get('/upload/getFileProcessServlet', function (data) {
+//                $('#fileUploadProcess').html(data);
+//            });
+        }
 
         function ajaxFileUpload() {
+            //设置加载图标的显示
+            $('#loading').show();
+            uploadProcessTimer = window.setInterval(getFileUploadProcess, 20);
 
             $.ajaxFileUpload({
                 url: '/api/v3/upload/userResume',

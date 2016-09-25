@@ -25,6 +25,9 @@
             <if test="email != null">
                 email,
             </if>
+            <if test="picture != null">
+                picture,
+            </if>
             <if test="company != null">
                 company,
             </if>
@@ -86,6 +89,9 @@
             </if>
             <if test="email != null">
                 #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="picture != null">
+                #{picture,jdbcType=VARCHAR},
             </if>
             <if test="company != null">
                 #{company,jdbcType=VARCHAR},
