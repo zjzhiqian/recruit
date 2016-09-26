@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzq.project.car.dao.SecondCarMapper">
+
+    <!--<select id="" resultMap="BaseResultMap" parameterType="java.lang.Integer" >-->
+    <!--select -->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from second_car-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</select>-->
+
+    <insert id="insert" parameterType="com.hzq.project.car.dao.entity.SecondCar">
+        insert into second_car
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="merchantId != null">
+                merchant_id,
+            </if>
+            <if test="isMerchant != null">
+                is_merchant,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="journey != null">
+                journey,
+            </if>
+            <if test="buyTime != null">
+                buy_time,
+            </if>
+            <if test="licenseTime != null">
+                license_time,
+            </if>
+            <if test="insuranceDeadtime != null">
+                insurance_deadtime,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+            <if test="nature != null">
+                nature,
+            </if>
+            <if test="exhaust != null">
+                exhaust,
+            </if>
+            <if test="pictue != null">
+                pictue,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="color != null">
+                color,
+            </if>
+            <if test="carPic != null">
+                car_pic,
+            </if>
+            <if test="concactName != null">
+                concact_name,
+            </if>
+            <if test="concactPhone != null">
+                concact_phone,
+            </if>
+            <if test="watch != null">
+                watch,
+            </if>
+            <if test="createdAt != null">
+                created_at,
+            </if>
+            <if test="updatedAt != null">
+                updated_at,
+            </if>
+            <if test="deletedAt != null">
+                deleted_at,
+            </if>
+            <if test="times != null">
+                times,
+            </if>
+            <if test="constrct != null">
+                constrct,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="merchantId != null">
+                #{merchantId,jdbcType=INTEGER},
+            </if>
+            <if test="isMerchant != null">
+                #{isMerchant,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="journey != null">
+                #{journey,jdbcType=DECIMAL},
+            </if>
+            <if test="buyTime != null">
+                #{buyTime,jdbcType=VARCHAR},
+            </if>
+            <if test="licenseTime != null">
+                #{licenseTime,jdbcType=VARCHAR},
+            </if>
+            <if test="insuranceDeadtime != null">
+                #{insuranceDeadtime,jdbcType=VARCHAR},
+            </if>
+            <if test="introduction != null">
+                #{introduction,jdbcType=VARCHAR},
+            </if>
+            <if test="nature != null">
+                #{nature,jdbcType=VARCHAR},
+            </if>
+            <if test="exhaust != null">
+                #{exhaust,jdbcType=DECIMAL},
+            </if>
+            <if test="pictue != null">
+                #{pictue,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="color != null">
+                #{color,jdbcType=INTEGER},
+            </if>
+            <if test="carPic != null">
+                #{carPic,jdbcType=VARCHAR},
+            </if>
+            <if test="concactName != null">
+                #{concactName,jdbcType=VARCHAR},
+            </if>
+            <if test="concactPhone != null">
+                #{concactPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="watch != null">
+                #{watch,jdbcType=INTEGER},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deletedAt != null">
+                #{deletedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="times != null">
+                #{times,jdbcType=INTEGER},
+            </if>
+            <if test="constrct != null">
+                #{constrct,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="setSecondCarIsMerchantByUserId" parameterType="int">
+    update second_car set is_merchant = 1 where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+    <!--<update id="updateByPrimaryKeySelective" parameterType="com.hzq.project.car.dao.entity.SecondCar" >-->
+    <!--update second_car-->
+    <!--<set >-->
+    <!--<if test="userId != null" >-->
+    <!--user_id = #{userId,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="merchantId != null" >-->
+    <!--merchant_id = #{merchantId,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="isMerchant != null" >-->
+    <!--is_merchant = #{isMerchant,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="type != null" >-->
+    <!--type = #{type,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="title != null" >-->
+    <!--title = #{title,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="journey != null" >-->
+    <!--journey = #{journey,jdbcType=DECIMAL},-->
+    <!--</if>-->
+    <!--<if test="buyTime != null" >-->
+    <!--buy_time = #{buyTime,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="licenseTime != null" >-->
+    <!--license_time = #{licenseTime,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="insuranceDeadtime != null" >-->
+    <!--insurance_deadtime = #{insuranceDeadtime,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="introduction != null" >-->
+    <!--introduction = #{introduction,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="nature != null" >-->
+    <!--nature = #{nature,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="exhaust != null" >-->
+    <!--exhaust = #{exhaust,jdbcType=DECIMAL},-->
+    <!--</if>-->
+    <!--<if test="pictue != null" >-->
+    <!--pictue = #{pictue,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="price != null" >-->
+    <!--price = #{price,jdbcType=DECIMAL},-->
+    <!--</if>-->
+    <!--<if test="color != null" >-->
+    <!--color = #{color,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="carPic != null" >-->
+    <!--car_pic = #{carPic,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="concactName != null" >-->
+    <!--concact_name = #{concactName,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="concactPhone != null" >-->
+    <!--concact_phone = #{concactPhone,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="watch != null" >-->
+    <!--watch = #{watch,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="createdAt != null" >-->
+    <!--created_at = #{createdAt,jdbcType=TIMESTAMP},-->
+    <!--</if>-->
+    <!--<if test="updatedAt != null" >-->
+    <!--updated_at = #{updatedAt,jdbcType=TIMESTAMP},-->
+    <!--</if>-->
+    <!--<if test="deletedAt != null" >-->
+    <!--deleted_at = #{deletedAt,jdbcType=TIMESTAMP},-->
+    <!--</if>-->
+    <!--<if test="times != null" >-->
+    <!--times = #{times,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="constrct != null" >-->
+    <!--constrct = #{constrct,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--</set>-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</update>-->
+
+</mapper>
