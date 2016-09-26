@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>台州创新网 - 二手车信息发布</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta id="keywords" content="">
     <meta id="description" content="">
     <link href="images/favicon.ico" rel="Shortcut Icon">
@@ -16,60 +16,145 @@
     <script type="text/javascript" src="js/common-include.js"></script>
     <script src="js/jquery.luara.0.0.1.min.js"></script>
 
+    <script type="text/javascript" src="js/common-dic.js"></script>
+    <script type="text/javascript" src="js/ajaxfileupload.js"></script>
+
 
     <script>
-    $(function() {
-        includeHeader();
-        includeFoot();
-    });
+        $(function () {
+            includeHeader();
+            includeFoot();
+
+
+
+            $("#btnre").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "api/v3/secondCar/addSecondCar",
+                    data: $("#form1").serialize(),
+                    dataType: 'json',
+                    success: function (rs) {
+                        if (rs.success) {
+                            alert(rs.data.message)
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+                return false;
+
+            })
+
+        });
+
+
+        function ajaxFileUpload() {
+            $('#loading').show();
+            $.ajaxFileUpload({
+                url: '/api/v3/upload/carMerchant',
+                secureuri: false,
+                fileElementId: 'fileToUpload',
+                dataType: 'text/json',
+                success: function (rs, status) {
+                    var result = $.parseJSON($(parseDom(rs)[0]).text());
+                    $('#loading').hide();
+                    if (result.success) {
+                        var message = result.data['message'];
+
+                        var currentVal = $("#picture").val();
+                        if (currentVal == "") {
+                            $("#picture").val(message);
+                        } else {
+                            currentVal = currentVal + "," + message;
+                            $("#picture").val(currentVal);
+                        }
+                        $("#info").text('图片已上传,张数:' + currentVal.split(",").length);
+                        alert('图片上传成功,请继续操作')
+                    } else {
+                        alert(result.data.error);
+                    }
+                }
+            });
+
+            return false;
+        }
+
+        function ajaxFileUpload2() {
+            $('#loading2').show();
+            $.ajaxFileUpload({
+                url: '/api/v3/upload/carMerchant',
+                secureuri: false,
+                fileElementId: 'fileToUpload2',
+                dataType: 'text/json',
+                success: function (rs, status) {
+                    var result = $.parseJSON($(parseDom(rs)[0]).text());
+                    $('#loading2').hide();
+                    if (result.success) {
+                        var message = result.data['message'];
+                        $("#pictue").val(message);
+                        $("#info2").text('图片已上传');
+                        alert('图片上传成功,请继续操作')
+                    } else {
+                        alert(result.data.error);
+                    }
+                }
+            });
+
+            return false;
+        }
+
     </script>
 
-</body>
+    </body>
 </head>
 
 <body>
-    <!-- 头部S -->
-     <div id="header"></div>
-    <!-- 菜单E -->
-    <!-- 二手车信息发布s -->
-    <div id="carsre">
-        <div class="title3">二手车信息发布</div>
+<!-- 头部S -->
+<div id="header"></div>
+<!-- 菜单E -->
+<!-- 二手车信息发布s -->
+<div id="carsre">
+    <div class="title3">二手车信息发布</div>
+    <form id="form1">
         <ul>
             <li>
                 <label class="reatit" for="models"><span class="red">*</span>车型选择</label>
-                <select id="models">
+                <select id="models" name="type">
                     <option value="1">请选择职位类别</option>
                 </select>
                 <div class="clearbox"></div>
             </li>
             <li>
-                <label class="reatit" for="year"><span class="red">*</span>首次上牌</label>
-                <select id="year">
-                    <option value="1">请选择职位类别</option>
-                </select>
-                <select id="month">
-                    <option value="1">请选择职位类别</option>
-                </select>
-                <span class="red">
-               请填写完整信息
-           </span>
+                <label class="reatit" for="money"><span class="red">*</span>首次上牌时间</label>
+                <input id="money" name="licenseTime" style="width: 200px" type="text" placeholder="例如:2000年1月"><span
+                    class="wan"></span>
+                <div class="clearbox"></div>
+            </li>
+            <li>
+                <label class="reatit" for="money"><span class="red">*</span>购买时间</label>
+                <input id="money" name="buyTime" style="width: 200px" type="text" placeholder="例如:2000年1月"><span
+                    class="wan"></span>
+                <div class="clearbox"></div>
+            </li>
+            <li>
+                <label class="reatit" for="money"><span class="red">*</span>交强险到期</label>
+                <input id="money" name="insuranceDeadtime" style="width: 200px" type="text"
+                       placeholder="例如:2000年1月"><span class="wan"></span>
                 <div class="clearbox"></div>
             </li>
             <li>
                 <label class="reatit" for="mileage"><span class="red"> *</span>行驶里程</label>
-                <input id="mileage" type="text"><span class="wan">万公里</span></li>
+                <input id="mileage" type="text" name="journey" placeholder="例:2.3"><span class="wan">万公里</span></li>
             <div class="clearbox"></div>
+
             <li>
-                <label class="reatit" for="case"><span class="red">*</span>车&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;况</label>
-                <select id="case">
-                    <option value="1">请选择职位类别</option>
-                </select>
-                <div class="clearbox"></div>
-                <div class="clearbox"></div>
-            </li>
+                <label class="reatit" for="mileage"><span class="red"> *</span>排气量</label>
+                <input id="mileage" type="text" name="exhaust" placeholder="例:2.0"><span class="wan">升</span></li>
+            <div class="clearbox"></div>
+
             <li>
                 <label class="reatit" for="color"><span class="red">*</span>车身颜色</label>
-                <select id="color">
+                <select id="color" name="color">
                     <option value="1">黑</option>
                     <option value="2">白</option>
                     <option value="3">银</option>
@@ -89,67 +174,87 @@
                 <div class="clearbox"></div>
             </li>
             <li>
-                <label class="reatit" for="times"><span class="red">*</span>过户次数</label>
-                <select id="times">
-                    <option value="1">请选择职位类别</option>
+                <label class="reatit" for="times"><span class="red">*</span>是否营运</label>
+                <select id="times" name="nature">
+                    <option value="0">否</option>
+                    <option value="1">是</option>
                 </select>
                 <div class="clearbox"></div>
             </li>
             <li>
                 <label class="reatit" for="money"><span class="red">*</span>售&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价</label>
-                <input id="money" type="text"><span class="wan">万元</span>
+                <input id="money" name="price" type="text" placeholder="例:23.5"><span class="wan">万元</span>
                 <div class="clearbox"></div>
             </li>
+            <!--<li>-->
+                <!--<label class="reatit" for="describe"><span class="red">*</span>上传驾驶证</label>-->
+                <!--<input type="button" id="carbook" value="上传驾驶证">-->
+                <!--<span class="phops">行驶证经验证后，将得到验证标识；符合原厂质保的，将同时得到原厂质保标识</span>-->
+                <!--<div class="clearbox"></div>-->
+            <!--</li>-->
             <li>
-                <label class="reatit" for="describe"><span class="red">*</span>上传驾驶证</label>
-                <input type="button" id="carbook" value="上传驾驶证">
-                <span class="phops">行驶证经验证后，将得到验证标识；符合原厂质保的，将同时得到原厂质保标识</span>
+                <label class="reatit" for="describe">上传驾驶证</label>
+                <input type="hidden" id="pictue" value="" name="pictue">
+                <input id="fileToUpload2" style="width: 200px;margin-top: 20px;" name="uploadFile" type="file"
+                       class="input">
+                <img id="loading2" src="images/loading.gif" style="display:none;margin-top: 10px;">
+                <span id="info2"></span>
+                <input type="button" onclick="return ajaxFileUpload2();" value="上传照片"><br/>
                 <div class="clearbox"></div>
             </li>
+
             <li>
                 <img src="images/carbook.jpg" alt="" style="padding-left: 130px;width:220px;height:220px;">
             </li>
             <li>
                 <label class="reatit" for="title"><span class="red">*</span>标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题</label>
-                <input id="title" type="text" placeholder="写一个有吸引力的标题">
+                <input id="title" type="text" name="title" placeholder="写一个有吸引力的标题">
                 <div class="clearbox"></div>
             </li>
             <li>
                 <label class="reatit" for="describe"><span class="red">*</span>描&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;述</label>
-                <textarea name="describe" id="describe" cols="40" rows="4">
+                <textarea name="introduction" id="describe" cols="40" rows="4">
                     车辆信息，要求等等
                 </textarea>
                 <div class="clearbox"></div>
             </li>
+            <!--<li>-->
+            <!--<input id="btnphoto" type="button">-->
+            <!--<span class="phops">最多传8张，最大10MB</span>-->
+            <!--<div class="clearbox">-->
+            <!--</div>-->
+            <!--</li>-->
+
             <li>
-                <input id="btnphoto" type="button">
-                <span class="phops">最多传8张，最大10MB</span>
-                <div class="clearbox">
-                </div>
+                <label class="reatit" for="describe">汽车图片</label>
+                <input type="hidden" id="picture" value="" name="carPic">
+                <input id="fileToUpload" style="width: 200px;margin-top: 20px;" name="uploadFile" type="file"
+                       class="input">
+                <img id="loading" src="images/loading.gif" style="display:none;margin-top: 10px;">
+                <span id="info"></span>
+                <input type="button" onclick="return ajaxFileUpload();" value="上传照片"><span>最多传8张，最大10MB</span><br/>
+                <div class="clearbox"></div>
             </li>
+
+
             <li>
                 <label class="reatit" for="linkman"><span class="red">*</span>联&nbsp;系&nbsp;人</label>
-                <input id="linkman" type="text">
-                <label class="rent">
-                    <input name="rent" type="radio" value="" /> 个人 </label>
-                <label class="rent">
-                    <input name="rent" type="radio" value="" /> 商家 </label>
-                <div class="clearbox"></div>
+                <input id="linkman" name="concactName" type="text">
             </li>
             <li>
                 <label class="reatit" for="mobi"><span class="red">*</span>联系电话</label>
-                <input id="mobi" type="text">
+                <input id="mobi" type="text" name="concactPhone">
                 <div class="clearbox"></div>
             </li>
             <li>
                 <input id="btnre" type="button" value="提交">
                 <div class="clearbox"></div>
-                <div class="reps">请先登录您的账户！点击<a href="Login.html">登录</a></div>
             </li>
         </ul>
-        <div class="clearbox"></div>
-    </div>
-    <!-- 二手车信息发布E -->
-  <div id="footer"></div>
+    </form>
+    <div class="clearbox"></div>
+</div>
+<!-- 二手车信息发布E -->
+<div id="footer"></div>
 
 </html>

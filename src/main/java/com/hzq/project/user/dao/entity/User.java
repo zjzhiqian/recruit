@@ -13,9 +13,19 @@ public class User {
 
     private String email;
 
+    private Integer isMerchant;
+
     private Date createdAt;
 
     private Date updatedAt;
+
+    public Integer getIsMerchant() {
+        return isMerchant;
+    }
+
+    public void setIsMerchant(Integer isMerchant) {
+        this.isMerchant = isMerchant;
+    }
 
     public Integer getId() {
         return id;

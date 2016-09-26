@@ -1,5 +1,6 @@
-package com.hzq.project.car.dao;
+package com.hzq.project.car.dao.impl;
 
+import com.hzq.project.car.dao.CarMerchantMapper;
 import com.hzq.project.car.dao.entity.CarMerchant;
 import com.hzq.project.system.common.dao.BaseDao;
 import org.springframework.stereotype.Repository;

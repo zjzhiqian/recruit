@@ -1,6 +1,7 @@
 package com.hzq.project.car.service.impl;
 
 import com.hzq.project.car.dao.CarMerchantMapper;
+import com.hzq.project.car.dao.SecondCarMapper;
 import com.hzq.project.car.dao.entity.CarMerchant;
 import com.hzq.project.car.exception.CarMerchantException;
 import com.hzq.project.car.service.CarMerchantService;
@@ -23,6 +24,9 @@ public class CarMerchantServiceImpl implements CarMerchantService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private SecondCarMapper secondCarMapper;
+
     @Override
     public boolean addCarMerchant(CarMerchant carMerchant) {
         Integer userId = carMerchant.getUserId();
@@ -35,6 +39,8 @@ public class CarMerchantServiceImpl implements CarMerchantService {
         userMapper.setUserAsCarMerchant(userId);
         carMerchantMapper.insert(carMerchant);
         //TODO 注册成功后 将其之前发布的二手车信息标为商家
+        secondCarMapper.setSecondCarIsMerchantByUserId(userId);
+
 
 
         return true;

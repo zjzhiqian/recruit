@@ -61,6 +61,10 @@
     <update id="setUserAsCarMerchant" parameterType="int">
     update users set is_merchant=1 where id = #{userId,jdbcType=INTEGER}
   </update>
+
+    <select id="getByPk" parameterType="int" resultType="com.hzq.project.user.dao.entity.User">
+        select * from users where  id = #{userId,jdbcType=INTEGER}
+    </select>
     <!--<update id="updateByPrimaryKeySelective" parameterType="com.hzq.project.user.dao.entity.User" >-->
     <!--update users-->
     <!--<set >-->

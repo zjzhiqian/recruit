@@ -47,7 +47,7 @@ public class UpLoadController extends BaseController {
     }
 
     /**
-     * 企业注册上传企业照片
+     * 商家注册,二手车发布图片
      */
     @RequestMapping(value = "carMerchant", method = RequestMethod.POST)
     public BaseResult carMerchant(@RequestParam("uploadFile") CommonsMultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
