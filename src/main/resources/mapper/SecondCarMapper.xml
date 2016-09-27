@@ -171,6 +171,57 @@
     <update id="setSecondCarIsMerchantByUserId" parameterType="int">
     update second_car set is_merchant = 1 where user_id = #{userId,jdbcType=INTEGER}
   </update>
+
+
+    <select id="getSecondCarParamList" parameterType="com.hzq.project.car.vo.SecondCarParam"
+            resultType="com.hzq.project.car.vo.SecondCarInfo">
+        select * from second_car
+        where 1=1
+        <if test="type != null">
+            and type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="year != null">
+            and year = #{year,jdbcType=INTEGER}
+        </if>
+        <if test="title != null">
+            and title like concat('%',#{title},'%')
+        </if>
+        <if test="priceBegin!=null">
+            and price &gt;= #{priceBegin,jdbcType = TIMESTAMP}
+        </if>
+        <if test="priceEnd!=null">
+            AND price &lt; #{priceEnd,jdbcType = TIMESTAMP}
+        </if>
+        order by created_at desc
+        <if test="start!=null">
+            limit #{start},#{per}
+        </if>
+
+    </select>
+
+    <select id="getSecondCarParamCount" parameterType="com.hzq.project.car.vo.SecondCarParam" resultType="int">
+        select count(1) from second_car
+        where 1=1
+        <if test="type != null">
+            and type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="year != null">
+            and year = #{year,jdbcType=INTEGER}
+        </if>
+        <if test="title != null">
+            and title like concat('%',#{title},'%')
+        </if>
+        <if test="priceBegin!=null">
+            and price &gt;= #{priceBegin,jdbcType = TIMESTAMP}
+        </if>
+        <if test="priceEnd!=null">
+            AND price &lt; #{priceEnd,jdbcType = TIMESTAMP}
+        </if>
+        order by created_at desc
+        <if test="start!=null">
+            limit #{start},#{per}
+        </if>
+    </select>
     <!--<update id="updateByPrimaryKeySelective" parameterType="com.hzq.project.car.dao.entity.SecondCar" >-->
     <!--update second_car-->
     <!--<set >-->

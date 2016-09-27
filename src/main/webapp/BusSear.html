@@ -46,8 +46,9 @@
 
 
             var title = getQueryString('title');
-            if(title)
-            $("#title").val(decodeURI(title));
+            if (title) {
+                $("#title").val(decodeURI(title));
+            }
 
             $("#search a").click(function () {
                 var activeType = $("#brand").find("a[class='active']");
@@ -82,7 +83,7 @@
                 }
                 if ($(this).attr('spec') == undefined) {
                     var title = $("#title").val();
-                    window.location.href = "BusSear.html?type=" + currentType + "&level=" + currentLevel + "&year=" + currentAge+"&title="+title;
+                    window.location.href = "BusSear.html?type=" + currentType + "&level=" + currentLevel + "&year=" + currentAge + "&title=" + title;
                 }
                 return false;
 
@@ -105,9 +106,24 @@
                     currentAge = ($(activeAge[0]).attr('year'));
                 }
                 var title = $("#title").val();
-                window.location.href = "BusSear.html?type=" + currentType + "&level=" + currentLevel + "&year=" + currentAge+"&title="+title;
+                window.location.href = "BusSear.html?type=" + currentType + "&level=" + currentLevel + "&year=" + currentAge + "&title=" + title;
                 return false;
-            })
+            });
+
+
+            $.ajax({
+                type: "POST",
+                url: "api/v3/secondCar/addSecondCar",
+                data: $("#form1").serialize(),
+                dataType: 'json',
+                success: function (rs) {
+                    if (rs.success) {
+                        alert(rs.data.message)
+                    } else {
+                        alert(rs.data.error);
+                    }
+                }
+            });
 
         });
 

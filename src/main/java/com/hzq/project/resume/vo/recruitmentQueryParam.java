@@ -1,9 +1,11 @@
 package com.hzq.project.resume.vo;
 
+import com.hzq.project.system.common.entity.BasePage;
+
 /**
  * Created by hzq on 16/9/24.
  */
-public class RecruitmentQueryParam {
+public class RecruitmentQueryParam extends BasePage{
 
 
     private String title;
@@ -14,11 +16,6 @@ public class RecruitmentQueryParam {
     private String beginDate;
     private String endDate;
 
-
-    /**分页**/
-    private Integer start;
-    private Integer per;
-    private Integer current;
 
 
     public String getBeginDate() {
@@ -36,12 +33,6 @@ public class RecruitmentQueryParam {
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
-
-    /**分页**/
-
-
-
-
 
     public Integer getSalary() {
         return salary;
@@ -76,27 +67,4 @@ public class RecruitmentQueryParam {
         this.type = type;
     }
 
-    public Integer getStart() {
-        return start;
-    }
-
-    public void setStart(Integer start) {
-        this.start = start;
-    }
-
-    public Integer getPer() {
-        return per;
-    }
-
-    public void setPer(Integer per) {
-        this.per = per;
-    }
-
-    public Integer getCurrent() {
-        return current;
-    }
-
-    public void setCurrent(Integer current) {
-        this.current = current;
-    }
 }

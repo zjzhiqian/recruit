@@ -141,6 +141,7 @@ public class RecruitmentController extends BaseController {
         }
 
         RecruitmentQueryParam param = Creator.newInstance(paramVo, RecruitmentQueryParam.class);
+        param.setPage(paramVo.getPage());
 
         //发布时间处理
         Integer postDate = paramVo.getPostDate();
@@ -167,13 +168,6 @@ public class RecruitmentController extends BaseController {
         }
 
 
-        //分页
-        Integer per = 20;
-        Integer page = paramVo.getPage();
-        if (page == null) page = 1;
-        param.setPer(20);
-        param.setStart((page - 1) * per);
-        param.setCurrent(page);
 
         return param;
     }
