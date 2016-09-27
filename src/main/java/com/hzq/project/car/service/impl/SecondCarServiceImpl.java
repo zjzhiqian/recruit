@@ -58,4 +58,11 @@ public class SecondCarServiceImpl implements SecondCarService {
         Integer count = secondCarMapper.getSecondCarParamCount(param);
         return new PageResult<>(current, per, count, pageData);
     }
+
+    @Override
+    public SecondCar getSecondCarById(Integer id) {
+        secondCarMapper.addWatchCount(id);
+        return secondCarMapper.getByPk(id);
+
+    }
 }

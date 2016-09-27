@@ -41,6 +41,7 @@ public class BeforeMethodInterceptor implements MethodBeforeAdvice {
     public void before(Method method, Object[] args, Object target) {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         UserInfo subject = (UserInfo) requestAttributes.getAttribute("subject", RequestAttributes.SCOPE_REQUEST);
+
         Annotation[] methodAnnotations = method.getAnnotations();
         Annotation[] clazzAnnotations = target.getClass().getAnnotations();
         Annotation[] annotations = ArrayUtils.addAll(methodAnnotations, clazzAnnotations);

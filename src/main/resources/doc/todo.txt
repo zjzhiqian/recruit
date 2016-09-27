@@ -5,9 +5,11 @@
 
 
 即将完成
-// 二手车信息发布 CarsRelease.html 车型选择
 // 商家二手车注册 StoreRegister.html 店铺类型字典编写
-// 商家二手车信息发布 汽车使用年限 以及 查询条件的汽车使用年限 (数据库新增使用年限)
+//二手车详情页  汽车颜色..
+
+
+
 
 
 
@@ -20,4 +22,6 @@
 
 //Index.html  首页 //TODO 下面所有公司url以及数据库插入
 //SeaResult.html 搜索结果页  //TODO 后面的广告超链接新增
+
+//BusSear.html  最右侧五张照片,最下面的推荐
 涉及广告部分的修改  1.Index.html 2.SeaResult.html

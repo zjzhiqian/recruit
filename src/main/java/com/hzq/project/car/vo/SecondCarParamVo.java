@@ -9,8 +9,18 @@ public class SecondCarParamVo {
     private Integer type;
     private Integer level;
     private Integer year;
+    private Integer isMerchant;
 
     private Integer page;
+
+
+    public Integer getIsMerchant() {
+        return isMerchant;
+    }
+
+    public void setIsMerchant(Integer isMerchant) {
+        this.isMerchant = isMerchant;
+    }
 
     public Integer getPage() {
         return page;

@@ -1,5 +1,6 @@
 package com.hzq.project.car.web;
 
+import com.alibaba.fastjson.JSON;
 import com.hzq.project.car.dao.entity.SecondCar;
 import com.hzq.project.car.exception.CarException;
 import com.hzq.project.car.service.SecondCarService;
@@ -15,8 +16,10 @@ import com.hzq.project.system.common.web.BaseController;
 import com.hzq.project.system.common.web.BaseResult;
 import com.hzq.project.system.security.annon.RequiresRoles;
 import com.hzq.project.system.security.util.Roles;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Optional;
 import java.util.StringJoiner;
 
 /**
@@ -71,7 +76,19 @@ public class SecondCarController extends BaseController {
         return secondCarService.getSecondCarByParam(buildSecondCarParam(secondCarVo));
     }
 
+
+    /**
+     * 查询指定二手车
+     */
+    @RequestMapping(path = "/getSecondCar", method = RequestMethod.GET)
+    public SecondCar getSecondCar(Integer id) {
+        return Optional.ofNullable(secondCarService.getSecondCarById(id)).orElseThrow(() -> new CarException("此二手车信息不存在"));
+    }
+
     private SecondCarParam buildSecondCarParam(SecondCarParamVo secondCarParamVo) {
+        String title = secondCarParamVo.getTitle();
+        if (StringUtils.isEmpty(title))
+            secondCarParamVo.setTitle(null);
         //汽车类型
         Integer type = secondCarParamVo.getType();
         if (type == null || type == -1)
@@ -80,6 +97,11 @@ public class SecondCarController extends BaseController {
         Integer year = secondCarParamVo.getYear();
         if (year == null || year == -1)
             secondCarParamVo.setYear(null);
+
+        Integer isMerchant = secondCarParamVo.getIsMerchant();
+        if (isMerchant == null || isMerchant == -1)
+            secondCarParamVo.setIsMerchant(null);
+
         SecondCarParam param = Creator.newInstance(secondCarParamVo, SecondCarParam.class);
         param.setPage(secondCarParamVo.getPage());
         //汽车价格
@@ -121,3 +143,5 @@ public class SecondCarController extends BaseController {
 
 
 }
+
+

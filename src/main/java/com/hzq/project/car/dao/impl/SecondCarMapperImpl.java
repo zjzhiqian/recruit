@@ -29,4 +29,9 @@ public class SecondCarMapperImpl extends BaseDao<SecondCar, Integer> implements 
     public Integer getSecondCarParamCount(SecondCarParam param) {
         return this.getSqlSession().selectOne(getIbatisSqlMapNamespace() + ".getSecondCarParamCount", param);
     }
+
+    @Override
+    public int addWatchCount(Integer id) {
+        return updateByParam("addWatchCount",id);
+    }
 }

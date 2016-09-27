@@ -12,4 +12,6 @@ public interface SecondCarService {
     boolean addSecondCar(SecondCar secondCar);
 
     PageResult<SecondCarInfo> getSecondCarByParam(SecondCarParam secondCarParam);
+
+    SecondCar getSecondCarById(Integer id);
 }

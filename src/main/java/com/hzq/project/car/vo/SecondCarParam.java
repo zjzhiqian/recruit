@@ -12,9 +12,19 @@ public class SecondCarParam  extends BasePage{
     private String title;
     private Integer type;
     private Integer year;
+    private Integer isMerchant;
 
     private BigDecimal priceBegin;
     private BigDecimal priceEnd;
+
+
+    public Integer getIsMerchant() {
+        return isMerchant;
+    }
+
+    public void setIsMerchant(Integer isMerchant) {
+        this.isMerchant = isMerchant;
+    }
 
     public Integer getYear() {
         return year;

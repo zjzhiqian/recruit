@@ -51,6 +51,9 @@ public class SecondCarVo {
     @NotNull(message = "请输入价格")
     private BigDecimal price; //价格
 
+    @NotNull(message = "请选择汽车使用年数")
+    private Integer year; //使用年数
+
     @NotNull(message = "请选择汽车颜色")
     private Integer color; //颜色
 
@@ -66,6 +69,13 @@ public class SecondCarVo {
     @NotNull(message = "联系人电话不能为空")
     private String concactPhone;
 
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
 
     public Integer getUserId() {
         return userId;

@@ -26,12 +26,18 @@
             includeFoot();
 
 
-
             $("#btnre").click(function () {
+
+                var type = $("#brand").find("a[class='active']").attr('type');
+                var data = $("#form1").serialize();
+                if (!type) {
+                    alert("请选择汽车品牌")
+                }
+                data = data + "&type=" + type;
                 $.ajax({
                     type: "POST",
                     url: "api/v3/secondCar/addSecondCar",
-                    data: $("#form1").serialize(),
+                    data: data,
                     dataType: 'json',
                     success: function (rs) {
                         if (rs.success) {
@@ -43,7 +49,22 @@
                 });
                 return false;
 
-            })
+            });
+
+
+            var carArr = $("#brand").find("a");
+            for (var i = 0; i < carArr.length; i++) {
+                $(carArr[i]).attr('type', carTypeJson[$(carArr[i]).text()])
+            }
+
+
+            $("#brand a").click(function () {
+                if ($(this).attr('spec') == undefined) {
+                    $("#brand").find("a[class='active']").removeClass('active');
+                    $(this).addClass('active');
+                }
+            });
+
 
         });
 
@@ -60,7 +81,6 @@
                     $('#loading').hide();
                     if (result.success) {
                         var message = result.data['message'];
-
                         var currentVal = $("#picture").val();
                         if (currentVal == "") {
                             $("#picture").val(message);
@@ -103,9 +123,34 @@
             return false;
         }
 
+        function showMore(obj) {
+            if ($("#more").is(":hidden")) {
+                $("#more").show();
+                $(obj).text('隐藏')
+            } else {
+                $("#more").hide();
+                $(obj).text('显示更多')
+            }
+
+        }
+
+
     </script>
 
-    </body>
+    <style>
+        #more span, a {
+            height: 5px;
+            font-size: 16px;
+        }
+
+        #brand a:hover {
+            color: #fd8000;
+        }
+
+        a.active {
+            background-color: #fd521d;
+        }
+    </style>
 </head>
 
 <body>
@@ -118,11 +163,150 @@
     <form id="form1">
         <ul>
             <li>
-                <label class="reatit" for="models"><span class="red">*</span>车型选择</label>
-                <select id="models" name="type">
-                    <option value="1">请选择职位类别</option>
-                </select>
-                <div class="clearbox"></div>
+
+                <div id="brand" style="display: inline-block;clear: both">
+                    <!--<label class="reatit" for="models"><span class="red">*</span>车型选择</label>-->
+                    <label class="reatit" for="money"><span class="red">*</span>品牌</label>
+                    <span><a class="active">大众</a></span>
+                    <span><a>宝马</a></span>
+                    <span><a>奥迪</a></span>
+                    <span><a>丰田</a></span>
+                    <span><a>奔驰</a></span>
+                    <span><a>本田</a></span>
+                    <span><a>别克</a></span>
+                    <span><a>福特</a></span>
+                    <span><a>日产</a></span>
+                    <span><a>马自达</a></span>
+                    <span><a>雪佛兰</a></span>
+                    <span><a>雪佛兰</a></span>
+                    <a href="javascript:void(0)" onclick="showMore(this)" spec="2">显示更多</a>
+
+                    <div id="more" hidden='true' style="line-height: 25px;">
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;;">A</span>
+                        <span><a type="3" href="#">奥迪</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">B</span>
+                        <span><a>别克</a></span>
+                        <span><a>宝马</a></span>
+                        <span><a>比亚迪</a></span>
+                        <span><a>奔驰</a></span>
+                        <span><a>本田</a></span>
+                        <span><a>北汽绅宝</a></span>
+                        <span><a>宝骏</a></span>
+                        <span><a>保时捷</a></span>
+                        <span><a>北汽制造</a></span>
+                        <span><a>北汽幻速</a></span>
+                        <span><a>北京奔腾</a></span>
+                        <span><a>北汽新能源</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">C</span>
+                        <span><a>长安商用</a></span>
+                        <span><a>长安长城</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">D</span>
+                        <span><a>大众</a></span>
+                        <span><a>东风</a></span>
+                        <span><a>东南</a></span>
+                        <span><a>道奇</a></span>
+                        <span><a>DS</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">F</span>
+                        <span><a>福特</a></span>
+                        <span><a>丰田</a></span>
+                        <span><a>福田</a></span>
+                        <span><a>菲亚特</a></span>
+                        <span><a>福汽启腾</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">G</span>
+                        <span><a>广汽传祺</a></span>
+                        <span><a>观致</a></span>
+                        <span><a>广汽吉奥</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">H</span>
+                        <span><a>哈弗</a></span>
+                        <span><a>海马</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">J</span>
+                        <span><a>Jeep</a></span>
+                        <span><a>江淮</a></span>
+                        <span><a>捷豹</a></span>
+                        <span><a>吉利汽车</a></span>
+                        <span><a>金杯</a></span>
+                        <span><a>江铃</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">J</span>
+                        <span><a>凯迪拉克</a></span>
+                        <span><a>开瑞</a></span>
+                        <span><a>克莱斯勒</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">L</span>
+                        <span><a>铃木雷诺</a></span>
+                        <span><a>路虎</a></span>
+                        <span><a>雷克萨斯</a></span>
+                        <span><a>陆风</a></span>
+                        <span><a>力帆汽车</a></span>
+                        <span><a>力帆</a></span>
+                        <span><a>莲花汽车</a></span>
+                        <span><a>理念</a></span>
+                        <span><a>猎豹汽车</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">M</span>
+                        <span><a>马自达</a></span>
+                        <span><a>MG</a></span>
+                        <span><a>玛莎拉蒂</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">N</span>
+                        <span><a>纳智捷</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">O</span>
+                        <span><a>欧宝</a></span>
+                        <span><a>欧宝</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">Q</span>
+                        <span><a>起亚</a></span>
+                        <span><a>奇瑞</a></span>
+                        <span><a>启辰</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">R</span>
+                        <span><a>荣威日产</a></span>
+                        <span><a>瑞麒</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">S</span>
+                        <span><a>斯柯达</a></span>
+                        <span><a>smart</a></span>
+                        <span><a>三菱</a></span>
+                        <span><a>斯巴鲁</a></span>
+                        <span><a>萨博思铭</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">T</span>
+                        <span><a>特斯拉</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">W</span>
+                        <span><a>五菱汽车</a></span>
+                        <span><a>沃尔沃</a></span>
+                        <span><a>威麟</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">X</span>
+                        <span><a>威麟</a></span>
+                        <span><a>雪铁龙</a></span>
+                        <span><a>现代</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">Y</span>
+                        <span><a>英菲尼迪一汽</a></span>
+                        <span><a>野马汽车</a></span>
+                        <br/>
+                        <span style="float: left;margin-right: 5px;margin-left: 110px;">Z</span>
+                        <span><a>中华</a></span>
+                        <span><a>众泰</a></span>
+                    </div>
+
+                    <div id="clearbox"></div>
+                </div>
+
+                <!--<select id="models" name="type">-->
+                <!--<option value="1">请选择职位类别</option>-->
+                <!--</select>-->
+                <!--<div class="clearbox"></div>-->
             </li>
             <li>
                 <label class="reatit" for="money"><span class="red">*</span>首次上牌时间</label>
@@ -181,16 +365,30 @@
                 </select>
                 <div class="clearbox"></div>
             </li>
+
+            <li>
+                <label class="reatit" for="times"><span class="red">*</span>使用年数</label>
+                <select id="times" name="year">
+                    <option value="0">1年以内</option>
+                    <option value="1">1-3年</option>
+                    <option value="2">3-5年</option>
+                    <option value="3">5-8年</option>
+                    <option value="4">8-10年</option>
+                    <option value="5">10年以上</option>
+                </select>
+                <div class="clearbox"></div>
+            </li>
+
             <li>
                 <label class="reatit" for="money"><span class="red">*</span>售&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价</label>
                 <input id="money" name="price" type="text" placeholder="例:23.5"><span class="wan">万元</span>
                 <div class="clearbox"></div>
             </li>
             <!--<li>-->
-                <!--<label class="reatit" for="describe"><span class="red">*</span>上传驾驶证</label>-->
-                <!--<input type="button" id="carbook" value="上传驾驶证">-->
-                <!--<span class="phops">行驶证经验证后，将得到验证标识；符合原厂质保的，将同时得到原厂质保标识</span>-->
-                <!--<div class="clearbox"></div>-->
+            <!--<label class="reatit" for="describe"><span class="red">*</span>上传驾驶证</label>-->
+            <!--<input type="button" id="carbook" value="上传驾驶证">-->
+            <!--<span class="phops">行驶证经验证后，将得到验证标识；符合原厂质保的，将同时得到原厂质保标识</span>-->
+            <!--<div class="clearbox"></div>-->
             <!--</li>-->
             <li>
                 <label class="reatit" for="describe">上传驾驶证</label>

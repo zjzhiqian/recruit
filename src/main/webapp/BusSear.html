@@ -9,6 +9,7 @@
     <meta name="description" content="">
     <link href="images/favicon.ico" rel="Shortcut Icon">
     <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/jquery.pagination.css">
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
 
 
@@ -16,6 +17,7 @@
     <script type="text/javascript" src="js/common-include.js"></script>
     <script src="js/jquery.luara.0.0.1.min.js"></script>
     <script type="text/javascript" src="js/common-dic.js"></script>
+    <script type="text/javascript" src="js/jquery.pagination.js"></script>
 
     <script>
         $(function () {
@@ -23,6 +25,10 @@
             includeFoot();
             includeLink();
 
+            var $tab_li = $('#searmain #busgoods a');
+            $tab_li.hover(function () {
+                $(this).addClass('logintit').siblings().removeClass('logintit');
+            });
 
             var carArr = $("#brand").find("a");
             for (var i = 0; i < carArr.length; i++) {
@@ -33,21 +39,46 @@
             var type = getQueryString("type");
             if (type != null) {
                 $("a[type=" + type + "]").addClass('active');
+            } else {
+                type = -1
             }
 
             var level = getQueryString("level");
             if (level != null) {
                 $("a[level=" + level + "]").addClass('active');
+            } else {
+                level = -1
             }
             var year = getQueryString("year");
             if (year != null) {
                 $("a[year=" + year + "]").addClass('active');
+            } else {
+                year = -1
             }
 
+            var page = getQueryString("page");
+            if (page == undefined || page == null) {
+                page = 0;
+            }
 
             var title = getQueryString('title');
             if (title) {
                 $("#title").val(decodeURI(title));
+            } else {
+                title = "";
+            }
+
+
+            var isMerchant = getQueryString("isMerchant");
+            var currentIsMerchant = isMerchant;
+            if (isMerchant != undefined) {
+                $($("#busgoods a")[0]).attr('class', '');
+                if (isMerchant == 1)
+                    $($("#busgoods a")[1]).addClass('logintit');
+                if (isMerchant == 0)
+                    $($("#busgoods a")[2]).addClass('logintit')
+            } else {
+                currentIsMerchant = -1;
             }
 
             $("#search a").click(function () {
@@ -81,12 +112,36 @@
                 if (year) {
                     currentAge = year;
                 }
+
+
                 if ($(this).attr('spec') == undefined) {
                     var title = $("#title").val();
-                    window.location.href = "BusSear.html?type=" + currentType + "&level=" + currentLevel + "&year=" + currentAge + "&title=" + title;
+                    window.location.href = "BusSear.html?type=" + currentType + "&level=" + currentLevel + "&year=" + currentAge + "&title=" + title + "&isMerchant=" + currentIsMerchant;
+                    return false;
                 }
-                return false;
+            });
 
+
+            $("#busgoods a").click(function () {
+                var activeType = $("#brand").find("a[class='active']");
+                var currentType = -1;
+                if (activeType[0]) {
+                    currentType = ($(activeType[0]).attr('type'));
+                }
+                var activeLevel = $("#price").find("a[class='active']");
+                var currentLevel = -1;
+                if (activeLevel[0]) {
+                    currentLevel = ($(activeLevel[0]).attr('level'));
+                }
+                var activeAge = $("#age").find("a[class='active']");
+                var currentAge = -1;
+                if (activeAge[0]) {
+                    currentAge = ($(activeAge[0]).attr('year'));
+                }
+                var merchant = $(this).attr('isMerchant');
+                window.location.href = "BusSear.html?type=" + currentType + "&level=" + currentLevel + "&year=" + currentAge + "&title=" + title + "&isMerchant=" + merchant;
+
+                return false;
             });
 
             $("#sea").click(function () {
@@ -106,26 +161,106 @@
                     currentAge = ($(activeAge[0]).attr('year'));
                 }
                 var title = $("#title").val();
-                window.location.href = "BusSear.html?type=" + currentType + "&level=" + currentLevel + "&year=" + currentAge + "&title=" + title;
+                window.location.href = "BusSear.html?type=" + currentType + "&level=" + currentLevel + "&year=" + currentAge + "&title=" + title + "&isMerchant=" + currentIsMerchant;
                 return false;
             });
 
 
-            $.ajax({
-                type: "POST",
-                url: "api/v3/secondCar/addSecondCar",
-                data: $("#form1").serialize(),
-                dataType: 'json',
-                success: function (rs) {
-                    if (rs.success) {
-                        alert(rs.data.message)
-                    } else {
-                        alert(rs.data.error);
-                    }
+            function pageSelectCallback(page, jq) {
+                var activeType = $("#brand").find("a[class='active']");
+                var currentType = -1;
+                if (activeType[0]) {
+                    currentType = ($(activeType[0]).attr('type'));
                 }
-            });
+                var activeLevel = $("#price").find("a[class='active']");
+                var currentLevel = -1;
+                if (activeLevel[0]) {
+                    currentLevel = ($(activeLevel[0]).attr('level'));
+                }
+                var activeAge = $("#age").find("a[class='active']");
+                var currentAge = -1;
+                if (activeAge[0]) {
+                    currentAge = ($(activeAge[0]).attr('year'));
+                }
+                var title = $("#title").val();
+                window.location.href = "BusSear.html?type=" + currentType + "&level=" + currentLevel + "&year=" + currentAge + "&title=" + title + "&page=" + page + "&isMerchant=" + isMerchant;
+                return false;
+            }
+
+
+            sendAjaxQuery(page, title, type, level, year, currentIsMerchant);
+
+
+            function sendAjaxQuery(page, title, type, level, year, isMerchant) {
+                //查询兼职
+                $.ajax({
+                    type: "GET",
+                    url: "api/v3/secondCar/getSecondCars/?title=" + decodeURI(title) + "&type=" + type + "&level=" + level + "&year=" + year + "&page=" + (parseInt(page) + 1) + "&isMerchant=" + isMerchant,
+                    dataType: 'json',
+                    async: false,
+                    success: function (rs) {
+                        if (rs.success) {
+                            var resultDatas = rs.data.resultList;
+                            var pageData = rs.data.page;
+
+                            var resultDataStr = "";
+                            for (var i = 0; i < resultDatas.length; i++) {
+                                var tmp = resultDatas[i];
+                                var tt = '个';
+                                if (tmp['isMerchant']) {
+                                    tt = '商'
+                                }
+                                resultDataStr = resultDataStr +
+                                        $.formatString(
+                                                "<a href=\"TwBusDea.html?id={0}\" target=\"_blank\">\n" +
+                                                "                    <div class=\"bus\">\n" +
+                                                "                        <div class=\"busle\">\n" +
+                                                "                            <img src=\"{1}\" alt=\"\">\n" +
+                                                "                        </div>\n" +
+                                                "                        <div class=\"busmi\">\n" +
+                                                "                            <ul>\n" +
+                                                "                                <li>{2}</li>\n" +
+                                                "                                <li>{3}</li>\n" +
+                                                "                                <li>[无事故车]</li>\n" +
+                                                "                                <li class=\"types\">{4}</li>\n" +
+                                                "                                <li>优</li>\n" +
+                                                "                                <li>1</li>\n" +
+                                                "                            </ul>\n" +
+                                                "                            <div class=\"clearbox\"></div>\n" +
+                                                "                            <div class=\"bust\">{5}上牌使用</div>\n" +
+                                                "                            <div class=\"busde\">购于{6}/{7}万公里/{8}升</div>\n" +
+                                                "                        </div>\n" +
+                                                "                        <div class=\"busri\">\n" +
+                                                "                            <ul>\n" +
+                                                "                                <li>{9}</li>\n" +
+                                                "                                <li><span>{10}</span>万元</li>\n" +
+                                                "                            </ul>\n" +
+                                                "                        </div>\n" +
+                                                "                    </div>\n" +
+                                                "                </a>", tmp['id'], tmp['pictue'], carTypeJson2[tmp['type']], tmp['title'], tt, tmp['licenseTime'], tmp['buyTime'], tmp['journey'], tmp['exhaust'], tmp['createdAt'], tmp['price']);
+                            }
+
+                            $("#resultData").html(resultDataStr);
+
+                            $(".pagination").pagination(pageData.count, {
+                                callback: pageSelectCallback,
+                                items_per_page: pageData.per,
+                                next_text: '下一页',
+                                prev_text: '上一页',
+                                num_edge_entries: 1,
+                                current_page: page
+                            });
+
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+
+            }
 
         });
+
 
         function showMore(obj) {
             if ($("#more").is(":hidden")) {
@@ -163,8 +298,10 @@
             搜索
         </div>
         <div id="issue">
-            <a class="mfdb" href="CarsRelease.html" target="_blank">免费发布</a> <a class="sdkd" href="StoreRegister.html"
-                                                                                target="_blank">商家免费开店</a>
+            <a class="mfdb" href="CarsRelease.html" spec="1" target="_blank">免费发布</a> <a class="sdkd"
+                                                                                         href="StoreRegister.html"
+                                                                                         target="_blank"
+                                                                                         spec="1">商家免费开店</a>
         </div>
         <div id="clearbox"></div>
     </div>
@@ -432,226 +569,25 @@
         </ul>
     </div>
 </div>
-<!-- 搜索E -->
-<script type="text/javascript">
-    $(document).ready(function () {
-        var $tab_li = $('#searmain #busgoods a');
-        $tab_li.hover(function () {
-            $(this).addClass('logintit').siblings().removeClass('logintit');
-        });
-    });
-</script>
 <!-- 主要内容S -->
 <div id="searmain">
-    <ul id="busgoods"><a href="" hidefocus="true" class="logintit">二手车</a>
-        <a href="" hidefocus="true">商家车源</a>
-        <a href="" hidefocus="true">个人车源</a>
+    <ul id="busgoods"><a href="" class="logintit" isMerchant="-1">二手车</a>
+        <a href="" isMerchant="1">商家车源</a>
+        <a href="" isMerchant="0">个人车源</a>
     </ul>
     <div id="searmwr">
         <div id="twobus">
-            <a href="TwBusDea.html" target="_blank">
-                <div class="bus">
-                    <div class="busle">
-                        <img src="images/bus.png" alt="">
-                    </div>
-                    <div class="busmi">
-                        <ul>
-                            <li>玛莎拉蒂</li>
-                            <li>总裁</li>
-                            <li>2016款</li>
-                            <li>泡妞神器[无事故车]</li>
-                            <li class="types">个</li>
-                            <li>优</li>
-                            <li>1</li>
-                        </ul>
-                        <div class="clearbox"></div>
-                        <div class="bust">2014年上牌使用美国原装进口</div>
-                        <div class="busde">购于2014年/11.2万公里/3.0升/自动</div>
-                    </div>
-                    <div class="busri">
-                        <ul>
-                            <li>1 小时前</li>
-                            <li><span>38</span>万元</li>
-                        </ul>
-                    </div>
-                </div>
-            </a>
-            <a href="TwBusDea.html" target="_blank">
-                <div class="bus">
-                    <div class="busle">
-                        <img src="images/bus.png" alt="">
-                    </div>
-                    <div class="busmi">
-                        <ul>
-                            <li>玛莎拉蒂</li>
-                            <li>总裁</li>
-                            <li>2016款</li>
-                            <li>泡妞神器[无事故车]</li>
-                            <li>个人车源</li>
-                            <li class="types">商</li>
-                            <li>优</li>
-                            <li>1</li>
-                        </ul>
-                        <div class="clearbox"></div>
-                        <div class="bust">2014年上牌使用美国原装进口</div>
-                        <div class="busde">购于2014年/11.2万公里/3.0升/自动</div>
-                    </div>
-                    <div class="busri">
-                        <ul>
-                            <li>1 小时前</li>
-                            <li><span>38</span>万元</li>
-                        </ul>
-                    </div>
-                </div>
-            </a>
-            <a href="TwBusDea.html" target="_blank">
-                <div class="bus">
-                    <div class="busle">
-                        <img src="images/bus.png" alt="">
-                    </div>
-                    <div class="busmi">
-                        <ul>
-                            <li>玛莎拉蒂</li>
-                            <li>总裁</li>
-                            <li>2016款</li>
-                            <li>泡妞神器[无事故车]</li>
-                            <li>优</li>
-                            <li>1</li>
-                        </ul>
-                        <div class="clearbox"></div>
-                        <div class="bust">2014年上牌使用美国原装进口</div>
-                        <div class="busde">购于2014年/11.2万公里/3.0升/自动</div>
-                    </div>
-                    <div class="busri">
-                        <ul>
-                            <li>1 小时前</li>
-                            <li><span>38</span>万元</li>
-                        </ul>
-                    </div>
-                </div>
-            </a>
-            <a href="TwBusDea.html" target="_blank">
-                <div class="bus">
-                    <div class="busle">
-                        <img src="images/bus.png" alt="">
-                    </div>
-                    <div class="busmi">
-                        <ul>
-                            <li>玛莎拉蒂</li>
-                            <li>总裁</li>
-                            <li>2016款</li>
-                            <li>泡妞神器[无事故车]</li>
-                            <li>优</li>
-                            <li>1</li>
-                        </ul>
-                        <div class="clearbox"></div>
-                        <div class="bust">2014年上牌使用美国原装进口</div>
-                        <div class="busde">购于2014年/11.2万公里/3.0升/自动</div>
-                    </div>
-                    <div class="busri">
-                        <ul>
-                            <li>1 小时前</li>
-                            <li><span>38</span>万元</li>
-                        </ul>
-                    </div>
-                </div>
-            </a>
-            <a href="TwBusDea.html" target="_blank">
-                <div class="bus">
-                    <div class="busle">
-                        <img src="images/bus.png" alt="">
-                    </div>
-                    <div class="busmi">
-                        <ul>
-                            <li>玛莎拉蒂</li>
-                            <li>总裁</li>
-                            <li>2016款</li>
-                            <li>泡妞神器[无事故车]</li>
-                            <li>优</li>
-                            <li>1</li>
-                        </ul>
-                        <div class="clearbox"></div>
-                        <div class="bust">2014年上牌使用美国原装进口</div>
-                        <div class="busde">购于2014年/11.2万公里/3.0升/自动</div>
-                    </div>
-                    <div class="busri">
-                        <ul>
-                            <li>1 小时前</li>
-                            <li><span>38</span>万元</li>
-                        </ul>
-                    </div>
-                </div>
-            </a>
-            <a href="TwBusDea.html" target="_blank">
-                <div class="bus">
-                    <div class="busle">
-                        <img src="images/bus.png" alt="">
-                    </div>
-                    <div class="busmi">
-                        <ul>
-                            <li>玛莎拉蒂</li>
-                            <li>总裁</li>
-                            <li>2016款</li>
-                            <li>泡妞神器[无事故车]</li>
-                            <li>优</li>
-                            <li>1</li>
-                        </ul>
-                        <div class="clearbox"></div>
-                        <div class="bust">2014年上牌使用美国原装进口</div>
-                        <div class="busde">购于2014年/11.2万公里/3.0升/自动</div>
-                    </div>
-                    <div class="busri">
-                        <ul>
-                            <li>1 小时前</li>
-                            <li><span>38</span>万元</li>
-                        </ul>
-                    </div>
-                </div>
-            </a>
-            <a href="TwBusDea.html" target="_blank">
-                <div class="bus">
-                    <div class="busle">
-                        <img src="images/bus.png" alt="">
-                    </div>
-                    <div class="busmi">
-                        <ul>
-                            <li>玛莎拉蒂</li>
-                            <li>总裁</li>
-                            <li>2016款</li>
-                            <li>泡妞神器[无事故车]</li>
-                            <li>优</li>
-                            <li>1</li>
-                        </ul>
-                        <div class="clearbox"></div>
-                        <div class="bust">2014年上牌使用美国原装进口</div>
-                        <div class="busde">购于2014年/11.2万公里/3.0升/自动</div>
-                    </div>
-                    <div class="busri">
-                        <ul>
-                            <li>1 小时前</li>
-                            <li><span>38</span>万元</li>
-                        </ul>
-                    </div>
-                </div>
-            </a>
-            <div id="page">
-                <ul>
-                    <li class="on">1</li>
-                    <li>2</li>
-                    <li>3</li>
-                    <li>4</li>
-                    <li>5</li>
-                    <li>6</li>
-                    <li>7</li>
-                    <li>8</li>
-                    <li>9</li>
-                    <li>10</li>
-                    <li>11</li>
-                    <li style="width:60px;">下一页</li>
-                    <div class="clearbox"></div>
-                </ul>
+            <div id="resultData"></div>
+
+
+            <div id="page" class="pagination">
+                <div class="clearbox"></div>
             </div>
+            <div class="clearbox"></div>
+
         </div>
+
+
         <div id="twohous">
             <ul>
                 <li>

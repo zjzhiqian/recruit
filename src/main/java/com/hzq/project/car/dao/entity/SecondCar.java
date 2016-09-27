@@ -1,5 +1,8 @@
 package com.hzq.project.car.dao.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.hzq.project.system.common.util.DateFormatSerializer;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -34,6 +37,8 @@ public class SecondCar {
 
     private BigDecimal price;
 
+    private Integer year; //使用年数
+
     private Integer color;
 
     private String carPic;
@@ -46,6 +51,7 @@ public class SecondCar {
 
     private Date createdAt;
 
+    @JsonSerialize(using = DateFormatSerializer.class)
     private Date updatedAt;
 
     private Date deletedAt;
@@ -53,6 +59,14 @@ public class SecondCar {
     private Integer times;
 
     private String constrct;
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
 
     public Integer getId() {
         return id;

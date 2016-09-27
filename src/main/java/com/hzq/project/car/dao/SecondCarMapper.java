@@ -17,4 +17,7 @@ public interface SecondCarMapper extends Dao<SecondCar,Integer> {
     List<SecondCarInfo> getSecondCarParamList(SecondCarParam param);
 
     Integer getSecondCarParamCount(SecondCarParam param);
+
+    int addWatchCount(Integer id);
+
 }

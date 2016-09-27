@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>台州创新网　-　二手车详细信息</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <link href="images/favicon.ico" rel="Shortcut Icon">
@@ -16,189 +16,241 @@
     <script type="text/javascript" src="js/common-include.js"></script>
     <script src="js/jquery.luara.0.0.1.min.js"></script>
 
+    <script type="text/javascript" src="js/common-dic.js"></script>
+
     <script>
-        $(function() {
+        $(function () {
             includeHeader();
             includeFoot();
+
+
+            var id = getQueryString("id");
+            if (id == undefined || id == null) {
+                alert("请求参数不合法")
+            }
+            //热门职位
+            $.ajax({
+                type: "GET",
+                url: "api/v3/secondCar/getSecondCar?id=" + id,
+                dataType: 'json',
+                async: false,
+                success: function (rs) {
+                    if (rs.success) {
+                        var info = rs.data;
+                        $("#title").html(carTypeJson2[info['type']] + "  " + info['title']);
+                        $("#buyTime").html("购于" + info['buyTime']);
+                        $("#journey").html(info['journey']+"万公里");
+                        $("#exhaust").html(info['exhaust'] + "升");
+                        $("#store").attr('href', "Store.html?id=" + info['merchantId']);
+                        $("#price").html(info['price'])
+                        var str = '个人';
+                        if (info['isMerchant'])
+                            str = '企业'
+                        $("#concactName").html("联系人：" + info['concactName'] + " " + str);
+                        $("#concactPhone").html("联系电话：<b>" + info['concactPhone'] + "</b>");
+                        $("#watch").html($.formatString("浏览次数:{0}人", info['watch']));
+                        $("#updatedAt").html($.formatString("最近更新：{0}", info['updatedAt']));
+                        $("#pic").attr('src',info['pictue']);
+                        $("#S01").html($.formatString("排气量:<span>{0}</span>", info['exhaust']));
+                        $("#S02").html("变速箱：<span>未知</span></li>")
+                        $("#S03").html($.formatString("行驶里程：<span>&lt;{0}万公里</span>", info['journey']));
+                        $("#S04").html($.formatString("车声颜色：<span>{0}</span>", info['color']));
+                        $("#S05").html("车身结构：<span>-</span>");
+                        $("#S06").html($.formatString("上牌时间：<span>{0}</span>", info['licenseTime']));
+                        var str2 = '非运营';
+                        if (info['nature'])
+                            str2 = '运营';
+                        $("#S07").html($.formatString("使用性质：<span>{0}</span>", str2));
+                        $("#S08").html($.formatString("使用性质：<span>{0}</span>", info['insuranceDeadtime']));
+                        $("#S09").html($.formatString("年检到期：<span>{0}</span>", '-'));
+                        var tt1 = $.formatString("<p>{0}</p>", info['introduction']);
+                        var arr = info['carPic'].split(",");
+                        var tt2 = ""
+                        for (var i = 0; i < arr.length; i++) {
+                            tt2 = tt2 + $.formatString(" <img src=\"{0}\">\"", arr[i]);
+                        }
+                        $("#S11").html(tt1 + tt2);
+                    } else {
+                        alert(rs.data.error);
+                    }
+                }
+            });
 
         });
     </script>
 
     <script>
-    function changeSc() {
-        alert("收藏成功！");
-        sc.value = "已收藏";
-        sc.style.backgroundImage = 'url(images/ysc.png)';
-        sc.style.backgroundRepeat = "no-repeat";
-        sc.style.paddingLeft = "20px";
-        sc.style.backgroundPosition = " left center";
-    }
+        function changeSc() {
+            alert("收藏成功！");
+            sc.value = "已收藏";
+            sc.style.backgroundImage = 'url(images/ysc.png)';
+            sc.style.backgroundRepeat = "no-repeat";
+            sc.style.paddingLeft = "20px";
+            sc.style.backgroundPosition = " left center";
+        }
     </script>
     <script>
-    function changeJb() {
-        document.getElementById('lift').style.display = 'block';
-        jb.value = "已举报";
-        jb.style.backgroundImage = 'url(images/yjb.png)';
-        jb.style.backgroundRepeat = "no-repeat";
-        jb.style.paddingLeft = "20px";
-        jb.style.backgroundPosition = " left center";
-    }
+        function changeJb() {
+            document.getElementById('lift').style.display = 'block';
+            jb.value = "已举报";
+            jb.style.backgroundImage = 'url(images/yjb.png)';
+            jb.style.backgroundRepeat = "no-repeat";
+            jb.style.paddingLeft = "20px";
+            jb.style.backgroundPosition = " left center";
+        }
     </script>
 </head>
 
 <body>
-    <div id="header">
+<div id="header">
+</div>
+<!-- 二手车概述S -->
+<div id="busovvi">
+    <div id="busphoto">
+        <div  class="photo"><img id='pic' src="images/tw_1.png" alt=""></div>
+        <!--<div class="photode">-->
+            <!--<ul>-->
+                <!--<li><img src="images/tw_2.png" alt=""></li>-->
+                <!--<li><img src="images/tw_2.png" alt=""></li>-->
+                <!--<li><img src="images/tw_2.png" alt=""></li>-->
+                <!--<li><img src="images/tw_2.png" alt=""></li>-->
+            <!--</ul>-->
+        <!--</div>-->
     </div>
-    <!-- 二手车概述S -->
-    <div id="busovvi">
-        <div id="busphoto">
-            <div class="photo"> <img src="images/tw_1.png" alt=""></div>
-            <div class="photode">
-                <ul>
-                    <li><img src="images/tw_2.png" alt=""></li>
-                    <li><img src="images/tw_2.png" alt=""></li>
-                    <li><img src="images/tw_2.png" alt=""></li>
-                    <li><img src="images/tw_2.png" alt=""></li>
-                </ul>
-            </div>
-        </div>
-        <div id="busname">
-            <div class="busname">宝马6系2016款 白色 9成新</div>
-            <div class="ngsz">
-                <ul>
-                    <li>购于2016年1月</li>
-                    <li>0.9万公里</li>
-                    <li>3.0升</li>
-                    <li>自动</li>
-                </ul>
-            </div>
-            <div id="lookshop">
-                <a href="Store.html" target="_blank">查看商店</a>
-            </div>
-            <div class="money">
-                <img src="images/money.png" alt="">
-                <span>￥<b>38.5</b>万</span>
-            </div>
-            <div class="owner">
-                <p>联系人：小王（个人/企业）</p>
-                <p>联系电话：<b>188-1234-1234</b></p>
-            </div>
-            <div class="sj">
-                <ul>
-                    <li>
-                        <input id="sc" type="button" onclick="changeSc()" value="收藏">
-                    </li>
-                    <li>
-                        <input id="jb" type="button" onclick="changeJb()" value="举报">
-                    </li>
-                </ul>
-            </div>
-            <div class="lg">
-                <ul>
-                    <li>浏览次数:13894人</li>
-                    <li>最近更新：2016年6月6日</li>
-                </ul>
-            </div>
-        </div>
-        <div class="clearbox"></div>
-    </div>
-    <!--  二手车概述E-->
-    <!-- 二手车详情S -->
-    <div id="busdeatail">
-        <div class="title2">详情</div>
-        <div id="argument">
+    <div id="busname">
+        <div id="title" class="busname"></div>
+        <div class="ngsz">
             <ul>
-                <li>排气量:<span>3.0L</span></li>
-                <li>变速箱：<span>自动</span></li>
-                <li>形式里程：<span>&lt;1万公里</span></li>
-                <li>车声颜色：<span>白色</span></li>
-                <li>车身结构：<span>-</span></li>
-                <li>上牌时间：<span>2016年1月</span></li>
-                <li>使用性质：<span>非运营</span></li>
-                <li>年检到期：<span>2017年1月</span></li>
-                <li>交强险到期：<span>2017年1月</span></li>
-                <li>事故状况:<span>无</span></li>
+                <li id="buyTime"></li>
+                <li id="journey"></li>
+                <li id="exhaust"></li>
             </ul>
         </div>
-        <div class="character">
-            <p>我的优势：学区房...交通、海景、环境一流...
-            </p>
-            <p>联系我时，请说明是在台州创新网二手车看到的二手，谢谢。</p>
-            <img src="images/tw_2.png" alt="">
-            <img src="images/tw_2.png" alt="">
+        <div id="lookshop">
+            <a id="store" href="" target="_blank">查看商店</a>
+        </div>
+        <div class="money">
+            <img src="images/money.png" alt="">
+            <span>￥<b id="price"></b>万</span>
+        </div>
+        <div class="owner">
+            <p id="concactName">）</p>
+            <p id="concactPhone"></b></p>
+        </div>
+        <div class="sj">
+            <!--<ul>-->
+            <!--<li>-->
+            <!--<input id="sc" type="button" onclick="changeSc()" value="收藏">-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--<input id="jb" type="button" onclick="changeJb()" value="举报">-->
+            <!--</li>-->
+            <!--</ul>-->
+        </div>
+        <div class="lg">
+            <ul>
+                <li id="watch"></li>
+                <li id="updatedAt"></li>
+            </ul>
         </div>
     </div>
-    <!--   二手车详情S -->
-    <div id="footer">
+    <div class="clearbox"></div>
+</div>
+<!--  二手车概述E-->
+<!-- 二手车详情S -->
+<div id="busdeatail">
+    <div class="title2">详情</div>
+    <div id="argument">
+        <ul>
+            <li id="S01"></li>
+            <li id="S02"></li>
+            <li id="S03"></span></li>
+            <li id="S04"></li>
+            <li id="S05"></li>
+            <li id="S06"></li>
+            <li id="S07"></li>
+            <li id="S08"></li>
+            <li id="S09"></li>
+            <li id="S10">事故状况:<span>无</span></li>
+        </ul>
     </div>
-    <div id="lift">
-        <div id="liftcon">
-            <div onclick="document.getElementById('lift').style.display='';" style="float:right;text-align:right;cursor:pointer">关闭x</div>
-            <h2>举报该信息</h2>
-            <div class="liftlist">
-                <div class="left_con">
-                    <span class="red">*</span>举报原因：
-                </div>
-                <div class="righ_con">
-                    <ul id="dx">
-                        <li>诈骗（如提前收取各类费用等）</li>
-                        <li>套牌\走私车</li>
-                        <li>虚假（如车况、价格等）</li>
-                        <li>商家冒充个人</li>
-                        <li>其他</li>
-                        <div class="clearbox"></div>
-                    </ul>
-                </div>
-                <div class="clearbox"></div>
+    <div id="S11" class="character">
+
+    </div>
+</div>
+<!--   二手车详情S -->
+<div id="footer">
+</div>
+<div id="lift">
+    <div id="liftcon">
+        <div onclick="document.getElementById('lift').style.display='';"
+             style="float:right;text-align:right;cursor:pointer">关闭x
+        </div>
+        <h2>举报该信息</h2>
+        <div class="liftlist">
+            <div class="left_con">
+                <span class="red">*</span>举报原因：
             </div>
-            <div class="liftlist">
-                <div class="left_con">
-                    <span class="red">*</span>备注说明：
-                </div>
-                <div class="righ_con">
-                    <textarea name="" id="" cols="70" rows="10">请简明要饿地阐述您的理由，以便工作人员更好地判断，字数在100字以内</textarea>
-                </div>
-                <div class="clearbox"></div>
-            </div>
-            <div class="liftlist">
-                <div class="left_con">上传凭证：
-                </div>
-                <div class="righ_con">
-                  
-                <div class="img"> 请上传（选填）</div>
+            <div class="righ_con">
+                <ul id="dx">
+                    <li>诈骗（如提前收取各类费用等）</li>
+                    <li>套牌\走私车</li>
+                    <li>虚假（如车况、价格等）</li>
+                    <li>商家冒充个人</li>
+                    <li>其他</li>
                     <div class="clearbox"></div>
-                    <input type="button" value="上传凭证" class="scqz">
-                </div>
-                <div class="clearbox"></div>
+                </ul>
             </div>
-            <div class="liftlist">
-                <div class="left_con">
-                    <span class="red">*</span>联系方式：
-                </div>
-                <div class="righ_con">
-                    <input type="text" class="phone" placeholder="手机号">
-                </div>
-                <div class="clearbox"></div>
+            <div class="clearbox"></div>
+        </div>
+        <div class="liftlist">
+            <div class="left_con">
+                <span class="red">*</span>备注说明：
             </div>
-            <div class="liftlist">
-                <div class="left_con">
-                </div>
-                <div class="righ_con">
-                    <input type="button" class="tj" value="提交">
-                </div>
-                <div class="clearbox"></div>
+            <div class="righ_con">
+                <textarea name="" id="" cols="70" rows="10">请简明要饿地阐述您的理由，以便工作人员更好地判断，字数在100字以内</textarea>
             </div>
+            <div class="clearbox"></div>
+        </div>
+        <div class="liftlist">
+            <div class="left_con">上传凭证：
+            </div>
+            <div class="righ_con">
+
+                <div class="img"> 请上传（选填）</div>
+                <div class="clearbox"></div>
+                <input type="button" value="上传凭证" class="scqz">
+            </div>
+            <div class="clearbox"></div>
+        </div>
+        <div class="liftlist">
+            <div class="left_con">
+                <span class="red">*</span>联系方式：
+            </div>
+            <div class="righ_con">
+                <input type="text" class="phone" placeholder="手机号">
+            </div>
+            <div class="clearbox"></div>
+        </div>
+        <div class="liftlist">
+            <div class="left_con">
+            </div>
+            <div class="righ_con">
+                <input type="button" class="tj" value="提交">
+            </div>
+            <div class="clearbox"></div>
         </div>
     </div>
-    <script>
-  $(function() {
-           $('.righ_con #dx li').click(function(){
-           $(this).toggleClass('on');
+</div>
+<script>
+    $(function () {
+        $('.righ_con #dx li').click(function () {
+            $(this).toggleClass('on');
         })
     })
-    </script>
+</script>
 
-     
+
 </body>
 
 </html>

@@ -21,6 +21,8 @@ public class RoleAnnotationHandler implements AuthorizingAnnotationHandler {
         if (!(a instanceof RequiresRoles)) return;
         RequiresRoles annotation = (RequiresRoles) a;
         String message = "您未登录,请前往登录";
+        if (userInfo == null)
+            throw new MethodNotAllowedException("您未登录,请前往登录");
         String[] roles = annotation.value();
         if (roles.length == 1) {
             if (roles[0].equals(Roles.COMPANY))
