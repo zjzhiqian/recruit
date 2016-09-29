@@ -123,6 +123,16 @@ public class RecruitmentController extends BaseController {
         return recruitmentService.getPageResult(buildQueryParam(paramVo));
     }
 
+
+    /**
+     * 点进职位详情,添加 watchCount
+     */
+    @RequestMapping(path = "/addWatchCount/{id}", method = RequestMethod.POST)
+    public BaseResult searchJob(@PathVariable Integer id) {
+        recruitmentService.addWatchCount(id);
+        return new BaseResult("success");
+    }
+
     private RecruitmentQueryParam buildQueryParam(RecruitmentQueryParamVo paramVo) {
         Integer type = paramVo.getType();
         if (type == null || type == -1)
@@ -166,9 +176,6 @@ public class RecruitmentController extends BaseController {
 
 
         }
-
-
-
         return param;
     }
 }

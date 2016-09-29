@@ -88,4 +88,9 @@ public class RecruitmentServiceImpl implements RecruitmentService {
         return new PageResult<>(page, per, count, pageData);
     }
 
+    @Override
+    public boolean addWatchCount(Integer id) {
+        return recruitmentMapper.addWatchCount(id)>0;
+    }
+
 }

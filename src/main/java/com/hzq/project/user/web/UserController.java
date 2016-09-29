@@ -2,6 +2,8 @@ package com.hzq.project.user.web;
 
 import com.alibaba.fastjson.JSON;
 import com.hzq.project.picture.web.UpLoadController;
+import com.hzq.project.system.common.web.BaseController;
+import com.hzq.project.system.security.annon.RequiresRoles;
 import com.hzq.project.system.security.util.AESUtil;
 import com.hzq.project.system.common.entity.CookieInfo;
 import com.hzq.project.system.common.entity.UserInfo;
@@ -9,6 +11,7 @@ import com.hzq.project.system.common.redis.RedisHelper;
 import com.hzq.project.system.common.util.Creator;
 import com.hzq.project.system.common.util.ValidatorHelper;
 import com.hzq.project.system.common.web.BaseResult;
+import com.hzq.project.system.security.util.Roles;
 import com.hzq.project.user.dao.entity.Company;
 import com.hzq.project.user.dao.entity.User;
 import com.hzq.project.user.exception.UserException;
@@ -35,7 +38,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController{
 
     @Autowired
     private UserService userService;
@@ -76,10 +79,20 @@ public class UserController {
      * 获取企业详情
      */
     @RequestMapping(path = "/companyInfo/{id}", method = RequestMethod.GET)
-    public CompanyInfo registerCompany(@PathVariable Integer id) {
+    public CompanyInfo companyInfo(@PathVariable Integer id) {
         if (id == null)
             throw new UserException();
         return companyService.getCompanyInfoById(id);
+    }
+
+
+    /**
+     * 获取企业详情(企业自己)
+     */
+    @RequiresRoles(Roles.COMPANY)
+    @RequestMapping(path = "/companyInfo", method = RequestMethod.GET)
+    public CompanyInfo companyInfo() {
+        return companyService.getCompanyInfoById(getCompanyId());
     }
 
 

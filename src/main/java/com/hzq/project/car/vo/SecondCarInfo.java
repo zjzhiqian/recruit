@@ -42,6 +42,8 @@ public class SecondCarInfo {
 
     private Integer watch;
 
+
+
     @JsonSerialize(using = DateFormatSerializer.class)
     private Date createdAt;
 

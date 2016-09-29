@@ -42,8 +42,11 @@
                 $("#name4").html(userName);
                 var userType = json["userType"];
                 if (userType == 1) {
+                    $("#zhaopin").remove();
+                    $("#tab3").remove();
+                    $("#fabu").addClass('active');
+
                     //个人用户
-                    $("#zhaopin").hide();
 //                    getUserInfo();
                     //获取简历数量
                     $.ajax({
@@ -61,8 +64,12 @@
 
                 } else {
                     //企业用户
-                    $("#fabu").hide();
-                    $("#qiuzhi").hide();
+                    $("#fabu").remove();
+                    $("#qiuzhi").remove();
+
+                    $("#zhaopin").addClass('active');
+                    $("#tab1").remove();
+                    $("#tab2").remove();
                     //招聘职位数量
                     $.ajax({
                         type: "GET",
@@ -76,7 +83,6 @@
                             }
                         }
                     });
-
                     //企业查询收到简历的数量
                     $.ajax({
                         type: "GET",
@@ -135,15 +141,15 @@
 <div id="header"></div>
 <div id="perscenmain">
     <div id="permenu">
-        <a id="fabu" href="#" hidefocus="true" class="active">我的发布</a>
-        <a id="qiuzhi" href="#" hidefocus="true">我的求职</a>
-        <a id="zhaopin" href="#" hidefocus="true">我的招聘</a>
-        <a href="#" hidefocus="true">我的收藏</a>
+        <a id="fabu" href="#" class="active">我的发布</a>
+        <a id="qiuzhi" href="#">我的求职</a>
+        <a id="zhaopin" href="#" >我的招聘</a>
+        <a href="#" >我的收藏</a>
         <div class="clearbox"></div>
     </div>
     <div class="swiper-container">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">
+        <div class="swiper-wrapper" >
+            <div class="swiper-slide" id="tab1">
                 <div class="content-slide">
                     <div class="headerp">
                         <div class="headerimg">
@@ -203,7 +209,7 @@
                     </div>
                 </div>
             </div>
-            <div class="swiper-slide">
+            <div class="swiper-slide" id="tab2">
                 <div class="content-slide">
                     <div class="headerp">
                         <div class="headerimg">
@@ -228,8 +234,8 @@
                         <div id="pub02" class="pubmain">
                             <div class="pubmainmenu">
                                 <ul>
-                                    <li class="pubmainmese">最近发布</li>
-                                    <li>浏览过的</li>
+                                    <!--<li class="pubmainmese">最近发布</li>-->
+                                    <li class="pubmainmese">浏览过的</li>
                                 </ul>
                                 <div class="clearbox"></div>
                             </div>
@@ -237,12 +243,12 @@
                                 <div class="maincon" style="display:block">
                                     <ul>
                                         <li>
-                                            <div class="maintit">法国代购求清仓</div>
-                                            <div class="maintimes">阅读9</div>
+                                            <!--<div class="maintit">法国代购求清仓</div>-->
+                                            <!--<div class="maintimes">阅读9</div>-->
                                         </li>
                                         <li>
-                                            <div class="maintit">法国代购求清仓</div>
-                                            <div class="maintimes">阅读9</div>
+                                            <!--<div class="maintit">法国代购求清仓</div>-->
+                                            <!--<div class="maintimes">阅读9</div>-->
                                         </li>
                                     </ul>
                                 </div>
@@ -250,7 +256,7 @@
                                     <ul>
                                         <li>
                                             <div class="maintit">法国代购求清仓</div>
-                                            <div class="maintimes">阅读9</div>
+                                            <div class="maintimes">阅读3</div>
                                         </li>
                                         <li>
                                             <div class="maintit">法国代购求清仓</div>
@@ -263,7 +269,7 @@
                     </div>
                 </div>
             </div>
-            <div class="swiper-slide">
+            <div class="swiper-slide" id="tab3">
                 <div class="content-slide">
                     <div class="headerp">
                         <div class="headerimg">
@@ -323,7 +329,7 @@
                     </div>
                 </div>
             </div>
-            <div class="swiper-slide">
+            <div class="swiper-slide" id="tab4">
                 <div class="content-slide">
                     <div class="headerp">
                         <div class="headerimg">
@@ -348,8 +354,8 @@
                         <div class="pubmain">
                             <div class="pubmainmenu">
                                 <ul>
-                                    <li class="pubmainmese">最近发布</li>
-                                    <li>浏览过的</li>
+                                    <li class="pubmainmese">收藏列表</li>
+                                    <!--<li>浏览过的</li>-->
                                 </ul>
                                 <div class="clearbox"></div>
                             </div>
@@ -366,18 +372,18 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="maincon" style="display:none">
-                                    <ul>
-                                        <li>
-                                            <div class="maintit">法国代购求清仓</div>
-                                            <div class="maintimes">阅读9</div>
-                                        </li>
-                                        <li>
-                                            <div class="maintit">法国代购求清仓</div>
-                                            <div class="maintimes">阅读9</div>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <!--<div class="maincon" style="display:none">-->
+                                    <!--<ul>-->
+                                        <!--<li>-->
+                                            <!--<div class="maintit">法国代购求清仓</div>-->
+                                            <!--<div class="maintimes">阅读9</div>-->
+                                        <!--</li>-->
+                                        <!--<li>-->
+                                            <!--<div class="maintit">法国代购求清仓</div>-->
+                                            <!--<div class="maintimes">阅读9</div>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
                             </div>
                         </div>
                     </div>
@@ -396,25 +402,27 @@
             var index = $tab_li.index(this);
             $('div.pubmaincon >div').eq(index).show().siblings().hide();
         });
-    });
-    var tabsSwiper = new Swiper('.swiper-container', {
-        speed: 500,
-        onSlideChangeStart: function () {
+
+        var tabsSwiper = new Swiper('.swiper-container', {
+            speed: 500,
+            onSlideChangeStart: function () {
+                $("#permenu .active").removeClass('active');
+                $("#permenu a").eq(tabsSwiper.activeIndex).addClass('active');
+            }
+        });
+
+        $("#permenu a").on('touchstart mousedown', function (e) {
+            e.preventDefault()
             $("#permenu .active").removeClass('active');
-            $("#permenu a").eq(tabsSwiper.activeIndex).addClass('active');
-        }
+            $(this).addClass('active');
+            tabsSwiper.swipeTo($(this).index());
+        });
+
+        $("#permenu a").click(function (e) {
+            e.preventDefault();
+        });
     });
 
-    $("#permenu a").on('touchstart mousedown', function (e) {
-        e.preventDefault()
-        $("#permenu .active").removeClass('active');
-        $(this).addClass('active');
-        tabsSwiper.swipeTo($(this).index());
-    });
-
-    $("#permenu a").click(function (e) {
-        e.preventDefault();
-    });
 </script>
 </body>
 

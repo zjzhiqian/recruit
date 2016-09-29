@@ -239,6 +239,11 @@
     <update id="addWatchCount" parameterType="int">
         update second_car set watch = watch+1 where id = #{id ,jdbcType=INTEGER}  and deleted_at IS  NULL
     </update>
+
+
+    <select id="getCarMerchantRecommendedByMerchantId" parameterType="int" resultType="com.hzq.project.car.vo.SecondCarInfo">
+        select * from second_car where merchant_id = #{id ,jdbcType=INTEGER}  and deleted_at IS  NULL limit 8
+    </select>
     <!--<update id="updateByPrimaryKeySelective" parameterType="com.hzq.project.car.dao.entity.SecondCar" >-->
     <!--update second_car-->
     <!--<set >-->

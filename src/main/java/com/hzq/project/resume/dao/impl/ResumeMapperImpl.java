@@ -12,14 +12,19 @@ import java.util.List;
  * Created by hzq on 16/9/20.
  */
 @Repository
-public class ResumeMapperImpl extends BaseDao<Resume,Integer> implements ResumeMapper {
+public class ResumeMapperImpl extends BaseDao<Resume, Integer> implements ResumeMapper {
     @Override
     public Integer getResumeCountByUserId(Integer userId) {
-        return getSqlSession().selectOne(getIbatisSqlMapNamespace()+".getResumeCountByUserId",userId);
+        return getSqlSession().selectOne(getIbatisSqlMapNamespace() + ".getResumeCountByUserId", userId);
     }
 
     @Override
     public List<Resume> getResumeByUserId(Integer userId) {
-        return selectList("getResumeByUserId",userId);
+        return selectList("getResumeByUserId", userId);
+    }
+
+    @Override
+    public int addWatchCount(Integer id) {
+        return updateByParam("addWatchCount", id);
     }
 }

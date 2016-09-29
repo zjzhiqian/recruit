@@ -1,10 +1,14 @@
 package com.hzq.project.resume.web;
 
+import com.alibaba.fastjson.JSON;
 import com.hzq.project.picture.web.UpLoadController;
 import com.hzq.project.resume.dao.entity.Resume;
 import com.hzq.project.resume.exception.ResumeException;
 import com.hzq.project.resume.service.ResumeService;
+import com.hzq.project.resume.vo.ResumeQueryParam;
 import com.hzq.project.resume.vo.ResumeVo;
+import com.hzq.project.system.common.dao.PageList;
+import com.hzq.project.system.common.dao.PageResult;
 import com.hzq.project.system.security.annon.RequiresRoles;
 import com.hzq.project.system.security.util.Roles;
 import com.hzq.project.system.common.util.Creator;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -39,7 +44,7 @@ public class ResumeController extends BaseController {
     @RequestMapping(path = "/addResume", method = RequestMethod.POST)
     public BaseResult registerUser(@Valid ResumeVo resumeVo, BindingResult bindingResult) {
         ValidatorHelper.validBindingResult(bindingResult);
-        resumeVo.setPicture("/upload/" + UpLoadController.USER_RESUME + "/"+resumeVo.getPicture());
+        resumeVo.setPicture("/upload/" + UpLoadController.USER_RESUME + "/" + resumeVo.getPicture());
         resumeVo.setUserId(getUserId());
         Resume resume = Creator.newInstance(resumeVo, Resume.class);
         resumeService.addResume(resume);
@@ -87,5 +92,27 @@ public class ResumeController extends BaseController {
         return resumeService.getReceivedResumeCount(getCompanyId());
     }
 
+    /**
+     * 企业查看收到简历列表
+     */
+    @RequiresRoles(Roles.COMPANY)
+    @RequestMapping(path = "/receivedResume", method = RequestMethod.GET)
+    public PageResult<Resume> receivedResume(Integer page) {
+        ResumeQueryParam param = new ResumeQueryParam();
+        param.setCompanyId(getCompanyId());
+        param.setPer(8);
+        param.setPage(page);
+        return resumeService.getReceivedResume(param);
+    }
+
+
+    /**
+     * 企业查看收到简历id
+     */
+    @RequiresRoles(Roles.COMPANY)
+    @RequestMapping(path = "/receivedResume/{id}", method = RequestMethod.GET)
+    public Resume receivedResumeById(@PathVariable Integer id) {
+        return resumeService.getResumeByCompanyAndCompanyId(id, getCompanyId());
+    }
 
 }

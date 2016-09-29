@@ -39,7 +39,7 @@
                         var info = rs.data;
                         $("#title").html(carTypeJson2[info['type']] + "  " + info['title']);
                         $("#buyTime").html("购于" + info['buyTime']);
-                        $("#journey").html(info['journey']+"万公里");
+                        $("#journey").html(info['journey'] + "万公里");
                         $("#exhaust").html(info['exhaust'] + "升");
                         $("#store").attr('href', "Store.html?id=" + info['merchantId']);
                         $("#price").html(info['price'])
@@ -50,24 +50,24 @@
                         $("#concactPhone").html("联系电话：<b>" + info['concactPhone'] + "</b>");
                         $("#watch").html($.formatString("浏览次数:{0}人", info['watch']));
                         $("#updatedAt").html($.formatString("最近更新：{0}", info['updatedAt']));
-                        $("#pic").attr('src',info['pictue']);
+                        $("#pic").attr('src', info['pictue']);
                         $("#S01").html($.formatString("排气量:<span>{0}</span>", info['exhaust']));
                         $("#S02").html("变速箱：<span>未知</span></li>")
                         $("#S03").html($.formatString("行驶里程：<span>&lt;{0}万公里</span>", info['journey']));
-                        $("#S04").html($.formatString("车声颜色：<span>{0}</span>", info['color']));
+                        $("#S04").html($.formatString("车声颜色：<span>{0}</span>", carColorJson[info['color']]));
                         $("#S05").html("车身结构：<span>-</span>");
                         $("#S06").html($.formatString("上牌时间：<span>{0}</span>", info['licenseTime']));
                         var str2 = '非运营';
                         if (info['nature'])
                             str2 = '运营';
                         $("#S07").html($.formatString("使用性质：<span>{0}</span>", str2));
-                        $("#S08").html($.formatString("使用性质：<span>{0}</span>", info['insuranceDeadtime']));
+                        $("#S08").html($.formatString("车险到期时间：<span>{0}</span>", info['insuranceDeadtime']));
                         $("#S09").html($.formatString("年检到期：<span>{0}</span>", '-'));
                         var tt1 = $.formatString("<p>{0}</p>", info['introduction']);
                         var arr = info['carPic'].split(",");
-                        var tt2 = ""
+                        var tt2 = "";
                         for (var i = 0; i < arr.length; i++) {
-                            tt2 = tt2 + $.formatString(" <img src=\"{0}\">\"", arr[i]);
+                            tt2 = tt2 + $.formatString(" <img src=\"{0}\">", arr[i]);
                         }
                         $("#S11").html(tt1 + tt2);
                     } else {
@@ -107,14 +107,14 @@
 <!-- 二手车概述S -->
 <div id="busovvi">
     <div id="busphoto">
-        <div  class="photo"><img id='pic' src="images/tw_1.png" alt=""></div>
+        <div class="photo"><img id='pic' src="images/tw_1.png" alt=""></div>
         <!--<div class="photode">-->
-            <!--<ul>-->
-                <!--<li><img src="images/tw_2.png" alt=""></li>-->
-                <!--<li><img src="images/tw_2.png" alt=""></li>-->
-                <!--<li><img src="images/tw_2.png" alt=""></li>-->
-                <!--<li><img src="images/tw_2.png" alt=""></li>-->
-            <!--</ul>-->
+        <!--<ul>-->
+        <!--<li><img src="images/tw_2.png" alt=""></li>-->
+        <!--<li><img src="images/tw_2.png" alt=""></li>-->
+        <!--<li><img src="images/tw_2.png" alt=""></li>-->
+        <!--<li><img src="images/tw_2.png" alt=""></li>-->
+        <!--</ul>-->
         <!--</div>-->
     </div>
     <div id="busname">

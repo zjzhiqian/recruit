@@ -63,6 +63,16 @@
                 }
             });
 
+            //公司信息
+            $.ajax({
+                type: "POST",
+                url: "api/v3/recruitment/addWatchCount/" + jobId,
+                dataType: 'json',
+                success: function (rs) {
+
+                }
+            });
+
 
             var body = "<tbody>\n" +
                     "        <tr>\n" +

@@ -166,4 +166,8 @@
     select * from  resumes where id= #{id,jdbcType=INTEGER} and deleted_at is null
   </select>
 
+  <update id="addWatchCount" parameterType="int">
+    update resumes set watch = watch+1 where id = #{id,jdbcType=INTEGER} and deleted_at is null
+  </update>
+
 </mapper>

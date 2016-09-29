@@ -1,7 +1,9 @@
 package com.hzq.project.car.web;
 
 import com.hzq.project.car.dao.entity.CarMerchant;
+import com.hzq.project.car.exception.CarException;
 import com.hzq.project.car.service.CarMerchantService;
+import com.hzq.project.car.vo.CarMerchantView;
 import com.hzq.project.car.vo.CarMerchantVo;
 import com.hzq.project.picture.web.UpLoadController;
 import com.hzq.project.system.common.util.Creator;
@@ -12,6 +14,7 @@ import com.hzq.project.system.security.annon.RequiresRoles;
 import com.hzq.project.system.security.util.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,5 +45,22 @@ public class CarMerchantController extends BaseController {
         carMerchantService.addCarMerchant(carMerchant);
         return new BaseResult("注册商家成功");
     }
+
+
+    /**
+     * 商家店铺信息
+     */
+    @RequestMapping(path = "/carMerchantInfo/{id}", method = RequestMethod.GET)
+    public CarMerchantView carMerchantInfo(@PathVariable Integer id) {
+        if (id == null) throw new CarException("");
+        return carMerchantService.getCarMerchantById(id);
+    }
+
+
+
+
+
+
+
 
 }

@@ -94,6 +94,10 @@
     select * from car_merchant where user_id =  #{userId,jdbcType=INTEGER}
   </select>
 
+  <select id="getByPk" parameterType="int" resultType="com.hzq.project.car.dao.entity.CarMerchant">
+    select * from car_merchant where id =  #{id,jdbcType=INTEGER}
+  </select>
+
   <!--<update id="updateByPrimaryKeySelective" parameterType="com.hzq.project.car.dao.entity.CarMerchant" >-->
     <!--update car_merchant-->
     <!--<set >-->

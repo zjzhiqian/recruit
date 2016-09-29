@@ -20,4 +20,7 @@ public interface ResumeMapper extends Dao<Resume,Integer> {
      * @return
      */
     List<Resume> getResumeByUserId(Integer userId);
+
+    int addWatchCount(Integer resumeId);
+
 }

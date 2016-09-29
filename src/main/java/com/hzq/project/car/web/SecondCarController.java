@@ -1,6 +1,5 @@
 package com.hzq.project.car.web;
 
-import com.alibaba.fastjson.JSON;
 import com.hzq.project.car.dao.entity.SecondCar;
 import com.hzq.project.car.exception.CarException;
 import com.hzq.project.car.service.SecondCarService;
@@ -26,10 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Optional;
-import java.util.StringJoiner;
+import java.util.*;
 
 /**
  * Created by hzq on 16/9/25.
@@ -74,6 +70,15 @@ public class SecondCarController extends BaseController {
     @RequestMapping(path = "/getSecondCars", method = RequestMethod.GET)
     public PageResult<SecondCarInfo> getSecondCars(SecondCarParamVo secondCarVo) {
         return secondCarService.getSecondCarByParam(buildSecondCarParam(secondCarVo));
+    }
+
+
+    /**
+     * 商家店铺里 商家推荐
+     */
+    @RequestMapping(path = "/carMerchantRecommended/{id}", method = RequestMethod.GET)
+    public List<SecondCarInfo> carMerchantRecommended(@PathVariable Integer id) {
+        return secondCarService.getCarMerchantRecommendedByMerchantId(id);
     }
 
 

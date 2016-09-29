@@ -3,7 +3,9 @@ package com.hzq.project.resume.dao.impl;
 import com.hzq.project.resume.dao.RecruitmentMapper;
 import com.hzq.project.resume.dao.entity.Recruitment;
 import com.hzq.project.resume.dao.entity.RecruitmentSearchResult;
+import com.hzq.project.resume.dao.entity.Resume;
 import com.hzq.project.resume.vo.RecruitmentQueryParam;
+import com.hzq.project.resume.vo.ResumeQueryParam;
 import com.hzq.project.system.common.dao.BaseDao;
 import org.springframework.stereotype.Repository;
 
@@ -59,6 +61,21 @@ public class RecruitmentMapperImpl extends BaseDao<Recruitment, Integer> impleme
     @Override
     public Integer getHighJobCount(Map<String, Integer> map) {
         return getSqlSession().selectOne("getHighJobCount", map);
+    }
+
+    @Override
+    public int addWatchCount(Integer id) {
+        return updateByParam("addWatchCount",id);
+    }
+
+    @Override
+    public List<Resume> getReceivedResume(ResumeQueryParam param) {
+        return getSqlSession().selectList(getIbatisSqlMapNamespace()+".getReceivedResume",param);
+    }
+
+    @Override
+    public Integer getReceivedResumeCount(ResumeQueryParam param) {
+        return getSqlSession().selectOne(getIbatisSqlMapNamespace()+".getReceivedResumeCount",param);
     }
 
 }

@@ -65,4 +65,9 @@ public class SecondCarServiceImpl implements SecondCarService {
         return secondCarMapper.getByPk(id);
 
     }
+
+    @Override
+    public List<SecondCarInfo> getCarMerchantRecommendedByMerchantId(Integer id) {
+        return secondCarMapper.getCarMerchantRecommendedByMerchantId(id);
+    }
 }

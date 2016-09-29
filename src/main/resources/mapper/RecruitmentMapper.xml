@@ -232,5 +232,29 @@
         select count(1) from recruitments where is_full = 1 and deleted_at is null
     </select>
 
+    <update id="addWatchCount" parameterType="int">
+        update recruitments set watch = watch +1 where id = #{id,jdbcType=INTEGER}  and deleted_at is null
+    </update>
+
+
+    <select id="getReceivedResume" parameterType="map" resultType="com.hzq.project.resume.dao.entity.Resume">
+        select rr.created_at, rs.id ,rs.picture,rs.work_year,rs.education,rs.name
+        from resume_job_relations rr ,resumes rs
+        where rr.resume_id = rs.id
+        and rr.company_id = #{companyId,jdbcType=INTEGER}
+        order by rr.created_at desc
+        <if test="start!=null">
+            limit #{start},#{per}
+        </if>
+
+    </select>
+
+    <select id="getReceivedResumeCount" parameterType="map" resultType="int">
+        select count(1) from resume_job_relations rr ,resumes rs
+        where rr.resume_id = rs.id
+        and rr.company_id = #{companyId,jdbcType=INTEGER}
+        order by rr.created_at desc
+    </select>
+
 
 </mapper>

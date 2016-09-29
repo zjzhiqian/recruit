@@ -46,4 +46,9 @@ public interface RecruitmentService {
      * 高端招聘
      */
     PageResult<Recruitment> getHighJob(Integer page);
+
+    /**
+     * 增加浏览次数
+     */
+    boolean addWatchCount(Integer id);
 }

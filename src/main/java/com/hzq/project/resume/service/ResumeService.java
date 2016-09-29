@@ -1,6 +1,8 @@
 package com.hzq.project.resume.service;
 
 import com.hzq.project.resume.dao.entity.Resume;
+import com.hzq.project.resume.vo.ResumeQueryParam;
+import com.hzq.project.system.common.dao.PageResult;
 
 import java.util.List;
 
@@ -28,4 +30,8 @@ public interface ResumeService {
      * 查询企业收到的简历数量
      */
     Integer getReceivedResumeCount(Integer companyId);
+
+    PageResult<Resume> getReceivedResume(ResumeQueryParam param);
+
+    Resume getResumeByCompanyAndCompanyId(Integer id, Integer companyId);
 }

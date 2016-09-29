@@ -1,21 +1,15 @@
 
 企业 个人中心收到简历xx封 查看符合条件简历
 //FrmDea.html WorkInfo.html 企业招聘详情页面  TODO 企业照片 收藏和举报功能没做
+//Store.html 收藏,举报 店铺信息
+
 //Poerscenter 个人中心  //TODO 我的收藏展示进
+//个人中心 我的招聘 浏览过的
+
+
 
 
 即将完成
-// 商家二手车注册 StoreRegister.html 店铺类型字典编写
-//二手车详情页  汽车颜色..
-
-
-
-
-
-
-
-
-
 
 
 最后完成:

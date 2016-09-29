@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>台州创新网　-　二手房详细信息</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <link href="images/favicon.ico" rel="Shortcut Icon">
@@ -16,411 +16,263 @@
     <script type="text/javascript" src="js/common-include.js"></script>
     <script src="js/jquery.luara.0.0.1.min.js"></script>
 
+    <script type="text/javascript" src="js/common-dic.js"></script>
+
     <script>
-        $(function() {
+        $(function () {
             includeHeader();
             includeFoot();
+
+            var id = getQueryString("id");
+            if (id == undefined || id == null) {
+                alert("请求参数不合法")
+            }
+            //热门职位
+            $.ajax({
+                type: "GET",
+                url: "api/v3/cartMerchant/carMerchantInfo/" + id,
+                dataType: 'json',
+                async: false,
+                success: function (rs) {
+                    if (rs.success) {
+                        var info = rs.data;
+                        $("#argument").html(
+                                $.formatString("<ul>\n" +
+                                        "                <li>公司名称：{0}</li>\n" +
+                                        "                    <li>公司类型:{1}</li>\n" +
+                                        "                    <li>联系人：{2}</li>\n" +
+                                        "                    <li>联系电话：<span class=\"frmphoto\">{3}</span></li>\n" +
+                                        "                    <li>地址：{4}</li>\n" +
+                                        "            </ul>\n" +
+                                        "            <ul id=\"taj\">\n" +
+                                        "                <li>浏览量:{5}人</li>\n" +
+                                        "                <li>最近更新时间：{6}</li>\n" +
+//                                        "                <li>\n" +
+//                                        "                    <input id=\"sc\" type=\"button\" onclick=\"changeSc()\" value=\"收藏\">\n" +
+//                                        "                </li>\n" +
+//                                        "                <li>\n" +
+//                                        "                    <input id=\"jb\" type=\"button\" onclick=\"changeJb()\" value=\"举报\">\n" +
+//                                        "                </li>\n" +
+                                        "            </ul>", info['company'],carStoreArrJson[info['type']], info['name'], info['phone'], info['address'], info['watch'], info['updatedAt'])
+                        )
+                    } else {
+                        alert(rs.data.error);
+                    }
+                }
+            });
+
+            //热门职位
+            $.ajax({
+                type: "GET",
+                url: "api/v3/secondCar/carMerchantRecommended/" + id,
+                dataType: 'json',
+                async: false,
+                success: function (rs) {
+                    if (rs.success) {
+                        var info = rs.data;
+
+                        var maxLength = info.length;
+                        if (info.length >= 4)  maxLength = 4;
+                        var str1 = "";
+                        for (var i = 0; i < maxLength; i++) {
+                            var dt = info[i];
+                            str1 = str1 +
+                                    $.formatString("<li class=\"marri\">\n" +
+                                            "            <div class=\"carimg\"><img src=\"{0}\" alt=\"\"></div>\n" +
+                                            "            <div class=\"cartit\">{1}</div>\n" +
+                                            "            <div class=\"stomale\">\n" +
+                                            "                <ul class=\"carsinfo\">\n" +
+                                            "                    <li>里程:{2}万公里</li>\n" +
+                                            "                    <li>年份：{3}</li>\n" +
+//                                            "                    <li>地址：台州椒江</li>\n"+
+                                            "                    <div class=\"clearbox\">\n" +
+                                            "                    </div>\n" +
+                                            "                </ul>\n" +
+                                            "            </div>\n" +
+                                            "            <div class=\"stomari\">\n" +
+                                            "                ￥<span>{4}万元</span>\n" +
+                                            "            </div>\n" +
+                                            "        </li>\n" +
+                                            "        \n" +
+                                            "        \n", dt['pictue'], carTypeJson2[dt['type']] + " " + dt['title'], dt['journey'], dt['buyTime'], dt['price'])
+                        }
+                        str1 = str1 + " <div class=\"clearbox\"></div>";
+                        $("#sub1").html(str1);
+
+                        if (info.length > 4) {
+                            var str2 = "";
+                            for (var j = 4; j < info.length; j++) {
+                                var tt = info[j];
+                                str2 = str2 +
+                                        $.formatString("<li class=\"marri\">\n" +
+                                                "            <div class=\"carimg\"><img src=\"{0}\" alt=\"\"></div>\n" +
+                                                "            <div class=\"cartit\">{1}</div>\n" +
+                                                "            <div class=\"stomale\">\n" +
+                                                "                <ul class=\"carsinfo\">\n" +
+                                                "                    <li>里程:{2}万公里</li>\n" +
+                                                "                    <li>年份：{3}</li>\n" +
+//                                            "                    <li>地址：台州椒江</li>\n"+
+                                                "                    <div class=\"clearbox\">\n" +
+                                                "                    </div>\n" +
+                                                "                </ul>\n" +
+                                                "            </div>\n" +
+                                                "            <div class=\"stomari\">\n" +
+                                                "                ￥<span>{4}万元</span>\n" +
+                                                "            </div>\n" +
+                                                "        </li>\n" +
+                                                "        \n" +
+                                                "        \n", tt['pictue'], carTypeJson2[tt['type']] + " " + tt['title'], tt['journey'], tt['buyTime'], tt['price'])
+                            }
+                            str2 = str2 + " <div class=\"clearbox\"></div>";
+                            $("#sub2").html(str1);
+                        }
+                    } else {
+                        alert(rs.data.error);
+                    }
+                }
+            });
 
         });
     </script>
 
 
-
     <script>
-    function changeSc() {
-        alert("收藏成功！");
-        sc.value = "已收藏";
-        sc.style.backgroundImage = 'url(images/ysc.png)';
-        sc.style.backgroundRepeat = "no-repeat";
-        sc.style.paddingLeft = "20px";
-        sc.style.backgroundPosition = " left center";
-    }
+        function changeSc() {
+            alert("收藏成功！");
+            sc.value = "已收藏";
+            sc.style.backgroundImage = 'url(images/ysc.png)';
+            sc.style.backgroundRepeat = "no-repeat";
+            sc.style.paddingLeft = "20px";
+            sc.style.backgroundPosition = " left center";
+        }
     </script>
     <script>
-    function changeJb() {
-        document.getElementById('lift').style.display = 'block';
-        jb.value = "已举报";
-        jb.style.backgroundImage = 'url(images/yjb.png)';
-        jb.style.backgroundRepeat = "no-repeat";
-        jb.style.paddingLeft = "20px";
-        jb.style.backgroundPosition = " left center";
-    }
+        function changeJb() {
+            document.getElementById('lift').style.display = 'block';
+            jb.value = "已举报";
+            jb.style.backgroundImage = 'url(images/yjb.png)';
+            jb.style.backgroundRepeat = "no-repeat";
+            jb.style.paddingLeft = "20px";
+            jb.style.backgroundPosition = " left center";
+        }
     </script>
 </head>
 
 <body>
-    <div id="header">
+<div id="header">
+</div>
+<!-- 店铺介绍 S -->
+<div id="stordea">
+    <div class="title2">详情</div>
+    <div id="argument">
+
     </div>
-    <!-- 店铺介绍 S -->
-    <div id="stordea">
-        <div class="title2">详情</div>
-        <div id="argument">
-            <ul>
-                <li>公司名称：台州一二三有限公司</li>
-                <li>公司规模：1000人以上</li>
-                <li>公司行业：娱乐休闲/服务
-                    <li>公司类型:民营</li>
-                    <li>联系人：张小姐</li>
-                    <li>公司网站：www.123.com</li>
-                    <li>联系电话：<span class="frmphoto">188-1234-1234</span></li>
-                    <li>地址：台州市椒江区文化广场19号</li>
-            </ul>
-            <Ul id="taj">
-                <li>浏览量:129608人</li>
-                <li>最近更新时间：2016年9月23日</li>
-                <li>
-                    <input id="sc" type="button" onclick="changeSc()" value="收藏">
-                </li>
-                <li>
-                    <input id="jb" type="button" onclick="changeJb()" value="举报">
-                </li>
-            </Ul>
-        </div>
-    </div>
-    <!--   店铺介绍 E -->
-    <!-- 商家推荐 -->
-    <div class="stolist">
-        <div class="title2">商家推荐</div>
-        <ul class="stomain">
-            <li class="marri">
-                <div class="carimg"><img src="images/cars.png" alt=""></div>
-                <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
-                <div class="stomale">
-                    <ul class="carsinfo">
-                        <li>里程:3万公里</li>
-                        <li>年份：2016年</li>
-                        <li>地址：台州椒江</li>
-                        <div class="clearbox">
-                        </div>
-                    </ul>
-                </div>
-                <div class="stomari">
-                    ￥<span>18.8万元</span>
-                </div>
-            </li>
-            <li class="marri">
-                <div class="carimg"><img src="images/cars.png" alt=""></div>
-                <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
-                <div class="stomale">
-                    <ul class="carsinfo">
-                        <li>里程:3万公里</li>
-                        <li>年份：2016年</li>
-                        <li>地址：台州椒江</li>
-                        <div class="clearbox">
-                        </div>
-                    </ul>
-                </div>
-                <div class="stomari">
-                    ￥<span>18.8万元</span>
-                </div>
-            </li>
-            <li class="marri">
-                <div class="carimg"><img src="images/cars.png" alt=""></div>
-                <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
-                <div class="stomale">
-                    <ul class="carsinfo">
-                        <li>里程:3万公里</li>
-                        <li>年份：2016年</li>
-                        <li>地址：台州椒江</li>
-                        <div class="clearbox">
-                        </div>
-                    </ul>
-                </div>
-                <div class="stomari">
-                    ￥<span>18.8万元</span>
-                </div>
-            </li>
-            <li class="marri">
-                <div class="carimg"><img src="images/cars.png" alt=""></div>
-                <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
-                <div class="stomale">
-                    <ul class="carsinfo">
-                        <li>里程:3万公里</li>
-                        <li>年份：2016年</li>
-                        <li>地址：台州椒江</li>
-                        <div class="clearbox">
-                        </div>
-                    </ul>
-                </div>
-                <div class="stomari">
-                    ￥<span>18.8万元</span>
-                </div>
-            </li>
-            <div class="clearbox"></div>
-        </ul>
-    </div>
-    <!-- 最新车源 -->
-       <div class="stolist">
-        <div class="title2 float">商家推荐</div>
-        <div class="carmore" onclick="document.getElementById('carmore').style.display = 'block';">查看全部</div>
+</div>
+<!--   店铺介绍 E -->
+<!-- 商家推荐 -->
+<div class="stolist">
+    <div class="title2">商家推荐</div>
+    <ul class="stomain" id="sub1">
+
+    </ul>
+</div>
+<!-- 最新车源 -->
+<div class="stolist">
+    <div class="title2 float">商家推荐</div>
+    <div class="carmore" onclick="document.getElementById('carmore').style.display = 'block';">查看全部</div>
+    <div class="clearbox"></div>
+    <ul class="stomain" id="sub2">
+        <li class="marri">
+            <div class="carimg"><img src="images/cars.png" alt=""></div>
+            <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
+            <div class="stomale">
+                <ul class="carsinfo">
+                    <li>里程:3万公里</li>
+                    <li>年份：2016年</li>
+                    <li>地址：台州椒江</li>
+                    <div class="clearbox">
+                    </div>
+                </ul>
+            </div>
+            <div class="stomari">
+                ￥<span>18.8万元</span>
+            </div>
+        </li>
+
         <div class="clearbox"></div>
-        <ul class="stomain">
-            <li class="marri">
-                <div class="carimg"><img src="images/cars.png" alt=""></div>
-                <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
-                <div class="stomale">
-                    <ul class="carsinfo">
-                        <li>里程:3万公里</li>
-                        <li>年份：2016年</li>
-                        <li>地址：台州椒江</li>
-                        <div class="clearbox">
-                        </div>
-                    </ul>
-                </div>
-                <div class="stomari">
-                    ￥<span>18.8万元</span>
-                </div>
-            </li>
-            <li class="marri">
-                <div class="carimg"><img src="images/cars.png" alt=""></div>
-                <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
-                <div class="stomale">
-                    <ul class="carsinfo">
-                        <li>里程:3万公里</li>
-                        <li>年份：2016年</li>
-                        <li>地址：台州椒江</li>
-                        <div class="clearbox">
-                        </div>
-                    </ul>
-                </div>
-                <div class="stomari">
-                    ￥<span>18.8万元</span>
-                </div>
-            </li>
-            <li class="marri">
-                <div class="carimg"><img src="images/cars.png" alt=""></div>
-                <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
-                <div class="stomale">
-                    <ul class="carsinfo">
-                        <li>里程:3万公里</li>
-                        <li>年份：2016年</li>
-                        <li>地址：台州椒江</li>
-                        <div class="clearbox">
-                        </div>
-                    </ul>
-                </div>
-                <div class="stomari">
-                    ￥<span>18.8万元</span>
-                </div>
-            </li>
-            <li class="marri">
-                <div class="carimg"><img src="images/cars.png" alt=""></div>
-                <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
-                <div class="stomale">
-                    <ul class="carsinfo">
-                        <li>里程:3万公里</li>
-                        <li>年份：2016年</li>
-                        <li>地址：台州椒江</li>
-                        <div class="clearbox">
-                        </div>
-                    </ul>
-                </div>
-                <div class="stomari">
-                    ￥<span>18.8万元</span>
-                </div>
-            </li>
-            <div class="clearbox"></div>
-        </ul>
-        <ul class="stomain" id="carmore" style="display:none">
-              <li class="marri">
-                <div class="carimg"><img src="images/cars.png" alt=""></div>
-                <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
-                <div class="stomale">
-                    <ul class="carsinfo">
-                        <li>里程:3万公里</li>
-                        <li>年份：2016年</li>
-                        <li>地址：台州椒江</li>
-                        <div class="clearbox">
-                        </div>
-                    </ul>
-                </div>
-                <div class="stomari">
-                    ￥<span>18.8万元</span>
-                </div>
-            </li>
-            <li class="marri">
-                <div class="carimg"><img src="images/cars.png" alt=""></div>
-                <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
-                <div class="stomale">
-                    <ul class="carsinfo">
-                        <li>里程:3万公里</li>
-                        <li>年份：2016年</li>
-                        <li>地址：台州椒江</li>
-                        <div class="clearbox">
-                        </div>
-                    </ul>
-                </div>
-                <div class="stomari">
-                    ￥<span>18.8万元</span>
-                </div>
-            </li>
-            <li class="marri">
-                <div class="carimg"><img src="images/cars.png" alt=""></div>
-                <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
-                <div class="stomale">
-                    <ul class="carsinfo">
-                        <li>里程:3万公里</li>
-                        <li>年份：2016年</li>
-                        <li>地址：台州椒江</li>
-                        <div class="clearbox">
-                        </div>
-                    </ul>
-                </div>
-                <div class="stomari">
-                    ￥<span>18.8万元</span>
-                </div>
-            </li>
-            <li class="marri">
-                <div class="carimg"><img src="images/cars.png" alt=""></div>
-                <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
-                <div class="stomale">
-                    <ul class="carsinfo">
-                        <li>里程:3万公里</li>
-                        <li>年份：2016年</li>
-                        <li>地址：台州椒江</li>
-                        <div class="clearbox">
-                        </div>
-                    </ul>
-                </div>
-                <div class="stomari">
-                    ￥<span>18.8万元</span>
-                </div>
-            </li>  <li class="marri">
-                <div class="carimg"><img src="images/cars.png" alt=""></div>
-                <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
-                <div class="stomale">
-                    <ul class="carsinfo">
-                        <li>里程:3万公里</li>
-                        <li>年份：2016年</li>
-                        <li>地址：台州椒江</li>
-                        <div class="clearbox">
-                        </div>
-                    </ul>
-                </div>
-                <div class="stomari">
-                    ￥<span>18.8万元</span>
-                </div>
-            </li>
-            <li class="marri">
-                <div class="carimg"><img src="images/cars.png" alt=""></div>
-                <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
-                <div class="stomale">
-                    <ul class="carsinfo">
-                        <li>里程:3万公里</li>
-                        <li>年份：2016年</li>
-                        <li>地址：台州椒江</li>
-                        <div class="clearbox">
-                        </div>
-                    </ul>
-                </div>
-                <div class="stomari">
-                    ￥<span>18.8万元</span>
-                </div>
-            </li>
-            <li class="marri">
-                <div class="carimg"><img src="images/cars.png" alt=""></div>
-                <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
-                <div class="stomale">
-                    <ul class="carsinfo">
-                        <li>里程:3万公里</li>
-                        <li>年份：2016年</li>
-                        <li>地址：台州椒江</li>
-                        <div class="clearbox">
-                        </div>
-                    </ul>
-                </div>
-                <div class="stomari">
-                    ￥<span>18.8万元</span>
-                </div>
-            </li>
-            <li class="marri">
-                <div class="carimg"><img src="images/cars.png" alt=""></div>
-                <div class="cartit">大众朗逸 2016款 木头人旗舰版</div>
-                <div class="stomale">
-                    <ul class="carsinfo">
-                        <li>里程:3万公里</li>
-                        <li>年份：2016年</li>
-                        <li>地址：台州椒江</li>
-                        <div class="clearbox">
-                        </div>
-                    </ul>
-                </div>
-                <div class="stomari">
-                    ￥<span>18.8万元</span>
-                </div>
-            </li>
-            <div class="clearbox"></div>
-        </ul>
-    </div>
-    <div id="footer">
-    </div>
-    <div id="lift">
-        <div id="liftcon">
-            <div onclick="document.getElementById('lift').style.display='';" style="float:right;text-align:right;cursor:pointer">关闭x</div>
-            <h2>举报该信息</h2>
-            <div class="liftlist">
-                <div class="left_con">
-                    <span class="red">*</span>举报原因：
-                </div>
-                <div class="righ_con">
-                    <ul id="dx">
-                        <li>电话虚假（如空号/无法接听）</li>
-                        <li>涉黄违法</li>
-                        <li>诈骗（如提前收取各类费用等）</li>
-                        <li>中介冒充个人</li>
-                        <li>虚假（如房源/价格等虚假）</li>
-                        <li>其他</li>
-                        <div class="clearbox"></div>
-                    </ul>
-                </div>
-                <div class="clearbox"></div>
+    </ul>
+</div>
+<div id="footer">
+</div>
+<div id="lift">
+    <div id="liftcon">
+        <div onclick="document.getElementById('lift').style.display='';"
+             style="float:right;text-align:right;cursor:pointer">关闭x
+        </div>
+        <h2>举报该信息</h2>
+        <div class="liftlist">
+            <div class="left_con">
+                <span class="red">*</span>举报原因：
             </div>
-            <div class="liftlist">
-                <div class="left_con">
-                    <span class="red">*</span>备注说明：
-                </div>
-                <div class="righ_con">
-                    <textarea name="" id="" cols="70" rows="10" placeholder="请简明要饿地阐述您的理由，以便工作人员更好地判断，字数在100字以内"></textarea>
-                </div>
-                <div class="clearbox"></div>
-            </div>
-            <div class="liftlist">
-                <div class="left_con">上传凭证：
-                </div>
-                <div class="righ_con">
-                  
-                <div class="img"> 请上传（选填）</div>
+            <div class="righ_con">
+                <ul id="dx">
+                    <li>电话虚假（如空号/无法接听）</li>
+                    <li>涉黄违法</li>
+                    <li>诈骗（如提前收取各类费用等）</li>
+                    <li>中介冒充个人</li>
+                    <li>虚假（如房源/价格等虚假）</li>
+                    <li>其他</li>
                     <div class="clearbox"></div>
-                    <input type="button" value="上传凭证" class="scqz">
-                </div>
-                <div class="clearbox"></div>
+                </ul>
             </div>
-            <div class="liftlist">
-                <div class="left_con">
-                    <span class="red">*</span>联系方式：
-                </div>
-                <div class="righ_con">
-                    <input type="text" class="phone" placeholder="手机号">
-                </div>
-                <div class="clearbox"></div>
+            <div class="clearbox"></div>
+        </div>
+        <div class="liftlist">
+            <div class="left_con">
+                <span class="red">*</span>备注说明：
             </div>
-            <div class="liftlist">
-                <div class="left_con">
-                </div>
-                <div class="righ_con">
-                    <input type="button" class="tj" value="提交">
-                </div>
-                <div class="clearbox"></div>
+            <div class="righ_con">
+                <textarea name="" id="" cols="70" rows="10" placeholder="请简明要饿地阐述您的理由，以便工作人员更好地判断，字数在100字以内"></textarea>
             </div>
+            <div class="clearbox"></div>
+        </div>
+        <div class="liftlist">
+            <div class="left_con">上传凭证：
+            </div>
+            <div class="righ_con">
+
+                <div class="img"> 请上传（选填）</div>
+                <div class="clearbox"></div>
+                <input type="button" value="上传凭证" class="scqz">
+            </div>
+            <div class="clearbox"></div>
+        </div>
+        <div class="liftlist">
+            <div class="left_con">
+                <span class="red">*</span>联系方式：
+            </div>
+            <div class="righ_con">
+                <input type="text" class="phone" placeholder="手机号">
+            </div>
+            <div class="clearbox"></div>
+        </div>
+        <div class="liftlist">
+            <div class="left_con">
+            </div>
+            <div class="righ_con">
+                <input type="button" class="tj" value="提交">
+            </div>
+            <div class="clearbox"></div>
         </div>
     </div>
-    <script>
-    $(function() {
-        $('.righ_con #dx li').click(function() {
+</div>
+<script>
+    $(function () {
+        $('.righ_con #dx li').click(function () {
             $(this).toggleClass('on');
         })
     })
-    </script>
+</script>
 </body>
 
 </html>
