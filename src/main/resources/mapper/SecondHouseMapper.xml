@@ -1,549 +1,233 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hzq.project.house.dao.SecondHouseMapper">
-
-  <!--<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzq.project.house.dao.SecondHouseMapper" >
+  <!---->
+  <!--<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >-->
     <!--select-->
     <!--<include refid="Base_Column_List" />-->
     <!--from second_house-->
     <!--where id = #{id,jdbcType=INTEGER}-->
   <!--</select>-->
-  <!--<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">-->
+  <!--<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >-->
     <!--delete from second_house-->
     <!--where id = #{id,jdbcType=INTEGER}-->
   <!--</delete>-->
 
-  <insert id="insert" parameterType="com.hzq.project.house.dao.entity.SecondHouse">
+  <insert id="insert" parameterType="com.hzq.project.house.dao.entity.SecondHouse" >
     insert into second_house
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         id,
       </if>
-      <if test="userId != null">
+      <if test="userId != null" >
         user_id,
       </if>
-      <if test="area != null">
+      <if test="area != null" >
         area,
       </if>
-      <if test="address != null">
+      <if test="address != null" >
         address,
       </if>
-      <if test="shi != null">
+      <if test="shi != null" >
         shi,
       </if>
-      <if test="ting != null">
+      <if test="ting != null" >
         ting,
       </if>
-      <if test="wei != null">
+      <if test="wei != null" >
         wei,
       </if>
-      <if test="big != null">
+      <if test="big != null" >
         big,
       </if>
-      <if test="lou != null">
+      <if test="lou != null" >
         lou,
       </if>
-      <if test="ceng != null">
+      <if test="ceng != null" >
         ceng,
       </if>
-      <if test="toward != null">
+      <if test="toward != null" >
         toward,
       </if>
-      <if test="decorate != null">
+      <if test="decorate != null" >
         decorate,
       </if>
-      <if test="type != null">
+      <if test="type != null" >
         type,
       </if>
-      <if test="price != null">
+      <if test="price != null" >
         price,
       </if>
-      <if test="title != null">
+      <if test="title != null" >
         title,
       </if>
-      <if test="introduction != null">
+      <if test="introduction != null" >
         introduction,
       </if>
-      <if test="carPic != null">
+      <if test="carPic != null" >
         car_pic,
       </if>
-      <if test="concactName != null">
+      <if test="concactName != null" >
         concact_name,
       </if>
-      <if test="concactPhone != null">
+      <if test="concactPhone != null" >
         concact_phone,
       </if>
-      <if test="watch != null">
+      <if test="watch != null" >
         watch,
       </if>
-      <if test="createdAt != null">
+      <if test="createdAt != null" >
         created_at,
       </if>
-      <if test="updatedAt != null">
+      <if test="updatedAt != null" >
         updated_at,
       </if>
-      <if test="deletedAt != null">
+      <if test="deletedAt != null" >
         deleted_at,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="userId != null">
+      <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="area != null">
+      <if test="area != null" >
         #{area,jdbcType=INTEGER},
       </if>
-      <if test="address != null">
+      <if test="address != null" >
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="shi != null">
+      <if test="shi != null" >
         #{shi,jdbcType=INTEGER},
       </if>
-      <if test="ting != null">
+      <if test="ting != null" >
         #{ting,jdbcType=INTEGER},
       </if>
-      <if test="wei != null">
+      <if test="wei != null" >
         #{wei,jdbcType=INTEGER},
       </if>
-      <if test="big != null">
+      <if test="big != null" >
         #{big,jdbcType=INTEGER},
       </if>
-      <if test="lou != null">
+      <if test="lou != null" >
         #{lou,jdbcType=VARCHAR},
       </if>
-      <if test="ceng != null">
+      <if test="ceng != null" >
         #{ceng,jdbcType=INTEGER},
       </if>
-      <if test="toward != null">
+      <if test="toward != null" >
         #{toward,jdbcType=VARCHAR},
       </if>
-      <if test="decorate != null">
+      <if test="decorate != null" >
         #{decorate,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
+      <if test="type != null" >
         #{type,jdbcType=VARCHAR},
       </if>
-      <if test="price != null">
+      <if test="price != null" >
         #{price,jdbcType=DECIMAL},
       </if>
-      <if test="title != null">
+      <if test="title != null" >
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="introduction != null">
+      <if test="introduction != null" >
         #{introduction,jdbcType=VARCHAR},
       </if>
-      <if test="carPic != null">
+      <if test="carPic != null" >
         #{carPic,jdbcType=VARCHAR},
       </if>
-      <if test="concactName != null">
+      <if test="concactName != null" >
         #{concactName,jdbcType=VARCHAR},
       </if>
-      <if test="concactPhone != null">
+      <if test="concactPhone != null" >
         #{concactPhone,jdbcType=VARCHAR},
       </if>
-      <if test="watch != null">
+      <if test="watch != null" >
         #{watch,jdbcType=INTEGER},
       </if>
-      <if test="createdAt != null">
+      <if test="createdAt != null" >
         #{createdAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="updatedAt != null">
+      <if test="updatedAt != null" >
         #{updatedAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="deletedAt != null">
+      <if test="deletedAt != null" >
         #{deletedAt,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hzq.project.house.dao.entity.SecondHouse">
+  <update id="updateByPrimaryKeySelective" parameterType="com.hzq.project.house.dao.entity.SecondHouse" >
     update second_house
-    <set>
-      <if test="userId != null">
+    <set >
+      <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="area != null">
+      <if test="area != null" >
         area = #{area,jdbcType=INTEGER},
       </if>
-      <if test="address != null">
+      <if test="address != null" >
         address = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="shi != null">
+      <if test="shi != null" >
         shi = #{shi,jdbcType=INTEGER},
       </if>
-      <if test="ting != null">
+      <if test="ting != null" >
         ting = #{ting,jdbcType=INTEGER},
       </if>
-      <if test="wei != null">
+      <if test="wei != null" >
         wei = #{wei,jdbcType=INTEGER},
       </if>
-      <if test="big != null">
+      <if test="big != null" >
         big = #{big,jdbcType=INTEGER},
       </if>
-      <if test="lou != null">
+      <if test="lou != null" >
         lou = #{lou,jdbcType=VARCHAR},
       </if>
-      <if test="ceng != null">
+      <if test="ceng != null" >
         ceng = #{ceng,jdbcType=INTEGER},
       </if>
-      <if test="toward != null">
+      <if test="toward != null" >
         toward = #{toward,jdbcType=VARCHAR},
       </if>
-      <if test="decorate != null">
+      <if test="decorate != null" >
         decorate = #{decorate,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
+      <if test="type != null" >
         type = #{type,jdbcType=VARCHAR},
       </if>
-      <if test="price != null">
+      <if test="price != null" >
         price = #{price,jdbcType=DECIMAL},
       </if>
-      <if test="title != null">
+      <if test="title != null" >
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="introduction != null">
+      <if test="introduction != null" >
         introduction = #{introduction,jdbcType=VARCHAR},
       </if>
-      <if test="carPic != null">
+      <if test="carPic != null" >
         car_pic = #{carPic,jdbcType=VARCHAR},
       </if>
-      <if test="concactName != null">
+      <if test="concactName != null" >
         concact_name = #{concactName,jdbcType=VARCHAR},
       </if>
-      <if test="concactPhone != null">
+      <if test="concactPhone != null" >
         concact_phone = #{concactPhone,jdbcType=VARCHAR},
       </if>
-      <if test="watch != null">
+      <if test="watch != null" >
         watch = #{watch,jdbcType=INTEGER},
       </if>
-      <if test="createdAt != null">
+      <if test="createdAt != null" >
         created_at = #{createdAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="updatedAt != null">
+      <if test="updatedAt != null" >
         updated_at = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="deletedAt != null">
+      <if test="deletedAt != null" >
         deleted_at = #{deletedAt,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.hzq.project.house.dao.entity.SecondHouse">
-    update second_house
-    set user_id = #{userId,jdbcType=INTEGER},
-      area = #{area,jdbcType=INTEGER},
-      address = #{address,jdbcType=VARCHAR},
-      shi = #{shi,jdbcType=INTEGER},
-      ting = #{ting,jdbcType=INTEGER},
-      wei = #{wei,jdbcType=INTEGER},
-      big = #{big,jdbcType=INTEGER},
-      lou = #{lou,jdbcType=VARCHAR},
-      ceng = #{ceng,jdbcType=INTEGER},
-      toward = #{toward,jdbcType=VARCHAR},
-      decorate = #{decorate,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DECIMAL},
-      title = #{title,jdbcType=VARCHAR},
-      introduction = #{introduction,jdbcType=VARCHAR},
-      car_pic = #{carPic,jdbcType=VARCHAR},
-      concact_name = #{concactName,jdbcType=VARCHAR},
-      concact_phone = #{concactPhone,jdbcType=VARCHAR},
-      watch = #{watch,jdbcType=INTEGER},
-      created_at = #{createdAt,jdbcType=TIMESTAMP},
-      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
-      deleted_at = #{deletedAt,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <resultMap id="BaseResultMap" type="com.hzq.project.house.dao.entity.SecondHouse">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="area" jdbcType="INTEGER" property="area" />
-    <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="shi" jdbcType="INTEGER" property="shi" />
-    <result column="ting" jdbcType="INTEGER" property="ting" />
-    <result column="wei" jdbcType="INTEGER" property="wei" />
-    <result column="lou" jdbcType="VARCHAR" property="lou" />
-    <result column="ceng" jdbcType="INTEGER" property="ceng" />
-    <result column="toward" jdbcType="VARCHAR" property="toward" />
-    <result column="decorate" jdbcType="VARCHAR" property="decorate" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="price" jdbcType="DECIMAL" property="price" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
-    <result column="car_pic" jdbcType="VARCHAR" property="carPic" />
-    <result column="concact_name" jdbcType="VARCHAR" property="concactName" />
-    <result column="concact_phone" jdbcType="VARCHAR" property="concactPhone" />
-    <result column="watch" jdbcType="INTEGER" property="watch" />
-    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
-    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
-    <result column="deleted_at" jdbcType="TIMESTAMP" property="deletedAt" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, user_id, area, address, shi, ting, wei, lou, ceng, toward, decorate, type, price, 
-    title, introduction, car_pic, concact_name, concact_phone, watch, created_at, updated_at, 
-    deleted_at
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from second_house
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from second_house
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.hzq.project.house.dao.entity.SecondHouse">
-    insert into second_house (id, user_id, area, 
-      address, shi, ting, 
-      wei, lou, ceng, toward, 
-      decorate, type, price, 
-      title, introduction, car_pic, 
-      concact_name, concact_phone, watch, 
-      created_at, updated_at, deleted_at
-      )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{area,jdbcType=INTEGER}, 
-      #{address,jdbcType=VARCHAR}, #{shi,jdbcType=INTEGER}, #{ting,jdbcType=INTEGER}, 
-      #{wei,jdbcType=INTEGER}, #{lou,jdbcType=VARCHAR}, #{ceng,jdbcType=INTEGER}, #{toward,jdbcType=VARCHAR}, 
-      #{decorate,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
-      #{title,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, #{carPic,jdbcType=VARCHAR}, 
-      #{concactName,jdbcType=VARCHAR}, #{concactPhone,jdbcType=VARCHAR}, #{watch,jdbcType=INTEGER}, 
-      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{deletedAt,jdbcType=TIMESTAMP}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.hzq.project.house.dao.entity.SecondHouse">
-    insert into second_house
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="area != null">
-        area,
-      </if>
-      <if test="address != null">
-        address,
-      </if>
-      <if test="shi != null">
-        shi,
-      </if>
-      <if test="ting != null">
-        ting,
-      </if>
-      <if test="wei != null">
-        wei,
-      </if>
-      <if test="lou != null">
-        lou,
-      </if>
-      <if test="ceng != null">
-        ceng,
-      </if>
-      <if test="toward != null">
-        toward,
-      </if>
-      <if test="decorate != null">
-        decorate,
-      </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="price != null">
-        price,
-      </if>
-      <if test="title != null">
-        title,
-      </if>
-      <if test="introduction != null">
-        introduction,
-      </if>
-      <if test="carPic != null">
-        car_pic,
-      </if>
-      <if test="concactName != null">
-        concact_name,
-      </if>
-      <if test="concactPhone != null">
-        concact_phone,
-      </if>
-      <if test="watch != null">
-        watch,
-      </if>
-      <if test="createdAt != null">
-        created_at,
-      </if>
-      <if test="updatedAt != null">
-        updated_at,
-      </if>
-      <if test="deletedAt != null">
-        deleted_at,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="area != null">
-        #{area,jdbcType=INTEGER},
-      </if>
-      <if test="address != null">
-        #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="shi != null">
-        #{shi,jdbcType=INTEGER},
-      </if>
-      <if test="ting != null">
-        #{ting,jdbcType=INTEGER},
-      </if>
-      <if test="wei != null">
-        #{wei,jdbcType=INTEGER},
-      </if>
-      <if test="lou != null">
-        #{lou,jdbcType=VARCHAR},
-      </if>
-      <if test="ceng != null">
-        #{ceng,jdbcType=INTEGER},
-      </if>
-      <if test="toward != null">
-        #{toward,jdbcType=VARCHAR},
-      </if>
-      <if test="decorate != null">
-        #{decorate,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null">
-        #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="introduction != null">
-        #{introduction,jdbcType=VARCHAR},
-      </if>
-      <if test="carPic != null">
-        #{carPic,jdbcType=VARCHAR},
-      </if>
-      <if test="concactName != null">
-        #{concactName,jdbcType=VARCHAR},
-      </if>
-      <if test="concactPhone != null">
-        #{concactPhone,jdbcType=VARCHAR},
-      </if>
-      <if test="watch != null">
-        #{watch,jdbcType=INTEGER},
-      </if>
-      <if test="createdAt != null">
-        #{createdAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedAt != null">
-        #{updatedAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deletedAt != null">
-        #{deletedAt,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hzq.project.house.dao.entity.SecondHouse">
-    update second_house
-    <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="area != null">
-        area = #{area,jdbcType=INTEGER},
-      </if>
-      <if test="address != null">
-        address = #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="shi != null">
-        shi = #{shi,jdbcType=INTEGER},
-      </if>
-      <if test="ting != null">
-        ting = #{ting,jdbcType=INTEGER},
-      </if>
-      <if test="wei != null">
-        wei = #{wei,jdbcType=INTEGER},
-      </if>
-      <if test="lou != null">
-        lou = #{lou,jdbcType=VARCHAR},
-      </if>
-      <if test="ceng != null">
-        ceng = #{ceng,jdbcType=INTEGER},
-      </if>
-      <if test="toward != null">
-        toward = #{toward,jdbcType=VARCHAR},
-      </if>
-      <if test="decorate != null">
-        decorate = #{decorate,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null">
-        price = #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="title != null">
-        title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="introduction != null">
-        introduction = #{introduction,jdbcType=VARCHAR},
-      </if>
-      <if test="carPic != null">
-        car_pic = #{carPic,jdbcType=VARCHAR},
-      </if>
-      <if test="concactName != null">
-        concact_name = #{concactName,jdbcType=VARCHAR},
-      </if>
-      <if test="concactPhone != null">
-        concact_phone = #{concactPhone,jdbcType=VARCHAR},
-      </if>
-      <if test="watch != null">
-        watch = #{watch,jdbcType=INTEGER},
-      </if>
-      <if test="createdAt != null">
-        created_at = #{createdAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedAt != null">
-        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deletedAt != null">
-        deleted_at = #{deletedAt,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.hzq.project.house.dao.entity.SecondHouse">
-    update second_house
-    set user_id = #{userId,jdbcType=INTEGER},
-      area = #{area,jdbcType=INTEGER},
-      address = #{address,jdbcType=VARCHAR},
-      shi = #{shi,jdbcType=INTEGER},
-      ting = #{ting,jdbcType=INTEGER},
-      wei = #{wei,jdbcType=INTEGER},
-      lou = #{lou,jdbcType=VARCHAR},
-      ceng = #{ceng,jdbcType=INTEGER},
-      toward = #{toward,jdbcType=VARCHAR},
-      decorate = #{decorate,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DECIMAL},
-      title = #{title,jdbcType=VARCHAR},
-      introduction = #{introduction,jdbcType=VARCHAR},
-      car_pic = #{carPic,jdbcType=VARCHAR},
-      concact_name = #{concactName,jdbcType=VARCHAR},
-      concact_phone = #{concactPhone,jdbcType=VARCHAR},
-      watch = #{watch,jdbcType=INTEGER},
-      created_at = #{createdAt,jdbcType=TIMESTAMP},
-      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
-      deleted_at = #{deletedAt,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

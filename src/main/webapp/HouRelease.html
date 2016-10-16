@@ -64,35 +64,38 @@
             </li>
             <li>
                 <label class="reatit"><span class="red">*</span>楼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;层</label>
-                <input id="floor" type="text"><span class="floor">楼/层</span>
-                <input id="tier" type="text"><span class="tier">层</span>
+                <input id="floor" name="lou" type="text"><span class="floor">楼/层</span>
+                <input id="tier" name="ceng" type="text"><span class="tier">层</span>
                 <div class="clearbox"></div>
             </li>
             <li>
                 <label class="reatit"><span class="red">*</span>房屋情况</label>
-                <select id="orientation">
-                    <option value="1">房屋朝向</option>
+                <select id="orientation" name="toward">
+                    <option value="朝南">朝南</option>
+                    <option value="朝北">朝北</option>
+                    <option value="朝西">朝西</option>
+                    <option value="朝东">朝东</option>
                 </select>
-                <select id="finish">
-                    <option value="1">装修情况</option>
-                </select>
-                <select id="dwelling">
-                    <option value="1">普通住宅</option>
+                <select id="finish" name="decorate">
+                    <option value="毛坯房">毛坯房</option>
+                    <option value="简装">简装</option>
+                    <option value="精装">精装</option>
+
                 </select>
                 <div class="clearbox"></div>
             </li>
             <li>
                 <label class="reatit" for="times"><span class="red">*</span>房屋类型</label>
-                <select id="genre">
-                    <option value="1">商品房</option>
+                <select id="genre" name="type">
+                    <option value="普通住宅">普通住宅</option>
+                    <option value="商品房">商品房</option>
                 </select>
                 <div class="clearbox"></div>
             </li>
             <li>
                 <label class="reatit" for="money"><span class="red">*</span>产&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;权</label>
-                <select id="equity">
-                    <option value="1">商品房</option>
-                </select>
+                <input id="equity" name="wei" type="text"><span class="guard">年</span>
+
                 <div class="clearbox"></div>
             </li>
             <li>

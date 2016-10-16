@@ -30,6 +30,8 @@ public class SecondHouse {
 
     private String type;
 
+    private String year;
+
     private BigDecimal price;
 
     private String title;
@@ -49,6 +51,14 @@ public class SecondHouse {
     private Date updatedAt;
 
     private Date deletedAt;
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
 
     public Integer getId() {
         return id;

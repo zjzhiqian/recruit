@@ -29,6 +29,8 @@ public class SecondHouseVo {
 
     private String type;
 
+    private String year;
+
     private BigDecimal price;
 
     private String title;
@@ -41,132 +43,12 @@ public class SecondHouseVo {
 
     private String concactPhone;
 
-    public Integer getBig() {
-        return big;
+    public String getConcactPhone() {
+        return concactPhone;
     }
 
-    public void setBig(Integer big) {
-        this.big = big;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getArea() {
-        return area;
-    }
-
-    public void setArea(Integer area) {
-        this.area = area;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Integer getShi() {
-        return shi;
-    }
-
-    public void setShi(Integer shi) {
-        this.shi = shi;
-    }
-
-    public Integer getTing() {
-        return ting;
-    }
-
-    public void setTing(Integer ting) {
-        this.ting = ting;
-    }
-
-    public Integer getWei() {
-        return wei;
-    }
-
-    public void setWei(Integer wei) {
-        this.wei = wei;
-    }
-
-    public String getLou() {
-        return lou;
-    }
-
-    public void setLou(String lou) {
-        this.lou = lou;
-    }
-
-    public Integer getCeng() {
-        return ceng;
-    }
-
-    public void setCeng(Integer ceng) {
-        this.ceng = ceng;
-    }
-
-    public String getToward() {
-        return toward;
-    }
-
-    public void setToward(String toward) {
-        this.toward = toward;
-    }
-
-    public String getDecorate() {
-        return decorate;
-    }
-
-    public void setDecorate(String decorate) {
-        this.decorate = decorate;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getIntroduction() {
-        return introduction;
-    }
-
-    public void setIntroduction(String introduction) {
-        this.introduction = introduction;
-    }
-
-    public String getCarPic() {
-        return carPic;
-    }
-
-    public void setCarPic(String carPic) {
-        this.carPic = carPic;
+    public void setConcactPhone(String concactPhone) {
+        this.concactPhone = concactPhone;
     }
 
     public String getConcactName() {
@@ -177,12 +59,139 @@ public class SecondHouseVo {
         this.concactName = concactName;
     }
 
-    public String getConcactPhone() {
-        return concactPhone;
+    public String getCarPic() {
+        return carPic;
     }
 
-    public void setConcactPhone(String concactPhone) {
-        this.concactPhone = concactPhone;
+    public void setCarPic(String carPic) {
+        this.carPic = carPic;
     }
 
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDecorate() {
+        return decorate;
+    }
+
+    public void setDecorate(String decorate) {
+        this.decorate = decorate;
+    }
+
+    public String getToward() {
+        return toward;
+    }
+
+    public void setToward(String toward) {
+        this.toward = toward;
+    }
+
+    public Integer getCeng() {
+        return ceng;
+    }
+
+    public void setCeng(Integer ceng) {
+        this.ceng = ceng;
+    }
+
+    public String getLou() {
+        return lou;
+    }
+
+    public void setLou(String lou) {
+        this.lou = lou;
+    }
+
+    public Integer getBig() {
+        return big;
+    }
+
+    public void setBig(Integer big) {
+        this.big = big;
+    }
+
+    public Integer getWei() {
+        return wei;
+    }
+
+    public void setWei(Integer wei) {
+        this.wei = wei;
+    }
+
+    public Integer getTing() {
+        return ting;
+    }
+
+    public void setTing(Integer ting) {
+        this.ting = ting;
+    }
+
+    public Integer getShi() {
+        return shi;
+    }
+
+    public void setShi(Integer shi) {
+        this.shi = shi;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Integer getArea() {
+        return area;
+    }
+
+    public void setArea(Integer area) {
+        this.area = area;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 }
