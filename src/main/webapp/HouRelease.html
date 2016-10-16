@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>台州创新网 - 二手房信息发布</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta id="keywords" content="">
     <meta id="description" content="">
     <link href="images/favicon.ico" rel="Shortcut Icon">
@@ -15,137 +15,199 @@
     <script src="js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="js/common-include.js"></script>
     <script src="js/jquery.luara.0.0.1.min.js"></script>
+    <script type="text/javascript" src="js/ajaxfileupload.js"></script>
 
 
     <script>
-    $(function() {
-        includeHeader();
-        includeFoot();
+        $(function () {
+            includeHeader();
+            includeFoot();
 
-    });
+            $("#btnre").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "api/v3/secondHouse/addSecondHouse",
+                    data: $("#form1").serialize(),
+                    dataType: 'json',
+                    success: function (rs) {
+                        if (rs.success) {
+                            alert(rs.data.message)
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+
+            })
+
+        });
+
+
+        function ajaxFileUpload() {
+            $('#loading').show();
+            $.ajaxFileUpload({
+                url: '/api/v3/upload/secondHouse',
+                secureuri: false,
+                fileElementId: 'fileToUpload',
+                dataType: 'text/json',
+                success: function (rs, status) {
+                    var result = $.parseJSON($(parseDom(rs)[0]).text());
+                    $('#loading').hide();
+                    if (result.success) {
+                        var message = result.data['message'];
+                        var currentVal = $("#picture").val();
+                        if (currentVal == "") {
+                            $("#picture").val(message);
+                        } else {
+                            currentVal = currentVal + "," + message;
+                            $("#picture").val(currentVal);
+                        }
+                        $("#info").text('图片已上传,张数:' + currentVal.split(",").length);
+                        alert('图片上传成功,请继续操作')
+                    } else {
+                        alert(result.data.error);
+                    }
+                }
+            });
+
+            return false;
+        }
+
+
+
     </script>
 </head>
 
-<body>
-   <div id="header"></div>
+<div>
+    <div id="header"></div>
     <!-- 二手房信息发布s -->
     <div id="housre">
-        <div class="title3">二手房信息发布</div>
-        <ul>
-            <li>
-                <label class="reatit"><span class="red">*</span>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label>
-                <select id="area">
-                    <option value="0">请选择地区</option>
-                    <option value="1">椒江</option>
-                    <option value="2">路桥</option>
-                    <option value="3">黄岩</option>
-                    <option value="4">临海</option>
-                    <option value="5">温岭</option>
-                    <option value="6">天台</option>
-                    <option value="7">三门</option>
-                    <option value="8">仙居</option>
-                    <option value="9">玉环</option>
-                    <option value="10">金清</option>
-                </select>
-           </span>
-                <div class="clearbox"></div>
-            </li>
-            <li>
-                <input id="address" type="text" placeholder="详细地址">
-                <div class="clearbox"></div>
-            </li>
-            <li>
-                <label class="reatit"><span class="red">*</span>户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型</label>
-                <input id="room" name="shi" type="text"><span class="room">室</span>
-                <input id="hall" name="ting" type="text"><span class="hall">厅</span>
-                <input id="guard" name="wei" type="text"><span class="guard">卫</span>
-                <input id="acreage" name="big" type="text" placeholder="面积"><span class="acreage">m<span>2</span></span>
-                <div class="clearbox"></div>
-            </li>
-            <li>
-                <label class="reatit"><span class="red">*</span>楼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;层</label>
-                <input id="floor" name="lou" type="text"><span class="floor">楼/层</span>
-                <input id="tier" name="ceng" type="text"><span class="tier">层</span>
-                <div class="clearbox"></div>
-            </li>
-            <li>
-                <label class="reatit"><span class="red">*</span>房屋情况</label>
-                <select id="orientation" name="toward">
-                    <option value="朝南">朝南</option>
-                    <option value="朝北">朝北</option>
-                    <option value="朝西">朝西</option>
-                    <option value="朝东">朝东</option>
-                </select>
-                <select id="finish" name="decorate">
-                    <option value="毛坯房">毛坯房</option>
-                    <option value="简装">简装</option>
-                    <option value="精装">精装</option>
 
-                </select>
-                <div class="clearbox"></div>
-            </li>
-            <li>
-                <label class="reatit" for="times"><span class="red">*</span>房屋类型</label>
-                <select id="genre" name="type">
-                    <option value="普通住宅">普通住宅</option>
-                    <option value="商品房">商品房</option>
-                </select>
-                <div class="clearbox"></div>
-            </li>
-            <li>
-                <label class="reatit" for="money"><span class="red">*</span>产&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;权</label>
-                <input id="equity" name="wei" type="text"><span class="guard">年</span>
+        <form id="form1">
+            <div class="title3">二手房信息发布</div>
+            <ul>
+                <li>
+                    <label class="reatit"><span class="red">*</span>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label>
+                    <select id="area" name="area">
+                        <option value="0">请选择地区</option>
+                        <option value="1">椒江</option>
+                        <option value="2">路桥</option>
+                        <option value="3">黄岩</option>
+                        <option value="4">临海</option>
+                        <option value="5">温岭</option>
+                        <option value="6">天台</option>
+                        <option value="7">三门</option>
+                        <option value="8">仙居</option>
+                        <option value="9">玉环</option>
+                        <option value="10">金清</option>
+                    </select>
+                    </span>
+                    <div class="clearbox"></div>
+                </li>
+                <li>
+                    <input id="address" type="text" name="address" placeholder="详细地址">
+                    <div class="clearbox"></div>
+                </li>
+                <li>
+                    <label class="reatit"><span class="red">*</span>户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型</label>
+                    <input id="room" name="shi" type="text"><span class="room">室</span>
+                    <input id="hall" name="ting" type="text"><span class="hall">厅</span>
+                    <input id="guard" name="wei" type="text"><span class="guard">卫</span>
+                    <input id="acreage" name="big" type="text" placeholder="面积"><span
+                        class="acreage">m<span>2</span></span>
+                    <div class="clearbox"></div>
+                </li>
+                <li>
+                    <label class="reatit"><span class="red">*</span>楼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;层</label>
+                    <input id="floor" name="lou" type="text"><span class="floor">楼/层</span>
+                    <input id="tier" name="ceng" type="text"><span class="tier">层</span>
+                    <div class="clearbox"></div>
+                </li>
+                <li>
+                    <label class="reatit"><span class="red">*</span>房屋情况</label>
+                    <select id="orientation" name="toward">
+                        <option value="朝南">朝南</option>
+                        <option value="朝北">朝北</option>
+                        <option value="朝西">朝西</option>
+                        <option value="朝东">朝东</option>
+                    </select>
+                    <select id="finish" name="decorate">
+                        <option value="毛坯房">毛坯房</option>
+                        <option value="简装">简装</option>
+                        <option value="精装">精装</option>
 
-                <div class="clearbox"></div>
-            </li>
-            <li>
-                <label class="reatit" for="money"><span class="red">*</span>建筑年代</label>
-                <input id="building" type="text"><span class="building">年</span>
-                <div class="clearbox"></div>
-            </li>
-            <li>
-                <label class="reatit" for="title"><span class="red">*</span>售&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价</label>
-                <input id="money" type="text" placeholder=""><span class="money">万元</span>
-                <div class="clearbox"></div>
-            </li>
-            <li>
-                <label class="reatit" for="title"><span class="red">*</span>标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题</label>
-                <input id="title" type="text" placeholder="写一个吸引力的标题">
-                <div class="clearbox"></div>
-            </li>
-            <li>
-                <label class="reatit" for="describe"><span class="red">*</span>描&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;述</label>
-                <textarea name="describe" id="describe" cols="40" rows="4">
-                    房屋信息，要求等等
-                </textarea>
-                <div class="clearbox"></div>
-            </li>
-            <li>
-                <input id="btnphoto" type="button">
-                <span class="phops">最多传8张，最大10MB</span>
-                <div class="clearbox">
-                </div>
-            </li>
-            <li>
-                <label class="reatit" for="linkman"><span class="red">*</span>联&nbsp;系&nbsp;人</label>
-                <input id="linkman" type="text">
-                <div class="clearbox"></div>
-            </li>
-            <li>
-                <label class="reatit" for="mobi"><span class="red">*</span>联系电话</label>
-                <input id="mobi" type="text">
-                <div class="clearbox"></div>
-            </li>
-            <li>
-                <input id="btnre" type="button" value="提交">
-                <div class="clearbox"></div>
-                <div class="reps">请先登录您的账户！点击<a href="Login.html">登录</a></div>
-            </li>
-        </ul>
-        <div class="clearbox"></div>
+                    </select>
+                    <div class="clearbox"></div>
+                </li>
+                <li>
+                    <label class="reatit" for="times"><span class="red">*</span>房屋类型</label>
+                    <select id="genre" name="type">
+                        <option value="普通住宅">普通住宅</option>
+                        <option value="商品房">商品房</option>
+                    </select>
+                    <div class="clearbox"></div>
+                </li>
+                <li>
+                    <label class="reatit" for="money"><span class="red">*</span>产&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;权</label>
+                    <input id="equity" name="year" type="text"><span class="guard">年</span>
+
+                    <div class="clearbox"></div>
+                </li>
+                <li>
+                    <label class="reatit" for="title"><span class="red">*</span>售&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价</label>
+                    <input id="money" name="price" type="text" placeholder=""><span class="money">万元</span>
+                    <div class="clearbox"></div>
+                </li>
+                <li>
+                    <label class="reatit" for="title"><span class="red">*</span>标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题</label>
+                    <input id="title" name="title" type="text" placeholder="写一个吸引力的标题">
+                    <div class="clearbox"></div>
+                </li>
+                <li>
+                    <label class="reatit" for="describe"><span class="red">*</span>描&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;述</label>
+                    <textarea  name="introduction" id="describe" cols="40"
+                              rows="4">房屋信息，要求等等</textarea>
+                    <div class="clearbox"></div>
+                </li>
+                <li>
+                    <label class="reatit" for="describe">房屋图片</label>
+                    <input type="hidden" id="picture" value="" name="carPic">
+                    <input id="fileToUpload" style="width: 200px;margin-top: 20px;" name="uploadFile" type="file"
+                           class="input">
+                    <img id="loading" src="images/loading.gif" style="display:none;margin-top: 10px;">
+                    <span id="info"></span>
+                    <input type="button" onclick="return ajaxFileUpload();" value="上传照片"><span>最多传8张，最大10MB</span><br/>
+                    <div class="clearbox"></div>
+                </li>
+                <!--<li>-->
+                    <!--<input id="btnphoto" type="button">-->
+<!---->
+                    <!--<input type="hidden" id="carPic" name="carPic" value="2133,23131">-->
+<!---->
+                    <!--<span class="phops">最多传8张，最大10MB</span>-->
+                    <!--<div class="clearbox">-->
+                    <!--</div>-->
+                </li>
+                <li>
+                    <label class="reatit" for="linkman"><span class="red">*</span>联&nbsp;系&nbsp;人</label>
+                    <input id="linkman" type="text" name="concactName">
+                    <div class="clearbox"></div>
+                </li>
+                <li>
+                    <label class="reatit" for="mobi"><span class="red">*</span>联系电话</label>
+                    <input id="mobi" type="text" name="concactPhone">
+                    <div class="clearbox"></div>
+                </li>
+                <li>
+                    <input id="btnre" type="button" value="提交">
+                    <div class="clearbox"></div>
+                </li>
+            </ul>
+            <div class="clearbox"></div>
     </div>
-    <!-- 二手车信息发布E -->
-       <div id="footer"></div>
+</div>
+<!-- 二手车信息发布E -->
+<div id="footer"></div>
 </body>
 
 </html>
