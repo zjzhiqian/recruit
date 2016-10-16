@@ -9,20 +9,226 @@
     <meta name="description" content="">
     <link href="images/favicon.ico" rel="Shortcut Icon">
     <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/jquery.pagination.css">
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
 
     <script src="js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="js/common-include.js"></script>
     <script src="js/jquery.luara.0.0.1.min.js"></script>
 
+    <script type="text/javascript" src="js/common-dic.js"></script>
+    <script type="text/javascript" src="js/jquery.pagination.js"></script>
+
     <script>
         $(function () {
             includeHeader();
             includeFoot();
-            includeLink()
+            includeLink();
+
+
+            var title = getQueryString("title");
+            if (title == null || title==undefined) {
+                title="";
+            }
+            $("#title").val(title);
+
+            var area = getQueryString("area");
+            if (area == null) {
+                area = -1;
+            }
+            $("a[area=" + area + "]").addClass('active');
+
+
+            var price = getQueryString("price");
+            if (price == null) {
+                price = -1;
+            }
+            $("a[price=" + price + "]").addClass('active');
+
+            var big = getQueryString("big");
+            if (big == null) {
+                big = -1;
+            }
+            $("a[big=" + big + "]").addClass('active');
+
+
+            var shi = getQueryString("shi");
+            if (shi == null) {
+                shi = -1;
+            }
+            $("a[shi=" + shi + "]").addClass('active');
+
+            var page = getQueryString("page");
+            if (page == undefined || page == null) {
+                page = 0;
+            }
+
+
+            $("#search a").click(function () {
+                var activeArea = $("#type").find("a[class='active']");
+                var currentArea = -1;
+                if (activeArea[0]) {
+                    currentArea = ($(activeArea[0]).attr('area'));
+                }
+
+                var activePrice = $("#brand").find("a[class='active']");
+                var currentPrice = -1;
+                if (activePrice[0]) {
+                    currentPrice = ($(activePrice[0]).attr('price'));
+                }
+
+                var activeBig = $("#model").find("a[class='active']");
+                var currentBig = -1;
+                if (activeBig[0]) {
+                    currentBig = ($(activeBig[0]).attr('big'));
+                }
+
+                var activeShi = $("#price").find("a[class='active']");
+                var currentShi = -1;
+                if (activeShi[0]) {
+                    currentShi = ($(activeShi[0]).attr('shi'));
+                }
+
+
+                var area = $(this).attr('area');
+                if (area) {
+                    currentArea = area;
+                }
+                var price = $(this).attr('price');
+                if (price) {
+                    currentPrice = price;
+                }
+                var big = $(this).attr('big');
+                if (big) {
+                    currentBig = big;
+                }
+                var shi = $(this).attr('shi');
+                if (shi) {
+                    currentShi = shi;
+                }
+
+
+                if ($(this).attr('spec') == undefined) {
+                    var title = $("#title").val();
+                    window.location.href = "HousSear.html?title=" + title + "&area=" + currentArea + "&price=" + currentPrice + "&big=" + currentBig + "&shi=" + currentShi + "&page=" + page;
+                    return false;
+                }
+            });
+
+            sendAjaxQuery(title, area, price, big, shi, page);
+
+            $("#sea").click(function () {
+                pageSelectCallback(0);
+                return false;
+            });
+
+
+            function pageSelectCallback(page, jq) {
+                var activeArea = $("#type").find("a[class='active']");
+                var currentArea = -1;
+                if (activeArea[0]) {
+                    currentArea = ($(activeArea[0]).attr('area'));
+                }
+                var activePrice = $("#brand").find("a[class='active']");
+                var currentPrice = -1;
+                if (activePrice[0]) {
+                    currentPrice = ($(activePrice[0]).attr('price'));
+                }
+                var activeBig = $("#model").find("a[class='active']");
+                var currentBig = -1;
+                if (activeBig[0]) {
+                    currentBig = ($(activeBig[0]).attr('big'));
+                }
+
+                var activeShi = $("#price").find("a[class='active']");
+                var currentShi = -1;
+                if (activeShi[0]) {
+                    currentShi = ($(activeShi[0]).attr('shi'));
+                }
+                var title = $("#title").val();
+                window.location.href = "HousSear.html?title=" + title + "&area=" + currentArea + "&price=" + currentPrice + "&big=" + currentBig + "&shi=" + currentShi + "&page=" + page;
+                return false;
+            }
+
+
+            function sendAjaxQuery(title, area, price, big, shi, page) {
+                //查询兼职
+                $.ajax({
+                    type: "GET",
+                    url: "api/v3/secondHouse/getSecondHouse/?title=" + decodeURI(title) + "&area=" + area + "&price=" + price + "&big=" + big + "&page=" + (parseInt(page) + 1) + "&shi=" + shi,
+                    dataType: 'json',
+                    async: false,
+                    success: function (rs) {
+                        if (rs.success) {
+                            var resultDatas = rs.data.resultList;
+                            var pageData = rs.data.page;
+                            var resultDataStr = "";
+                            for (var i = 0; i < resultDatas.length; i++) {
+                                var tmp = resultDatas[i];
+                                resultDataStr = resultDataStr +
+                                        $.formatString(
+                                                "            <a href=\"TwHouDea.html?id={0}\" target=\"_blank\">\n" +
+                                                "                <div class=\"bus\">\n" +
+                                                "                    <div class=\"busle\">\n" +
+                                                "                        <img src=\"{1}\" alt=\"\">\n" +
+                                                "                    </div>\n" +
+                                                "                    <div class=\"busmi\">\n" +
+                                                "                        <ul>\n" +
+                                                "                            <li>{2}</li>\n" +
+                                                "                            <li>优</li>\n" +
+                                                "                            <li>1</li>\n" +
+                                                "                        </ul>\n" +
+                                                "                        <div class=\"clearbox\"></div>\n" +
+                                                "                        <div class=\"bust\">二手房</div>\n" +
+                                                "                        <div class=\"busde\">{3}</div>\n" +
+                                                "                    </div>\n" +
+                                                "                    <div class=\"busri\">\n" +
+                                                "                        <ul>\n" +
+                                                "                            <li>{4}</li>\n" +
+                                                "                            <li><span>{5}</span>万元</li>\n" +
+                                                "                            <li>{6}室{7}厅{8}卫({9}m<span style=\"vertical-align:super;font-size: 12px;\">2</span>)</li>\n" +
+                                                "                        </ul>\n" +
+                                                "                    </div>\n" +
+                                                "                </div>\n" +
+                                                "            </a>\n"
+                                                , tmp['id'], tmp['img'], tmp['title'], tmp['decorate'], tmp['createdAt'], tmp['price'], tmp['shi'], tmp['ting'], tmp['wei'], tmp['big']
+                                        );
+                            }
+
+                            $("#resultData").html(resultDataStr);
+
+                            $(".pagination").pagination(pageData.count, {
+                                callback: pageSelectCallback,
+                                items_per_page: pageData.per,
+                                next_text: '下一页',
+                                prev_text: '上一页',
+                                num_edge_entries: 1,
+                                current_page: page
+                            });
+
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+
+            }
+
+
         });
     </script>
 </head>
+
+<style>
+    #search a:hover {
+        color: #fd8000;
+    }
+
+    a.active {
+        background-color: #fd521d;
+    }
+
+</style>
 
 <body>
 <div id="header"></div>
@@ -33,83 +239,83 @@
             搜索
         </div>
         <div id="issue">
-            <a href="HouRelease.html" target="_blank" class="mfdb">免费发布</a>
+            <a href="HouRelease.html" target="_blank" class="mfdb" spec="1">免费发布</a>
         </div>
         <div id="clearbox"></div>
     </div>
     <div id="searcon">
-        <input type="text" placeholder="关键字搜索">
-        <input type="button" value="搜索">
+        <input type="text" id="title" name="title" placeholder="关键字搜索">
+        <input type="button" value="搜索" id="sea">
         <div class="clearbox"></div>
     </div>
     <div id="type">
-        <span class="searctitl">区域：<b>不限</b></span>
+        <span class="searctitl">区域：<b><a href="" area="-1">不限</a></b></span>
         <ul>
-            <li><a href="">椒江</a></li>
-            <li><a href="">路桥</a></li>
-            <li><a href="">黄岩</a></li>
-            <li><a href="">临海</a></li>
-            <li><a href="">玉环</a></li>
-            <li><a href="">仙居</a></li>
-            <li><a href="">天台</a></li>
-            <li><a href="">三门</a></li>
-            <li><a href="">温岭</a></li>
-            <li><a href="">其他</a></li>
+            <li><a href="" area="1">椒江</a></li>
+            <li><a href="" area="2">路桥</a></li>
+            <li><a href="" area="3">黄岩</a></li>
+            <li><a href="" area="4">临海</a></li>
+            <li><a href="" area="5">温岭</a></li>
+            <li><a href="" area="6">天台</a></li>
+            <li><a href="" area="7">三门</a></li>
+            <li><a href="" area="8">仙居</a></li>
+            <li><a href="" area="9">玉环</a></li>
+            <li><a href="" area="10">金清</a></li>
         </ul>
     </div>
     <div id="brand">
-        <span class="searctitl">价格：<b>不限</b></span>
+        <span class="searctitl">价格：<b><a href="" price="-1">不限</a></b></span>
         <ul>
-            <li><a href="">10-20万</a></li>
-            <li><a href="">20-30万</a></li>
-            <li><a href="">30-50万</a></li>
-            <li><a href="">60-80万</a></li>
-            <li><a href="">80-100万</a></li>
-            <li><a href="">100-120万</a></li>
-            <li><a href="">120-150万</a></li>
-            <li><a href="">150万以上</a></li>
+            <li><a href="" price="1">10-20万</a></li>
+            <li><a href="" price="2">20-30万</a></li>
+            <li><a href="" price="3">30-50万</a></li>
+            <li><a href="" price="4">50-80万</a></li>
+            <li><a href="" price="5">80-100万</a></li>
+            <li><a href="" price="6">100-120万</a></li>
+            <li><a href="" price="7">120-150万</a></li>
+            <li><a href="" price="8">150万以上</a></li>
         </ul>
     </div>
     <div id="model">
-        <span class="searctitl">面积：<b>不限</b></span>
+        <span class="searctitl">面积：<b><a href="" big="-1">不限</a></b></span>
         <ul>
             <li>
-                <a href="">50m<span style="vertical-align:super;  font-size: 12px;">2</span>以下</a>
+                <a href="" big="1">50m<span style="vertical-align:super;  font-size: 12px;">2</span>以下</a>
             </li>
             <li>
-                <a href="">50-70m<span style="vertical-align:super;  font-size: 12px;">2</span></a>
+                <a href="" big="2">50-70m<span style="vertical-align:super;  font-size: 12px;">2</span></a>
             </li>
             <li>
-                <a href="">70-100m<span style="vertical-align:super;  font-size: 12px;">2</span></a>
+                <a href="" big="3">70-100m<span style="vertical-align:super;  font-size: 12px;">2</span></a>
             </li>
             <li>
-                <a href="">100-130m<span style="vertical-align:super;  font-size: 12px;">2</span></a>
+                <a href="" big="4">100-130m<span style="vertical-align:super;  font-size: 12px;">2</span></a>
             </li>
             <li>
-                <a href="">130-150m<span style="vertical-align:super;  font-size: 12px;">2</span></a>
+                <a href="" big="5">130-150m<span style="vertical-align:super;  font-size: 12px;">2</span></a>
             </li>
             <li>
-                <a href="">150-200m<span style="vertical-align:super;  font-size: 12px;">2</span></a>
+                <a href="" big="6">150-200m<span style="vertical-align:super;  font-size: 12px;">2</span></a>
             </li>
             <li>
-                <a href="">200-300m<span style="vertical-align:super;  font-size: 12px;">2</span></a>
+                <a href="" big="7">200-300m<span style="vertical-align:super;  font-size: 12px;">2</span></a>
             </li>
             <li>
-                <a href="">300-500m<span style="vertical-align:super;  font-size: 12px;">2</span></a>
+                <a href="" big="8">300-500m<span style="vertical-align:super;  font-size: 12px;">2</span></a>
             </li>
             <li>
-                <a href="">500m<span style="vertical-align:super;  font-size: 12px;">2</span>以上</a>
+                <a href="" big="9">500m<span style="vertical-align:super;  font-size: 12px;">2</span>以上</a>
             </li>
         </ul>
     </div>
     <div id="price">
-        <span class="searctitl">厅室：<b>不限</b></span>
+        <span class="searctitl">厅室：<b><a href="" shi="-1">不限</a></b></span>
         <ul>
-            <li><a href="">一室</a></li>
-            <li><a href="">两室</a></li>
-            <li><a href="">三室</a></li>
-            <li><a href="">四室</a></li>
-            <li><a href="">四室以上</a></li>
+            <li><a href="" shi="1">一室</a></li>
+            <li><a href="" shi="2">两室</a></li>
+            <li><a href="" shi="3">三室</a></li>
+            <li><a href="" shi="4">四室</a></li>
+            <li><a href="" shi="5">四室以上</a></li>
         </ul>
     </div>
 </div>
@@ -121,204 +327,15 @@
     </div>
     <div id="searmwr">
         <div id="twobus">
-            <a href="TwHouDea.html" target="_blank">
-                <div class="bus">
-                    <div class="busle">
-                        <img src="images/twh_1.png" alt="">
-                    </div>
-                    <div class="busmi">
-                        <ul>
-                            <li>和平家园</li>
-                            <li>海景别墅免税</li>
-                            <li>学区房</li>
-                            <li>优</li>
-                            <li>1</li>
-                        </ul>
-                        <div class="clearbox"></div>
-                        <div class="bust">和平家园 二手房</div>
-                        <div class="busde">大户型/精装修/学区房/别墅</div>
-                    </div>
-                    <div class="busri">
-                        <ul>
-                            <li>1 小时前</li>
-                            <li><span>38</span>万元</li>
-                            <li>8室2厅3卫(150m<span style="vertical-align:super;font-size: 12px;">2</span>)</li>
-                        </ul>
-                    </div>
-                </div>
-            </a>
-            <a href="TwHouDea.html" target="_blank">
-                <div class="bus">
-                    <div class="busle">
-                        <img src="images/twh_1.png" alt="">
-                    </div>
-                    <div class="busmi">
-                        <ul>
-                            <li>和平家园</li>
-                            <li>海景别墅免税</li>
-                            <li>学区房</li>
-                            <li>优</li>
-                            <li>1</li>
-                        </ul>
-                        <div class="clearbox"></div>
-                        <div class="bust">和平家园 二手房</div>
-                        <div class="busde">大户型/精装修/学区房/别墅</div>
-                    </div>
-                    <div class="busri">
-                        <ul>
-                            <li>1 小时前</li>
-                            <li><span>38</span>万元</li>
-                            <li>8室2厅3卫(150m<span style="vertical-align:super;font-size: 12px;">2</span>)</li>
-                        </ul>
-                    </div>
-                </div>
-            </a>
-            <a href="TwHouDea.html" target="_blank">
-                <div class="bus">
-                    <div class="busle">
-                        <img src="images/twh_1.png" alt="">
-                    </div>
-                    <div class="busmi">
-                        <ul>
-                            <li>和平家园</li>
-                            <li>海景别墅免税</li>
-                            <li>学区房</li>
-                            <li>优</li>
-                            <li>1</li>
-                        </ul>
-                        <div class="clearbox"></div>
-                        <div class="bust">和平家园 二手房</div>
-                        <div class="busde">大户型/精装修/学区房/别墅</div>
-                    </div>
-                    <div class="busri">
-                        <ul>
-                            <li>1 小时前</li>
-                            <li><span>38</span>万元</li>
-                            <li>8室2厅3卫(150m<span style="vertical-align:super;font-size: 12px;">2</span>)</li>
-                        </ul>
-                    </div>
-                </div>
-            </a>
-            <a href="TwHouDea.html" target="_blank">
-                <div class="bus">
-                    <div class="busle">
-                        <img src="images/twh_1.png" alt="">
-                    </div>
-                    <div class="busmi">
-                        <ul>
-                            <li>和平家园</li>
-                            <li>海景别墅免税</li>
-                            <li>学区房</li>
-                            <li>优</li>
-                            <li>1</li>
-                        </ul>
-                        <div class="clearbox"></div>
-                        <div class="bust">和平家园 二手房</div>
-                        <div class="busde">大户型/精装修/学区房/别墅</div>
-                    </div>
-                    <div class="busri">
-                        <ul>
-                            <li>1 小时前</li>
-                            <li><span>38</span>万元</li>
-                            <li>8室2厅3卫(150m<span style="vertical-align:super;font-size: 12px;">2</span>)</li>
-                        </ul>
-                    </div>
-                </div>
-            </a>
-            <a href="TwHouDea.html" target="_blank">
-                <div class="bus">
-                    <div class="busle">
-                        <img src="images/twh_1.png" alt="">
-                    </div>
-                    <div class="busmi">
-                        <ul>
-                            <li>和平家园</li>
-                            <li>海景别墅免税</li>
-                            <li>学区房</li>
-                            <li>优</li>
-                            <li>1</li>
-                        </ul>
-                        <div class="clearbox"></div>
-                        <div class="bust">和平家园 二手房</div>
-                        <div class="busde">大户型/精装修/学区房/别墅</div>
-                    </div>
-                    <div class="busri">
-                        <ul>
-                            <li>1 小时前</li>
-                            <li><span>38</span>万元</li>
-                            <li>8室2厅3卫(150m<span style="vertical-align:super;font-size: 12px;">2</span>)</li>
-                        </ul>
-                    </div>
-                </div>
-            </a>
-            <a href="TwHouDea.html" target="_blank">
-                <div class="bus">
-                    <div class="busle">
-                        <img src="images/twh_1.png" alt="">
-                    </div>
-                    <div class="busmi">
-                        <ul>
-                            <li>和平家园</li>
-                            <li>海景别墅免税</li>
-                            <li>学区房</li>
-                            <li>优</li>
-                            <li>1</li>
-                        </ul>
-                        <div class="clearbox"></div>
-                        <div class="bust">和平家园 二手房</div>
-                        <div class="busde">大户型/精装修/学区房/别墅</div>
-                    </div>
-                    <div class="busri">
-                        <ul>
-                            <li>1 小时前</li>
-                            <li><span>38</span>万元</li>
-                            <li>8室2厅3卫(150m<span style="vertical-align:super;font-size: 12px;">2</span>)</li>
-                        </ul>
-                    </div>
-                </div>
-            </a>
-            <a href="TwHouDea.html" target="_blank">
-                <div class="bus">
-                    <div class="busle">
-                        <img src="images/twh_1.png" alt="">
-                    </div>
-                    <div class="busmi">
-                        <ul>
-                            <li>和平家园</li>
-                            <li>海景别墅免税</li>
-                            <li>学区房</li>
-                            <li>优</li>
-                            <li>1</li>
-                        </ul>
-                        <div class="clearbox"></div>
-                        <div class="bust">和平家园 二手房</div>
-                        <div class="busde">大户型/精装修/学区房/别墅</div>
-                    </div>
-                    <div class="busri">
-                        <ul>
-                            <li>1 小时前</li>
-                            <li><span>38</span>万元</li>
-                            <li>8室2厅3卫(150m<span style="vertical-align:super;font-size: 12px;">2</span>)</li>
-                        </ul>
-                    </div>
-                </div>
-            </a>
-            <div id="page">
-                <ul>
-                    <li class="on">1</li>
-                    <li>2</li>
-                    <li>3</li>
-                    <li>4</li>
-                    <li>5</li>
-                    <li>6</li>
-                    <li>7</li>
-                    <li>8</li>
-                    <li>9</li>
-                    <li>10</li>
-                    <li>11</li>
-                    <li style="width:60px;">下一页</li>
-                </ul>
+
+            <div id="resultData"></div>
+
+
+            <div id="page" class="pagination">
+                <div class="clearbox"></div>
             </div>
+            <div class="clearbox"></div>
+
         </div>
         <div id="twohous">
             <ul>

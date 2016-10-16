@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hzq.project.house.dao.SecondHouseMapper">
 
+    <select id="getByPk" resultType="com.hzq.project.house.dao.entity.SecondHouse">
+        select * from second_house where id = #{id} and deleted_at is null;
+    </select>
+
+    <update id="addWatchCount">
+        update  second_house set watch = watch +1 where id = #{id} and deleted_at is null;
+    </update>
 
     <insert id="insert" parameterType="com.hzq.project.house.dao.entity.SecondHouse">
         insert into second_house
@@ -154,80 +161,149 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.hzq.project.house.dao.entity.SecondHouse">
-        update second_house
-        <set>
-            <if test="userId != null">
-                user_id = #{userId,jdbcType=INTEGER},
-            </if>
-            <if test="area != null">
-                area = #{area,jdbcType=INTEGER},
-            </if>
-            <if test="address != null">
-                address = #{address,jdbcType=VARCHAR},
-            </if>
-            <if test="shi != null">
-                shi = #{shi,jdbcType=INTEGER},
-            </if>
-            <if test="ting != null">
-                ting = #{ting,jdbcType=INTEGER},
-            </if>
-            <if test="wei != null">
-                wei = #{wei,jdbcType=INTEGER},
-            </if>
-            <if test="big != null">
-                big = #{big,jdbcType=INTEGER},
-            </if>
-            <if test="lou != null">
-                lou = #{lou,jdbcType=VARCHAR},
-            </if>
-            <if test="ceng != null">
-                ceng = #{ceng,jdbcType=INTEGER},
-            </if>
-            <if test="toward != null">
-                toward = #{toward,jdbcType=VARCHAR},
-            </if>
-            <if test="decorate != null">
-                decorate = #{decorate,jdbcType=VARCHAR},
-            </if>
-            <if test="type != null">
-                type = #{type,jdbcType=VARCHAR},
-            </if>
-            <if test="year != null">
-                year = #{year,jdbcType=VARCHAR},
-            </if>
-            <if test="price != null">
-                price = #{price,jdbcType=DECIMAL},
-            </if>
-            <if test="title != null">
-                title = #{title,jdbcType=VARCHAR},
-            </if>
-            <if test="introduction != null">
-                introduction = #{introduction,jdbcType=VARCHAR},
-            </if>
-            <if test="carPic != null">
-                car_pic = #{carPic,jdbcType=VARCHAR},
-            </if>
-            <if test="concactName != null">
-                concact_name = #{concactName,jdbcType=VARCHAR},
-            </if>
-            <if test="concactPhone != null">
-                concact_phone = #{concactPhone,jdbcType=VARCHAR},
-            </if>
-            <if test="watch != null">
-                watch = #{watch,jdbcType=INTEGER},
-            </if>
-            <if test="createdAt != null">
-                created_at = #{createdAt,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updatedAt != null">
-                updated_at = #{updatedAt,jdbcType=TIMESTAMP},
-            </if>
-            <if test="deletedAt != null">
-                deleted_at = #{deletedAt,jdbcType=TIMESTAMP},
-            </if>
-        </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>
+
+
+    <select id="getSecondHouseParamList" parameterType="com.hzq.project.house.vo.SecondHouseParam"
+            resultType="com.hzq.project.house.vo.SecondHouseListInfo">
+        select * from second_house
+        where 1=1 and deleted_at is NULL
+        <if test="area != null">
+            and area = #{area,jdbcType=INTEGER}
+        </if>
+        <if test="title != null">
+            and title like concat('%',#{title},'%')
+        </if>
+        <if test="priceBegin!=null">
+            and price &gt;= #{priceBegin,jdbcType = INTEGER}
+        </if>
+        <if test="priceEnd!=null">
+            AND price &lt; #{priceEnd,jdbcType = INTEGER}
+        </if>
+        <if test="bigBegin!=null">
+            and big &gt;= #{bigBegin,jdbcType = INTEGER}
+        </if>
+        <if test="bigEnd!=null">
+            AND big &lt; #{bigEnd,jdbcType = INTEGER}
+        </if>
+        <if test="shiBeGin!=null">
+            and shi &gt;= #{shiBeGin,jdbcType = INTEGER}
+        </if>
+        <if test="shiEnd!=null">
+            AND shi &lt; #{shiEnd,jdbcType = INTEGER}
+        </if>
+        order by created_at desc
+        <if test="start!=null">
+            limit #{start},#{per}
+        </if>
+    </select>
+
+
+    <select id="getSecondHouseParamCount" parameterType="com.hzq.project.house.vo.SecondHouseParam"
+            resultType="int">
+
+        select count(1) from second_house
+        where 1=1 and deleted_at is NULL
+        <if test="area != null">
+            and area = #{area,jdbcType=INTEGER}
+        </if>
+        <if test="title != null">
+            and title like concat('%',#{title},'%')
+        </if>
+        <if test="priceBegin!=null">
+            and price &gt;= #{priceBegin,jdbcType = INTEGER}
+        </if>
+        <if test="priceEnd!=null">
+            AND price &lt; #{priceEnd,jdbcType = INTEGER}
+        </if>
+        <if test="bigBegin!=null">
+            and big &gt;= #{bigBegin,jdbcType = INTEGER}
+        </if>
+        <if test="bigEnd!=null">
+            AND big &lt; #{bigEnd,jdbcType = INTEGER}
+        </if>
+        <if test="shiBeGin!=null">
+            and shi &gt;= #{shiBeGin,jdbcType = INTEGER}
+        </if>
+        <if test="shiEnd!=null">
+            AND shi &lt;= #{shiEnd,jdbcType = INTEGER}
+        </if>
+    </select>
+
+
+    <!--<update id="updateByPrimaryKeySelective" parameterType="com.hzq.project.house.dao.entity.SecondHouse">-->
+    <!--update second_house-->
+    <!--<set>-->
+    <!--<if test="userId != null">-->
+    <!--user_id = #{userId,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="area != null">-->
+    <!--area = #{area,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="address != null">-->
+    <!--address = #{address,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="shi != null">-->
+    <!--shi = #{shi,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="ting != null">-->
+    <!--ting = #{ting,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="wei != null">-->
+    <!--wei = #{wei,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="big != null">-->
+    <!--big = #{big,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="lou != null">-->
+    <!--lou = #{lou,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="ceng != null">-->
+    <!--ceng = #{ceng,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="toward != null">-->
+    <!--toward = #{toward,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="decorate != null">-->
+    <!--decorate = #{decorate,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="type != null">-->
+    <!--type = #{type,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="year != null">-->
+    <!--year = #{year,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="price != null">-->
+    <!--price = #{price,jdbcType=DECIMAL},-->
+    <!--</if>-->
+    <!--<if test="title != null">-->
+    <!--title = #{title,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="introduction != null">-->
+    <!--introduction = #{introduction,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="carPic != null">-->
+    <!--car_pic = #{carPic,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="concactName != null">-->
+    <!--concact_name = #{concactName,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="concactPhone != null">-->
+    <!--concact_phone = #{concactPhone,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="watch != null">-->
+    <!--watch = #{watch,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="createdAt != null">-->
+    <!--created_at = #{createdAt,jdbcType=TIMESTAMP},-->
+    <!--</if>-->
+    <!--<if test="updatedAt != null">-->
+    <!--updated_at = #{updatedAt,jdbcType=TIMESTAMP},-->
+    <!--</if>-->
+    <!--<if test="deletedAt != null">-->
+    <!--deleted_at = #{deletedAt,jdbcType=TIMESTAMP},-->
+    <!--</if>-->
+    <!--</set>-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</update>-->
 
 </mapper>

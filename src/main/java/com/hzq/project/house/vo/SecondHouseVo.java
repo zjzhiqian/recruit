@@ -1,5 +1,7 @@
 package com.hzq.project.house.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.hzq.project.system.common.util.DateFormatSerializer;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -76,6 +78,45 @@ public class SecondHouseVo {
     @NotNull(message = "联系人电话不能为空")
     private String concactPhone;
 
+
+    //插入没有,详情有的数据
+    private String img;
+    private Integer perPrice;
+    private Integer watch;
+    @JsonSerialize(using = DateFormatSerializer.class)
+    private Date updatedAt;
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Integer getWatch() {
+        return watch;
+    }
+
+    public void setWatch(Integer watch) {
+        this.watch = watch;
+    }
+
+    public Integer getPerPrice() {
+        return perPrice;
+    }
+
+    public void setPerPrice(Integer perPrice) {
+        this.perPrice = perPrice;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public String getConcactPhone() {
         return concactPhone;

@@ -42,6 +42,10 @@
                         $("#journey").html(info['journey'] + "万公里");
                         $("#exhaust").html(info['exhaust'] + "升");
                         $("#store").attr('href', "Store.html?id=" + info['merchantId']);
+                        if(!info['merchantId']){
+                            $("#lookshop").remove();
+                        }
+
                         $("#price").html(info['price'])
                         var str = '个人';
                         if (info['isMerchant'])

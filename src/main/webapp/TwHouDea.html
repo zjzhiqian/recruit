@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>台州创新网　-　二手房详细信息</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <link href="images/favicon.ico" rel="Shortcut Icon">
@@ -14,185 +14,217 @@
     <script src="js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="js/common-include.js"></script>
     <script src="js/jquery.luara.0.0.1.min.js"></script>
+    <script type="text/javascript" src="js/common-dic.js"></script>
 
     <script>
-        $(function() {
+        $(function () {
             includeHeader();
             includeFoot();
+
+            var id = getQueryString("id");
+            if (id == null || id == undefined) {
+                alert("请求参数有误");
+                return;
+            }
+
+
+            $.ajax({
+                type: "POST",
+                url: "api/v3/secondHouse/addWatchCount/" + id,
+                dataType: 'json',
+                async: true,
+                success: function (rs) {
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "api/v3/secondHouse/getSecondHouse/" + id,
+                dataType: 'json',
+                async: false,
+                success: function (rs) {
+                    if (rs.success) {
+                        var info = rs.data;
+
+                        $("#datas").html($.formatString(
+                                "    <!-- 二手房概述S -->\n" +
+                                "    <div id=\"busovvi\">\n" +
+                                "        <div id=\"busphoto\">\n" +
+                                "            <div class=\"photo\"> <img src=\"{0}\" alt=\"\"></div>\n" +
+                                "        </div>\n" +
+                                "        <div id=\"busname\">\n" +
+                                "            <div class=\"busname\">{1}</div>\n" +
+                                "            <div class=\"ngsz\">\n" +
+                                "                <ul>\n" +
+                                "                    <li>台州{2}</li>\n" +
+                                "                    <li>{3}室{4}厅{5}卫</li>\n" +
+                                "                    <li>{6}m<span style=\"vertical-align:super;  font-size: 12px;\">2</span></li>\n" +
+                                "                    <li>{7}元/m<span style=\"vertical-align:super;  font-size: 12px;\">2</span></li>\n" +
+                                "                </ul>\n" +
+                                "            </div>\n" +
+                                "            <div class=\"money\">\n" +
+                                "                <img src=\"images/money.png\" alt=\"\">\n" +
+                                "                <span>￥<b>{8}</b>万</span>\n" +
+                                "            </div>\n" +
+                                "            <div class=\"owner\">\n" +
+                                "                <p>联系人：{9}</p>\n" +
+                                "                <p>联系电话：<b>{10}</b></p>\n" +
+                                "            </div>\n" +
+                                "            <!--<div class=\"sj\">-->\n" +
+                                "                <!--<ul>-->\n" +
+                                "                    <!--<li>-->\n" +
+                                "                        <!--<input id=\"sc\" type=\"button\" onclick=\"changeSc()\" value=\"收藏\">-->\n" +
+                                "                    <!--</li>-->\n" +
+                                "                    <!--<li>-->\n" +
+                                "                        <!--<input id=\"jb\" type=\"button\" onclick=\"changeJb()\" value=\"举报\">-->\n" +
+                                "                    <!--</li>-->\n" +
+                                "                <!--</ul>-->\n" +
+                                "            <!--</div>-->\n" +
+                                "            <div class=\"lg\">\n" +
+                                "                <ul>\n" +
+                                "                    <li>浏览次数:{11}</li>\n" +
+                                "                    <li>最近更新：{12}</li>\n" +
+                                "                </ul>\n" +
+                                "            </div>\n" +
+                                "        </div>\n" +
+                                "        <div class=\"clearbox\"></div>\n" +
+                                "    </div>\n" +
+                                "    <div id=\"busdeatail\">\n" +
+                                "        <div class=\"title2\">详情</div>\n" +
+                                "        <div id=\"argument\">\n" +
+                                "            <ul>\n" +
+                                "                <li>住宅类别：无</li>\n" +
+                                "                <li>装修程度：{13}</li>\n" +
+                                "                <li>房屋类别：{14}</li>\n" +
+                                "                        <li>建筑结构:无</li>\n" +
+//                                "                        <li>建造年代：{14}年</li>\n" +
+                                "                        <li>房屋楼层：{15}</li>\n" +
+                                "                        <li>产权：{16}</li>\n" +
+                                "                        <li>朝向:{17}</li>\n" +
+                                "            </ul>\n" +
+                                "        </div>\n" +
+                                "        <div class=\"character\">\n" +
+                                "            <p>{18}\n" +
+                                "            </p>\n" +
+                                "            <p>联系我时，请说明是在台州创新网二手车看到的二手，谢谢。</p>\n" +
+                                "            {19}" +
+                                "        </div>\n" +
+                                "    </div>"
+                                , info['img'], info['title'], workArrJson[info['area']], info['shi'], info['ting'], info['wei'], info['big'], info['perPrice'], info['price'],info['concactName'],
+                                info['concactPhone'], info['watch'], info['updatedAt'], info['decorate'], info['type'], info['lou'], info['year'], info['toward'], info['introduction'], info['carPic']
+                        ));
+                    } else {
+                        alert(rs.data.error);
+                    }
+                }
+            });
 
         });
     </script>
 
 
     <script>
-    function changeSc() {
-        alert("收藏成功！");
-        sc.value = "已收藏";
-        sc.style.backgroundImage = 'url(images/ysc.png)';
-        sc.style.backgroundRepeat = "no-repeat";
-        sc.style.paddingLeft = "20px";
-        sc.style.backgroundPosition = " left center";
-    }
+        function changeSc() {
+            alert("收藏成功！");
+            sc.value = "已收藏";
+            sc.style.backgroundImage = 'url(images/ysc.png)';
+            sc.style.backgroundRepeat = "no-repeat";
+            sc.style.paddingLeft = "20px";
+            sc.style.backgroundPosition = " left center";
+        }
     </script>
     <script>
-    function changeJb() {
-        document.getElementById('lift').style.display = 'block';
-        jb.value = "已举报";
-        jb.style.backgroundImage = 'url(images/yjb.png)';
-        jb.style.backgroundRepeat = "no-repeat";
-        jb.style.paddingLeft = "20px";
-        jb.style.backgroundPosition = " left center";
-    }
+        function changeJb() {
+            document.getElementById('lift').style.display = 'block';
+            jb.value = "已举报";
+            jb.style.backgroundImage = 'url(images/yjb.png)';
+            jb.style.backgroundRepeat = "no-repeat";
+            jb.style.paddingLeft = "20px";
+            jb.style.backgroundPosition = " left center";
+        }
     </script>
 </head>
 
 <body>
-    <div id="header">
-    </div>
-    <!-- 二手房概述S -->
-    <div id="busovvi">
-        <div id="busphoto">
-            <div class="photo"> <img src="images/house_03.png" alt=""></div>
-            <div class="photode">
-                <ul>
-                    <li><img src="images/house_07.png" alt=""></li>
-                    <li><img src="images/house_09.png" alt=""></li>
-                    <li><img src="images/house_11.png" alt=""></li>
-                    <li><img src="images/house_13.png" alt=""></li>
-                </ul>
-            </div>
+<div id="header">
+</div>
+
+<div id="datas"></div>
+
+<!--   二手车详情S -->
+<div id="footer">
+</div>
+<!--版权 E -->
+<div id="lift">
+    <div id="liftcon">
+        <div onclick="document.getElementById('lift').style.display='';"
+             style="float:right;text-align:right;cursor:pointer">关闭x
         </div>
-        <div id="busname">
-            <div class="busname">台州超豪华别墅二手房</div>
-            <div class="ngsz">
-                <ul>
-                    <li>台州椒江</li>
-                    <li>5室2厅3卫</li>
-                    <li>290m<span style="vertical-align:super;  font-size: 12px;">2</span></li>
-                    <li>18888/m<span style="vertical-align:super;  font-size: 12px;">2</span></li>
-                </ul>
+
+        <h2>举报该信息</h2>
+        <div class="liftlist">
+            <div class="left_con">
+                <span class="red">*</span>举报原因：
             </div>
-            <div class="money">
-                <img src="images/money.png" alt="">
-                <span>￥<b>38.5</b>万</span>
-            </div>
-            <div class="owner">
-                <p>联系人：小王（个人/企业）</p>
-                <p>联系电话：<b>188-1234-1234</b></p>
-            </div>
-            <div class="sj">
-                <ul>
-                    <li>
-                        <input id="sc" type="button" onclick="changeSc()" value="收藏">
-                    </li>
-                    <li>
-                        <input id="jb" type="button" onclick="changeJb()" value="举报">
-                    </li>
-                </ul>
-            </div>
-            <div class="lg">
-                <ul>
-                    <li>浏览次数:13894人</li>
-                    <li>最近更新：2016年6月6日</li>
-                </ul>
-            </div>
-        </div>
-        <div class="clearbox"></div>
-    </div>
-    <!--  二手车概述E-->
-    <!-- 二手车详情S -->
-    <div id="busdeatail">
-        <div class="title2">详情</div>
-        <div id="argument">
-            <ul>
-                <li>住宅类别：高级别墅</li>
-                <li>装修程度：毛坯</li>
-                <li>房屋类别：商品房</li>
-                        <li>建筑结构:板楼</li>
-                        <li>建造年代：2015年</li>
-                        <li>房屋楼层：</li>
-                        <li>产权：100年产权</li>
-                        <li>朝向:东南西北</li>
-            </ul>
-        </div>
-        <div class="character">
-            <p>我的优势：学区房...交通、海景、环境一流...
-            </p>
-            <p>联系我时，请说明是在台州创新网二手车看到的二手，谢谢。</p>
-            <img src="images/house_18.png" alt="">
-            <img src="images/house_21.png" alt="">
-        </div>
-    </div>
-    <!--   二手车详情S -->
-     <div id="footer">
-    </div>
-    <!--版权 E -->
-      <div id="lift" >
-      <div id="liftcon"> <div onclick="document.getElementById('lift').style.display='';" style="float:right;text-align:right;cursor:pointer">关闭x</div>
-        
-            <h2>举报该信息</h2>
-            <div class="liftlist">
-                <div class="left_con">
-                    <span class="red">*</span>举报原因：
-                </div>
-                <div class="righ_con">
-                    <ul id="dx">
-                        <li>电话虚假（如空号/无法接听）</li>
-                        <li>涉黄违法</li>
-                        <li>诈骗（如提前收取各类费用等）</li>
-                        <li>中介冒充个人</li>
-                        <li>虚假（如房源/价格等虚假）</li>
-                        <li>其他</li>
-                        <div class="clearbox"></div>
-                    </ul>
-                </div>
-                <div class="clearbox"></div>
-            </div>
-            <div class="liftlist">
-                <div class="left_con">
-                    <span class="red">*</span>备注说明：
-                </div>
-                <div class="righ_con">
-                    <textarea name="" id="" cols="70" rows="10" >请简明要饿地阐述您的理由，以便工作人员更好地判断，字数在100字以内</textarea>
-                </div>
-                <div class="clearbox"></div>
-            </div>
-            <div class="liftlist">
-                <div class="left_con">上传凭证：
-                </div>
-                <div class="righ_con">
-                    
-                <div class="img"> 请上传（选填）</div>
+            <div class="righ_con">
+                <ul id="dx">
+                    <li>电话虚假（如空号/无法接听）</li>
+                    <li>涉黄违法</li>
+                    <li>诈骗（如提前收取各类费用等）</li>
+                    <li>中介冒充个人</li>
+                    <li>虚假（如房源/价格等虚假）</li>
+                    <li>其他</li>
                     <div class="clearbox"></div>
-                    <input type="button" value="上传凭证" class="scqz">
-                </div>
-                <div class="clearbox"></div>
-            </div>  <div class="liftlist">
-                <div class="left_con">
-                  <span class="red">*</span>联系方式：
-                </div>
-                <div class="righ_con">
-                   <input type="text" class="phone" placeholder="手机号"> 
-                </div>
-                <div class="clearbox"></div>
+                </ul>
             </div>
-             <div class="liftlist">
-                <div class="left_con">
-                </div>
-                <div class="righ_con">
-                   <input type="button" class="tj" value="提交"> 
-                </div>
-                <div class="clearbox"></div>
+            <div class="clearbox"></div>
+        </div>
+        <div class="liftlist">
+            <div class="left_con">
+                <span class="red">*</span>备注说明：
             </div>
+            <div class="righ_con">
+                <textarea name="" id="" cols="70" rows="10">请简明要饿地阐述您的理由，以便工作人员更好地判断，字数在100字以内</textarea>
+            </div>
+            <div class="clearbox"></div>
+        </div>
+        <div class="liftlist">
+            <div class="left_con">上传凭证：
+            </div>
+            <div class="righ_con">
+
+                <div class="img"> 请上传（选填）</div>
+                <div class="clearbox"></div>
+                <input type="button" value="上传凭证" class="scqz">
+            </div>
+            <div class="clearbox"></div>
+        </div>
+        <div class="liftlist">
+            <div class="left_con">
+                <span class="red">*</span>联系方式：
+            </div>
+            <div class="righ_con">
+                <input type="text" class="phone" placeholder="手机号">
+            </div>
+            <div class="clearbox"></div>
+        </div>
+        <div class="liftlist">
+            <div class="left_con">
+            </div>
+            <div class="righ_con">
+                <input type="button" class="tj" value="提交">
+            </div>
+            <div class="clearbox"></div>
         </div>
     </div>
-    <script>
-  $(function() {
-           $('.righ_con #dx li').click(function(){
-           $(this).toggleClass('on');
+</div>
+<script>
+    $(function () {
+        $('.righ_con #dx li').click(function () {
+            $(this).toggleClass('on');
         })
     })
-    </script>
+</script>
 </body>
 
 </html>
