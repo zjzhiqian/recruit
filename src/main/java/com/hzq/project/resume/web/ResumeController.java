@@ -1,13 +1,11 @@
 package com.hzq.project.resume.web;
 
-import com.alibaba.fastjson.JSON;
 import com.hzq.project.picture.web.UpLoadController;
 import com.hzq.project.resume.dao.entity.Resume;
 import com.hzq.project.resume.exception.ResumeException;
 import com.hzq.project.resume.service.ResumeService;
 import com.hzq.project.resume.vo.ResumeQueryParam;
 import com.hzq.project.resume.vo.ResumeVo;
-import com.hzq.project.system.common.dao.PageList;
 import com.hzq.project.system.common.dao.PageResult;
 import com.hzq.project.system.security.annon.RequiresRoles;
 import com.hzq.project.system.security.util.Roles;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
