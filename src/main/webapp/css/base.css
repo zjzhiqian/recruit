@@ -1492,7 +1492,7 @@ input[type="password"] {
     -webkit-box-sizing: border-box;
 }
 
-#btnLogin {
+.btnLogin {
     width: 250px;
     height: 44px;
     border: 0;
@@ -2022,7 +2022,6 @@ input[type="password"] {
     font-size: 14px;
     background-image: url(../images/hint_bg.jpg);
     background-repeat: no-repeat;
-    background-image: center;
     background-position: left center;
     padding-left: 20px;
     margin-left: 20px;
@@ -3937,3 +3936,95 @@ text-align:center;margin-top:10px
     font-weight: bold;
     color: white;
 }
+.loginrc {
+    font-size: 18px;
+    text-align: center;
+}
+
+.loginwrap .drch
+{
+    height:auto !important
+    margin-top: 10px;
+}
+.loginwrap .drch li
+{
+    display:block !important;
+    font-size: 18px !important;
+    padding-left: 18px;
+
+    margin: 20px 0px;
+
+    width: auto !important;
+}
+.loginwrap .drch li.name
+{
+    margin-top: 0px;
+    margin-bottom: 30px !important;}
+.loginwrap .drch li .drch_name
+{
+    color:#118eb2 !important;
+}
+.mdxx
+{
+    background: url(../images/info.png) no-repeat 19px;
+}
+.mdxx p
+{
+    margin-left:30px;
+    color:#118eb2 !important;
+}
+.mdxx span.sz{
+    color:#ff0000
+}
+.tdfk
+{
+    background: url(../images/fbfk.png) no-repeat 19px;
+}
+.tdfk p
+{
+    margin-left:30px;
+    color:#118eb2 !important;
+}
+.tdfk span.sz{
+    color:#ff0000
+}
+.fbgl
+{
+    background: url(../images/fbgl.png) no-repeat 19px;
+}
+.fbgl p
+{
+    margin-left:30px;
+    color:#118eb2 !important;
+}
+.fbgl span.sz{
+    color:#ff0000
+}
+.myjl
+{
+    background: url(../images/myjl.png) no-repeat 19px;
+}
+.myjl p
+{
+    margin-left:30px;
+    color:#118eb2 !important;
+}
+.myjl span.sz{
+    color:#ff0000
+}
+
+.tc
+{
+    margin-top: 10px !important;
+    padding-bottom:30px;
+    border-bottom: 2px solid #f5f5f5;
+}
+.tc a
+{
+    display:block;
+    text-align:right;
+    padding-right: 30px;
+    width:222px;
+    margin:0 auto; }
+
+

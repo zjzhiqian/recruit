@@ -34,7 +34,7 @@ public class SecondCarVo {
     @NotNull(message = "交强险到期时间不能为空")
     private String insuranceDeadtime; //交强险导线时间
 
-    @Length(min = 1,max = 200,message = "介绍必须在1~200位之间")
+    @Length(min = 1,max = 500,message = "介绍必须在1~500位之间")
     @NotNull(message = "描述不能为空")
     private String introduction; //介绍
 

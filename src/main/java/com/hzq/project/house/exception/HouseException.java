@@ -17,4 +17,7 @@ public class HouseException extends RuntimeException {
         super(msg);
     }
 
+
+
+
 }

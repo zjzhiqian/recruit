@@ -42,7 +42,7 @@ function includeHeader() {
         "                        <li><a href=\"Login.html\" target=\"_blank\">个人登录</a></li>\n" +
         "                        <li><a href=\"Login.html?type=companyLogIn\" target=\"_blank\">企业登录</a></li>\n" +
         "                        <li><a href=\"Register.html\" target=\"_blank\">新用户注册</a></li>\n" +
-        "                        <li><a href=\"\" class=\"issue\" target=\"_blank\">免费发布信息</a></li>\n" +
+        "                        <li><a href=\"\"  id=\"applyOffer\" class=\"issue\" target=\"_blank\">免费发布信息</a></li>\n" +
         "                    </ul>\n" +
         "                </div>\n" +
         "            </div>\n" +
@@ -108,6 +108,23 @@ function includeHeader() {
     $('.city_link').click(function () {
         this.className = 'city_nav city_hovers';
         document.getElementById('city_link').className = 'city_link city_hover'
+    });
+
+    $("#applyOffer").click(function () {
+        var info = getCookie('info');
+        if (info != null) {
+            var json = $.parseJSON(eval('(' + info + ')'));
+            var userType = json["userType"];
+            if (userType == 1) {
+                //个人用户
+                window.location.href = "CarsRelease.html";
+            } else {
+                window.location.href = "PostJob.html";
+            }
+        } else {
+            alert("请前往登录")
+        }
+
     });
 
 
@@ -188,7 +205,7 @@ function includeFoot() {
         "                <img src=\"images/wc.png\" alt=\"\">\n" +
         "            </div>\n" +
         "        </div>\n" +
-        "        <div id=\"copy\">ICP经营许可证编号 京ICP证060405号 京ICP备10012705号-12 京公网安备11010502027237号 Copyright 北京五八信息技术有限公司 版权所有</div>\n" +
+        "        <div id=\"copy\">ICP经营许可证编号 浙ICP备16037214号 台州市鹏腾网络科技有限公司版权所有</div>\n" +
         "        <div id=\"footer-photo\">\n" +
         "            <img src=\"images/ba.png\" alt=\"\">\n" +
         "            <img src=\"images/wl.png\" alt=\"\">\n" +
@@ -198,44 +215,46 @@ function includeFoot() {
 }
 
 function includeLink() {
+
+    //凌志转动机械  士利达清洗机
     $("#link").html(
         " <div id=\"linkle\">\n" +
-        "            <a href=\"FrmDea.html\" target=\"_blank\"><img src=\"images/albb.png\" alt=\"\"></a>\n" +
-        "            <a href=\"FrmDea.html\" target=\"_blank\"> <img src=\"images/newyork.png\" alt=\"\"></a>\n" +
+        "            <a href=\"WorkInfo.html?companyId=7\" target=\"_blank\"><img src=\"images/albb.png\" alt=\"\"></a>\n" +  //立马车业有限公司
+        "            <a href=\"WorkInfo.html?companyId=15\"  target=\"_blank\"> <img src=\"images/newyork.png\" alt=\"\"></a>\n" + //浙江巨科铝业股份有限公司
         "        </div>\n" +
         "        <div id=\"linkmid\">\n" +
         "            <ul>\n" +
         "                <li>\n" +
-        "                    <a href=\"FrmDea.html\" target=\"_blank\"><img src=\"images/hxbank.png\" alt=\"\"></a>\n" +
+        "                    <a href=\"WorkInfo.html?companyId=11\" target=\"_blank\"><img src=\"images/bewhv.png\" alt=\"\"></a>\n" +  //博豪名车广场
         "                </li>\n" +
         "                <li>\n" +
-        "                    <a href=\"FrmDea.html\" target=\"_blank\"><img src=\"images/bm.png\" alt=\"\"></a>\n" +
+        "                    <a href=\"WorkInfo.html?companyId=12\" target=\"_blank\"><img src=\"images/bm.png\" alt=\"\"></a>\n" +  //德兴
         "                </li>\n" +
         "                <li>\n" +
-        "                    <a href=\"FrmDea.html\" target=\"_blank\"><img src=\"images/sh.png\" alt=\"\"></a>\n" +
+        "                    <a href=\"WorkInfo.html?companyId=14\" target=\"_blank\"><img src=\"images/sh.png\" alt=\"\"></a>\n" +  //浙江金龙电机股份有限公司
         "                </li>\n" +
         "                <li>\n" +
-        "                    <a href=\"FrmDea.html\" target=\"_blank\"><img src=\"images/zg.png\" alt=\"\"></a>\n" +
+        "                    <a href=\"WorkInfo.html\" target=\"_blank\"><img src=\"images/zg.png\" alt=\"\"></a>\n" +
         "                </li>\n" +
         "                <li>\n" +
-        "                    <a href=\"FrmDea.html\" target=\"_blank\"><img src=\"images/xzbank.png\" alt=\"\"></a>\n" +
+        "                    <a href=\"WorkInfo.html?companyId=8\" target=\"_blank\"><img src=\"images/xzbank.png\" alt=\"\"></a>\n" + //中国·双马塑业有限公司
         "                </li>\n" +
         "                <li>\n" +
-        "                    <a href=\"FrmDea.html\" target=\"_blank\"><img src=\"images/rczp.png\" alt=\"\"></a>\n" +
+        "                    <a href=\"WorkInfo.html?companyId=9\" target=\"_blank\"><img src=\"images/rczp.png\" alt=\"\"></a>\n" + //台州力宝行汽车销售服务有限公司
         "                </li>\n" +
         "                <li>\n" +
-        "                    <a href=\"FrmDea.html\" target=\"_blank\"><img src=\"images/bjjz.png\" alt=\"\"></a>\n" +
+        "                    <a href=\"\" target=\"_blank\"><img src=\"images/bjjz.png\" alt=\"\"></a>\n" +
         "                </li>\n" +
         "                <li>\n" +
-        "                    <a href=\"FrmDea.html\" target=\"_blank\"><img src=\"images/yn.png\" alt=\"\"></a>\n" +
+        "                    <a href=\"\" target=\"_blank\"><img src=\"images/yn.png\" alt=\"\"></a>\n" +
         "                </li>\n" +
         "            </ul>\n" +
         "        </div>\n" +
         "        <div id=\"linkri\">\n" +
-        "            <a href=\"FrmDea.html\" target=\"_blank\"> <img src=\"images/chto.png\" alt=\"\"></a>\n" +
-        "            <a href=\"FrmDea.html\" target=\"_blank\"> <img src=\"images/chd.png\" alt=\"\"></a>\n" +
-        "            <a href=\"FrmDea.html\" target=\"_blank\"> <img src=\"images/yd.png\" alt=\"\"></a>\n" +
-        "            <a href=\"FrmDea.html\" target=\"_blank\"> <img src=\"images/cpyc.png\" alt=\"\"></a>\n" +
+        "            <a href=\"WorkInfo.html?companyId=13\"  target=\"_blank\"> <img src=\"images/chto.png\" alt=\"\"></a>\n" +  //飞亚
+        "            <a href=\"\" target=\"_blank\"> <img src=\"images/chd.png\" alt=\"\"></a>\n" +
+        "            <a href=\"WorkInfo.html?companyId=10\" target=\"_blank\"><img src=\"images/hxbank.png\" alt=\"\"></a>\n" +  //奥辉
+        "            <a href=\"\" target=\"_blank\"> <img src=\"images/cpyc.png\" alt=\"\"></a>\n" +
         "        </div>"
     );
 }
@@ -351,8 +370,8 @@ function getQueryString(name) {
 }
 
 
-$.formatString = function(str) {
-    for ( var i = 0; i < arguments.length - 1; i++) {
+$.formatString = function (str) {
+    for (var i = 0; i < arguments.length - 1; i++) {
         str = str.replace("{" + i + "}", arguments[i + 1]);
     }
     return str;

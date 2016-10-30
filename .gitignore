@@ -4,3 +4,4 @@
 /recruit.iml
 /src/main/resources/generatorConfig.xml
 /src/main/resources/mysql.properties
+/src/main/resources/redis.properties

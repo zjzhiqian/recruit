@@ -25,7 +25,8 @@
 
             var companyId = getQueryString("id");
             if (companyId == null || companyId.length == 0) {
-                alert("请求参数不合法")
+                alert("请求参数不合法");
+                return false;
             }
 
             //公司信息
@@ -47,7 +48,7 @@
                         $("#type").html("公司类型: " + info.industry);
                         $("#concatName").html("联系人：" + info.concatName);
                         $("#webSite").html("公司网站：" + info.html);
-                        $("#phone").html("联系电话：<span class=\"frmphoto\">" + info.phone + "+</span>");
+                        $("#phone").html("联系电话：<span class=\"frmphoto\">" + info.phone + "</span>");
                         $("#concatAddress").html("地址：" + info.address);
 
                     } else {
@@ -87,7 +88,7 @@
 
                             body = body +
                                     "        <tr>\n" +
-                                    "            <td class=\"jobtitle\"><a href=\"WorkInfo.html?id="+info[i]['id']+"&companyId="+companyId+"\">" + info[i]['title'] + "</a></td>\n" +
+                                    "            <td class=\"jobtitle\"><a href=\"WorkInfo.html?id=" + info[i]['id'] + "&companyId=" + companyId + "\">" + info[i]['title'] + "</a></td>\n" +
                                     "            <td>" + salaryStr + "</td>\n" +
                                     "            <td>" + workYearStr + "</td>\n" +
                                     "            <td>" + info[i]['peopleCount'] + "</td>\n" +
@@ -231,7 +232,7 @@
         <div class="sj">
             <ul>
                 <!--<li>-->
-                    <!--<input id="sc" type="button" onclick="changeSc()" value="收藏">-->
+                <!--<input id="sc" type="button" onclick="changeSc()" value="收藏">-->
                 <!--</li>-->
                 <!--<li>i
                     <!--<input id="jb" type="button" onclick="changeJb()" value="举报">-->

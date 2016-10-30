@@ -21,9 +21,33 @@
             includeFoot();
 
             var title = getQueryString('title');
-            var content = getQueryString('content');
+            var id = getQueryString('id');
+            var content = "";
+
+            $.ajax({
+                type: "GET",
+                url: "api/v3/jobNews/getJobNews",
+                dataType: 'json',
+                async: false,
+                success: function (rs) {
+                    if (rs.success) {
+                        var data = rs.data;
+                        var str = "";
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i]['id'] == id)
+                                content = data[i]['content'];
+                        }
+                        $("#jobMessage").html(str)
+
+                    } else {
+                        alert(rs.data.error);
+                    }
+                }
+            });
             $("#title").html(decodeURI(title));
-            $("#content").html(decodeURI(content));
+            $("#content").html(content);
+
+
         });
     </script>
 </head>

@@ -23,7 +23,16 @@
     <script type="text/javascript" src="js/common-dic.js"></script>
 
     <script>
+
+        function getCookie(name) {
+            var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+            if (arr != null)
+                return unescape(arr[2]);
+            return null;
+        }
+
         $(function () {
+
             includeHeader();
             includeFoot();
             includeLink();
@@ -54,7 +63,7 @@
                         var data = rs.data;
                         var str = "";
                         for (var i = 0; i < data.length; i++) {
-                            str = str + $.formatString("<li><a href=\"Rigcon.html?id={0}&title={1}&content={2}\">{3}</a></li>", data[i]['id'], data[i]['title'], data[i]['content'], data[i]['title'])
+                            str = str + $.formatString("<li><a href=\"Rigcon.html?id={0}&title={1}\">{2}</a></li>", data[i]['id'], data[i]['title'], data[i]['title'])
                         }
                         $("#jobMessage").html(str)
 
@@ -105,9 +114,105 @@
                 var title = $("#searchText").val();
                 var option = $("#jobType option:selected");
                 window.location.href = "SeaResult.html?type=" + option.val() + "&title=" + title
+            });
+
+
+            var info = getCookie('info');
+            if (info != null) {
+                $("#pan").html("<div class=\"loginwrap\" id=\"logIn1\">\n" +
+                        "                \n" +
+                        "                <div id=\"user2\">\n" +
+                        "                    <ul class=\"drch\">\n" +
+                        "                        <li class=\"name\">您好，<span class=\"drch_name\" id=\"userName\"></span></li>\n" +
+                        "                        <li class=\"tc\"><a href=\"\" onclick=\"logout()\">【退出】</a></li>\n" +
+                        "                    </ul>\n" +
+                        "                </div>\n" +
+                        "\n" +
+                        "                <div class=\"loginrc\" >\n" +
+                        "                    总访问量: <span class=\"none\">11789</span>人次\n" +
+                        "                </div>\n" +
+                        "            </div>");
+
+                var json = $.parseJSON(eval('(' + info + ')'));
+                var userName = json["userName"];
+                var userType = json["userType"];
+                //个人用户
+                $("#userName").html(userName);
+//                if (userType == 1) {
+//                    $("#logIn2").remove();
+//                } else {
+//                    $("#logIn1").remove();
+//                    $("#userName").html(userName);
+//                    $("#href1").removeClass("logintit");
+//                    $("#href2").addClass("logintit")
+            } else {
+                $("#user2").hide();
+                $("#comp2").hide();
+            }
+
+
+            $.ajax({
+                type: "GET",
+                url: "api/v3/sys/sysCount",
+                dataType: 'json',
+                async: false,
+                success: function (rs) {
+                    if (rs.success) {
+                        $(".none").html(rs.data)
+                    }
+                }
+            });
+
+            $("#btn1").click(function(){
+                $.ajax({
+                    type: "POST",
+                    url: "api/v3/user/logIn",
+                    data: $("#form1").serialize(),
+                    dataType: 'json',
+                    success: function (rs) {
+                        if (rs.success) {
+                            alert("登录成功，回到首页！");
+                            window.location.href = "Index.html";
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+            });
+
+
+            $("#btn2").click(function(){
+                $.ajax({
+                    type: "POST",
+                    url: "api/v3/user/logIn",
+                    data: $("#form2").serialize(),
+                    dataType: 'json',
+                    success: function (rs) {
+                        if (rs.success) {
+                            alert("登录成功，回到首页！");
+                            window.location.href = "Index.html";
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+
             })
 
+
         });
+
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + "; " + expires;
+        }
+
+        function logout() {
+            setCookie("info", "", -1);
+            window.location.href = "Index.html"
+        }
     </script>
 
 </head>
@@ -144,7 +249,7 @@
                 </li>
                 <li>
                     <div class="title">
-                        本地论坛
+                        职场资讯
                     </div>
                 </li>
             </ul>
@@ -160,1025 +265,1064 @@
     <!-- 搜索和登录 E -->
     <div id="Login">
         <div class="logintitwrap">
-            <a href="" hidefocus="true" class="logintit">个人登录</a><a hidefocus="true" href="">企业登录</a>
+            <a href="" hidefocus="true" class="logintit" id="href1">个人登录</a><a hidefocus="true" href=""
+                                                                               id="href2">企业登录</a>
         </div>
-        <div class="logincon">
-            <div class="loginwrap">
-                <input type="text" placeholder="用户名">
-                <input type="password" placeholder="密码">
-                <ul>
-                    <li>
-                        <input type="checkbox">下次自动登录
-                    </li>
-                    <li class="foget"><a href="RetriPass.html">忘记密码？</a></li>
-                </ul>
-                <input id="btnLogin" type="button" value="登录">
-                <div class="loginps">
-                    还不是会员？<span><a href="Register.html">新用户注册</a></span>
+        <div class="logincon" id="pan">
+
+            <div class="loginwrap" id="logIn1">
+                <div id="user1">
+                    <form id="form1">
+                    <input type="text" name="userName" placeholder="用户名">
+                    <input type="password" name="password" placeholder="密码">
+                    <input type="hidden" name="type" value="1"/>
+                        </form>
+                    <ul>
+                        <!--<li>-->
+                        <!--<input type="checkbox">下次自动登录-->
+                        <!--</li>-->
+                        <!--<li class="foget"><a href="RetriPass.html">忘记密码？</a></li>-->
+                    </ul>
+                    <input id="btn1" class="btnLogin" type="button" value="登录">
+                    <div class="loginps">
+                        还不是会员？<span><a href="Register.html">新用户注册</a></span>
+                    </div>
+                </div>
+                <div id="user2">
+                    <ul class="drch">
+                        <li class="name">您好，<span class="drch_name" id="userName"></span></li>
+                        <li class="tc"><a href="" onclick="logout()">【退出】</a></li>
+                    </ul>
+                </div>
+
+                <div class="loginrc">
+                    总访问量: <span class="none">11789</span>人次
                 </div>
             </div>
-            <div class="loginwrap">
-                <input type="text" placeholder="用户名">
-                <input type="password" placeholder="密码">
-                <ul>
-                    <li>
-                        <input type="checkbox">下次自动登录
-                    </li>
-                    <li class="foget"><a href="RetriPass.html">忘记密码？</a></li>
-                </ul>
-                <input id="btnLogin" type="button" value="登录">
-                <div class="loginps">
-                    还不是会员？<span><a href="Register.html">新用户注册</a></span>
+            <div class="loginwrap" id="logIn2">
+                <div id="comp1">
+                    <form id="form2">
+
+                    <input type="text" name="userName" placeholder="用户名">
+                    <input type="password" name="password" placeholder="密码">
+                    <input type="hidden" name="type" value="2"/>
+                    </form>
+                    <ul>
+                        <!--<li>-->
+                        <!--<input type="checkbox">下次自动登录-->
+                        <!--</li>-->
+                        <!--<li class="foget"><a href="RetriPass.html">忘记密码？</a></li>-->
+                    </ul>
+                    <input id="btn2" class="btnLogin" type="button" value="登录">
+                    <div class="loginps">
+                        还不是会员？<span><a href="Register.html">新用户注册</a></span>
+                    </div>
+                </div>
+
+                <div id="comp2">
+                    <ul class="drch">
+                        <li class="name">您好，<span class="drch_name" id="userName"></span></li>
+                        <li class="tc"><a href="">【退出】</a></li>
+                    </ul>
+                </div>
+
+                <div class="loginrc">
+                    总访问量: <span class="none">11789</span>人次
                 </div>
             </div>
         </div>
+        <div class="clearbox"></div>
     </div>
-    <div class="clearbox"></div>
-</div>
-<!-- 导航S -->
-<div id="navi">
-    <div class="navet">
-        <div class="title">
-            全部职位
+    <!-- 导航S -->
+    <div id="navi">
+        <div class="navet">
+            <div class="title">
+                全部职位
+            </div>
         </div>
-    </div>
-    <div class="ali-common-header-inner common-header-clearfix" style="height:549px;">
-        <!-- 导航菜单 -->
-        <ul class="pull-left" id="J_common_header_menu" data-spm="201">
-            <li class="top-menu-item" has-dropdown="true" menu-type="product" data-spm-click="">
-                <div class="menu-dropdown common-header-clearfix">
-                    <div class="menu-dropdown-inner">
-                        <div class="menu-dropdown-sidebar pull-left">
-                            <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="database">
-                                人力<span>|</span>行政<span>|</span>管理<span class="icon pull-right"></span>
-                            </a>
-                            <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="cdn">
-                                销售<span>|</span>客服<span>|</span>采购<span>|</span>淘宝<span class="icon pull-right"></span>
-                            </a>
-                            <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="network">
-                                市场<span>|</span>媒介<span>|</span>广告<span>|</span>设计<span class="icon pull-right"></span>
-                            </a>
-                            <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="bigdata">
-                                生产<span>|</span>物流<span>|</span>质控<span>|</span>汽车<span class="icon pull-right"></span>
-                            </a>
-                            <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="yundun">
-                                网络<span>|</span>通信<span>|</span>电子<span class="icon pull-right"></span>
-                            </a>
-                            <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="manage">
-                                法律<span>|</span>教育<span>|</span>翻译<span>|</span>出版<span class="icon pull-right"></span>
-                            </a>
-                            <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="service">
-                                财会<span>|</span>金融<span>|</span>保险<span class="icon pull-right"></span>
-                            </a>
-                            <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="middleware">
-                                医疗<span>|</span>制药<span>|</span>环保<span class="icon pull-right"></span>
-                            </a>
-                            <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="mobileservice">
-                                建筑<span>|</span>装修<span>|</span>物业<span>|</span>其他<span class="icon pull-right"></span>
-                            </a>
-                        </div>
-                        <div class="menu-dropdown-content">
-                            <!-- 下拉右侧内容 -->
-                            <div class="item-sub database-bg tpl1 product-bg-common common-header-clearfix"
-                                 sidebar-type="database">
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
-                                        <li><a href="SeaResult.html">服务员</a></li>
-                                        <li><a href="SeaResult.html">送餐员</a></li>
-                                        <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
-                                        <li><a href="SeaResult.html">后厨</a></li>
-                                        <li><a href="SeaResult.html">传菜员</a></li>
-                                        <li><a href="SeaResult.html">配菜/打荷</a></li>
-                                        <li><a href="SeaResult.html">洗碗工</a></li>
-                                        <li><a href="SeaResult.html">茶艺师</a></li>
-                                        <li><a href="SeaResult.html">迎宾/接待</a></li>
-                                        <li><a href="SeaResult.html">大唐经理</a></li>
-                                        <li><a href="SeaResult.html">餐饮管理</a></li>
-                                        <li><a href="SeaResult.html">学徒</a></li>
-                                        <li><a href="SeaResult.html">杂工</a></li>
-                                        <li><a href="SeaResult.html">咖啡师</a></li>
-                                        <li><a href="SeaResult.html">预定员</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">家政保洁/安保</a></li>
-                                        <li><a href="SeaResult.html">保洁</a></li>
-                                        <li><a href="SeaResult.html">保姆</a></li>
-                                        <li><a href="SeaResult.html">月嫂</a></li>
-                                        <li><a href="SeaResult.html">育婴师/保育员</a></li>
-                                        <li><a href="SeaResult.html">洗衣工</a></li>
-                                        <li><a href="SeaResult.html">钟点工</a></li>
-                                        <li><a href="SeaResult.html">保安</a></li>
-                                        <li><a href="SeaResult.html">护工</a></li>
-                                        <li><a href="SeaResult.html">送水工</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">美容/美发</a></li>
-                                        <li><a href="SeaResult.html">发型师</a></li>
-                                        <li><a href="SeaResult.html">美发助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">洗头工</li>
-                                        <li><a href="SeaResult.html">美容导师</a></li>
-                                        <li><a href="SeaResult.html">美容助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">化妆师</a></li>
-                                        <li><a href="SeaResult.html">宠物美容</a></li>
-                                        <li><a href="SeaResult.html">美容店长</a></li>
-                                        <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
-                                        <li><a href="SeaResult.html">彩妆培训师</a></li>
-                                        <li><a href="SeaResult.html">美体师</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">酒店/旅游</a></li>
-                                        <li><a href="SeaResult.html">酒店前台</a></li>
-                                        <li><a href="SeaResult.html">客房服务员</a></li>
-                                        <li><a href="SeaResult.html">楼面经理</a></li>
-                                        <li><a href="SeaResult.html">行李员</a></li>
-                                        <li><a href="SeaResult.html">救生员</a></li>
-                                        <li><a href="SeaResult.html">酒店管理</a></li>
-                                        <li><a href="SeaResult.html">订票员</a></li>
-                                        <li><a href="SeaResult.html">导游</a></li>
-                                        <li><a href="SeaResult.html">记调签证专员</a></li>
-                                        <li><a href="SeaResult.html">旅游</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">娱乐/休闲</a></li>
-                                        <li><a href="SeaResult.html">酒吧服务员</a></li>
-                                        <li><a href="SeaResult.html">娱乐厅服务员</a></li>
-                                        <li><a href="SeaResult.html">礼仪/迎宾</a></li>
-                                        <li class="red"><a href="SeaResult.html">主持人</a></li>
-                                        <li><a href="SeaResult.html">调酒师</a></li>
-                                        <li><a href="SeaResult.html">音效师</a></li>
-                                        <li><a href="SeaResult.html">灯光师</a></li>
-                                        <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
-                                        <li><a href="SeaResult.html">配音员</a></li>
-                                        <li><a href="SeaResult.html">放映员</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">保健/按摩</a></li>
-                                        <li><a href="SeaResult.html">按摩师</a></li>
-                                        <li><a href="SeaResult.html">足疗师</a></li>
-                                        <li><a href="SeaResult.html">搓澡师</a></li>
-                                        <li><a href="SeaResult.html">针灸推拿</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">运动/健身</a></li>
-                                        <li><a href="SeaResult.html">健身教练</a></li>
-                                        <li><a href="SeaResult.html">瑜伽教练</a></li>
-                                        <li><a href="SeaResult.html">舞蹈教师</a></li>
-                                        <li><a href="SeaResult.html">游泳教练</a></li>
-                                        <li><a href="SeaResult.html">台球教练</a></li>
-                                        <li><a href="SeaResult.html">高尔夫球助理</a></li>
-                                    </ul>
-                                </div>
+        <div class="ali-common-header-inner common-header-clearfix" style="height:549px;">
+            <!-- 导航菜单 -->
+            <ul class="pull-left" id="J_common_header_menu" data-spm="201">
+                <li class="top-menu-item" has-dropdown="true" menu-type="product" data-spm-click="">
+                    <div class="menu-dropdown common-header-clearfix">
+                        <div class="menu-dropdown-inner">
+                            <div class="menu-dropdown-sidebar pull-left">
+                                <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="database">
+                                    人力<span>|</span>行政<span>|</span>管理<span class="icon pull-right"></span>
+                                </a>
+                                <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="cdn">
+                                    销售<span>|</span>客服<span>|</span>采购<span>|</span>淘宝<span
+                                        class="icon pull-right"></span>
+                                </a>
+                                <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="network">
+                                    市场<span>|</span>媒介<span>|</span>广告<span>|</span>设计<span
+                                        class="icon pull-right"></span>
+                                </a>
+                                <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="bigdata">
+                                    生产<span>|</span>物流<span>|</span>质控<span>|</span>汽车<span
+                                        class="icon pull-right"></span>
+                                </a>
+                                <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="yundun">
+                                    网络<span>|</span>通信<span>|</span>电子<span class="icon pull-right"></span>
+                                </a>
+                                <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="manage">
+                                    法律<span>|</span>教育<span>|</span>翻译<span>|</span>出版<span
+                                        class="icon pull-right"></span>
+                                </a>
+                                <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="service">
+                                    财会<span>|</span>金融<span>|</span>保险<span class="icon pull-right"></span>
+                                </a>
+                                <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="middleware">
+                                    医疗<span>|</span>制药<span>|</span>环保<span class="icon pull-right"></span>
+                                </a>
+                                <a class=" common-header-clearfix" href="javascript:void(0);"
+                                   sidebar-type="mobileservice">
+                                    建筑<span>|</span>装修<span>|</span>物业<span>|</span>其他<span
+                                        class="icon pull-right"></span>
+                                </a>
                             </div>
-                            <div class="item-sub cdn-bg tpl1 product-bg-common common-header-clearfix"
-                                 sidebar-type="cdn">
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
-                                        <li><a href="SeaResult.html">服务员</a></li>
-                                        <li><a href="SeaResult.html">送餐员</a></li>
-                                        <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
-                                        <li><a href="SeaResult.html">后厨</a></li>
-                                        <li><a href="SeaResult.html">传菜员</a></li>
-                                        <li><a href="SeaResult.html">配菜/打荷</a></li>
-                                        <li><a href="SeaResult.html">洗碗工</a></li>
-                                        <li><a href="SeaResult.html">茶艺师</a></li>
-                                        <li><a href="SeaResult.html">迎宾/接待</a></li>
-                                        <li><a href="SeaResult.html">大唐经理</a></li>
-                                        <li><a href="SeaResult.html">餐饮管理</a></li>
-                                        <li><a href="SeaResult.html">学徒</a></li>
-                                        <li><a href="SeaResult.html">杂工</a></li>
-                                        <li><a href="SeaResult.html">咖啡师</a></li>
-                                        <li><a href="SeaResult.html">预定员</a></li>
-                                    </ul>
+                            <div class="menu-dropdown-content">
+                                <!-- 下拉右侧内容 -->
+                                <div class="item-sub database-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="database">
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
+                                            <li><a href="SeaResult.html">服务员</a></li>
+                                            <li><a href="SeaResult.html">送餐员</a></li>
+                                            <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
+                                            <li><a href="SeaResult.html">后厨</a></li>
+                                            <li><a href="SeaResult.html">传菜员</a></li>
+                                            <li><a href="SeaResult.html">配菜/打荷</a></li>
+                                            <li><a href="SeaResult.html">洗碗工</a></li>
+                                            <li><a href="SeaResult.html">茶艺师</a></li>
+                                            <li><a href="SeaResult.html">迎宾/接待</a></li>
+                                            <li><a href="SeaResult.html">大唐经理</a></li>
+                                            <li><a href="SeaResult.html">餐饮管理</a></li>
+                                            <li><a href="SeaResult.html">学徒</a></li>
+                                            <li><a href="SeaResult.html">杂工</a></li>
+                                            <li><a href="SeaResult.html">咖啡师</a></li>
+                                            <li><a href="SeaResult.html">预定员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">家政保洁/安保</a></li>
+                                            <li><a href="SeaResult.html">保洁</a></li>
+                                            <li><a href="SeaResult.html">保姆</a></li>
+                                            <li><a href="SeaResult.html">月嫂</a></li>
+                                            <li><a href="SeaResult.html">育婴师/保育员</a></li>
+                                            <li><a href="SeaResult.html">洗衣工</a></li>
+                                            <li><a href="SeaResult.html">钟点工</a></li>
+                                            <li><a href="SeaResult.html">保安</a></li>
+                                            <li><a href="SeaResult.html">护工</a></li>
+                                            <li><a href="SeaResult.html">送水工</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">美容/美发</a></li>
+                                            <li><a href="SeaResult.html">发型师</a></li>
+                                            <li><a href="SeaResult.html">美发助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">洗头工</li>
+                                            <li><a href="SeaResult.html">美容导师</a></li>
+                                            <li><a href="SeaResult.html">美容助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">化妆师</a></li>
+                                            <li><a href="SeaResult.html">宠物美容</a></li>
+                                            <li><a href="SeaResult.html">美容店长</a></li>
+                                            <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
+                                            <li><a href="SeaResult.html">彩妆培训师</a></li>
+                                            <li><a href="SeaResult.html">美体师</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">酒店/旅游</a></li>
+                                            <li><a href="SeaResult.html">酒店前台</a></li>
+                                            <li><a href="SeaResult.html">客房服务员</a></li>
+                                            <li><a href="SeaResult.html">楼面经理</a></li>
+                                            <li><a href="SeaResult.html">行李员</a></li>
+                                            <li><a href="SeaResult.html">救生员</a></li>
+                                            <li><a href="SeaResult.html">酒店管理</a></li>
+                                            <li><a href="SeaResult.html">订票员</a></li>
+                                            <li><a href="SeaResult.html">导游</a></li>
+                                            <li><a href="SeaResult.html">记调签证专员</a></li>
+                                            <li><a href="SeaResult.html">旅游</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">娱乐/休闲</a></li>
+                                            <li><a href="SeaResult.html">酒吧服务员</a></li>
+                                            <li><a href="SeaResult.html">娱乐厅服务员</a></li>
+                                            <li><a href="SeaResult.html">礼仪/迎宾</a></li>
+                                            <li class="red"><a href="SeaResult.html">主持人</a></li>
+                                            <li><a href="SeaResult.html">调酒师</a></li>
+                                            <li><a href="SeaResult.html">音效师</a></li>
+                                            <li><a href="SeaResult.html">灯光师</a></li>
+                                            <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
+                                            <li><a href="SeaResult.html">配音员</a></li>
+                                            <li><a href="SeaResult.html">放映员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">保健/按摩</a></li>
+                                            <li><a href="SeaResult.html">按摩师</a></li>
+                                            <li><a href="SeaResult.html">足疗师</a></li>
+                                            <li><a href="SeaResult.html">搓澡师</a></li>
+                                            <li><a href="SeaResult.html">针灸推拿</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">运动/健身</a></li>
+                                            <li><a href="SeaResult.html">健身教练</a></li>
+                                            <li><a href="SeaResult.html">瑜伽教练</a></li>
+                                            <li><a href="SeaResult.html">舞蹈教师</a></li>
+                                            <li><a href="SeaResult.html">游泳教练</a></li>
+                                            <li><a href="SeaResult.html">台球教练</a></li>
+                                            <li><a href="SeaResult.html">高尔夫球助理</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">家政保洁/安保</a></li>
-                                        <li><a href="SeaResult.html">保洁</a></li>
-                                        <li><a href="SeaResult.html">保姆</a></li>
-                                        <li><a href="SeaResult.html">月嫂</a></li>
-                                        <li><a href="SeaResult.html">育婴师/保育员</a></li>
-                                        <li><a href="SeaResult.html">洗衣工</a></li>
-                                        <li><a href="SeaResult.html">钟点工</a></li>
-                                        <li><a href="SeaResult.html">保安</a></li>
-                                        <li><a href="SeaResult.html">护工</a></li>
-                                        <li><a href="SeaResult.html">送水工</a></li>
-                                    </ul>
+                                <div class="item-sub cdn-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="cdn">
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
+                                            <li><a href="SeaResult.html">服务员</a></li>
+                                            <li><a href="SeaResult.html">送餐员</a></li>
+                                            <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
+                                            <li><a href="SeaResult.html">后厨</a></li>
+                                            <li><a href="SeaResult.html">传菜员</a></li>
+                                            <li><a href="SeaResult.html">配菜/打荷</a></li>
+                                            <li><a href="SeaResult.html">洗碗工</a></li>
+                                            <li><a href="SeaResult.html">茶艺师</a></li>
+                                            <li><a href="SeaResult.html">迎宾/接待</a></li>
+                                            <li><a href="SeaResult.html">大唐经理</a></li>
+                                            <li><a href="SeaResult.html">餐饮管理</a></li>
+                                            <li><a href="SeaResult.html">学徒</a></li>
+                                            <li><a href="SeaResult.html">杂工</a></li>
+                                            <li><a href="SeaResult.html">咖啡师</a></li>
+                                            <li><a href="SeaResult.html">预定员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">家政保洁/安保</a></li>
+                                            <li><a href="SeaResult.html">保洁</a></li>
+                                            <li><a href="SeaResult.html">保姆</a></li>
+                                            <li><a href="SeaResult.html">月嫂</a></li>
+                                            <li><a href="SeaResult.html">育婴师/保育员</a></li>
+                                            <li><a href="SeaResult.html">洗衣工</a></li>
+                                            <li><a href="SeaResult.html">钟点工</a></li>
+                                            <li><a href="SeaResult.html">保安</a></li>
+                                            <li><a href="SeaResult.html">护工</a></li>
+                                            <li><a href="SeaResult.html">送水工</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">美容/美发</a></li>
+                                            <li><a href="SeaResult.html">发型师</a></li>
+                                            <li><a href="SeaResult.html">美发助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">洗头工</li>
+                                            <li><a href="SeaResult.html">美容导师</a></li>
+                                            <li><a href="SeaResult.html">美容助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">化妆师</a></li>
+                                            <li><a href="SeaResult.html">宠物美容</a></li>
+                                            <li><a href="SeaResult.html">美容店长</a></li>
+                                            <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
+                                            <li><a href="SeaResult.html">彩妆培训师</a></li>
+                                            <li><a href="SeaResult.html">美体师</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">酒店/旅游</a></li>
+                                            <li><a href="SeaResult.html">酒店前台</a></li>
+                                            <li><a href="SeaResult.html">客房服务员</a></li>
+                                            <li><a href="SeaResult.html">楼面经理</a></li>
+                                            <li><a href="SeaResult.html">行李员</a></li>
+                                            <li><a href="SeaResult.html">救生员</a></li>
+                                            <li><a href="SeaResult.html">酒店管理</a></li>
+                                            <li><a href="SeaResult.html">订票员</a></li>
+                                            <li><a href="SeaResult.html">导游</a></li>
+                                            <li><a href="SeaResult.html">记调签证专员</a></li>
+                                            <li><a href="SeaResult.html">旅游</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">娱乐/休闲</a></li>
+                                            <li><a href="SeaResult.html">酒吧服务员</a></li>
+                                            <li><a href="SeaResult.html">娱乐厅服务员</a></li>
+                                            <li><a href="SeaResult.html">礼仪/迎宾</a></li>
+                                            <li class="red"><a href="SeaResult.html">主持人</a></li>
+                                            <li><a href="SeaResult.html">调酒师</a></li>
+                                            <li><a href="SeaResult.html">音效师</a></li>
+                                            <li><a href="SeaResult.html">灯光师</a></li>
+                                            <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
+                                            <li><a href="SeaResult.html">配音员</a></li>
+                                            <li><a href="SeaResult.html">放映员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">保健/按摩</a></li>
+                                            <li><a href="SeaResult.html">按摩师</a></li>
+                                            <li><a href="SeaResult.html">足疗师</a></li>
+                                            <li><a href="SeaResult.html">搓澡师</a></li>
+                                            <li><a href="SeaResult.html">针灸推拿</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">运动/健身</a></li>
+                                            <li><a href="SeaResult.html">健身教练</a></li>
+                                            <li><a href="SeaResult.html">瑜伽教练</a></li>
+                                            <li><a href="SeaResult.html">舞蹈教师</a></li>
+                                            <li><a href="SeaResult.html">游泳教练</a></li>
+                                            <li><a href="SeaResult.html">台球教练</a></li>
+                                            <li><a href="SeaResult.html">高尔夫球助理</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">美容/美发</a></li>
-                                        <li><a href="SeaResult.html">发型师</a></li>
-                                        <li><a href="SeaResult.html">美发助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">洗头工</li>
-                                        <li><a href="SeaResult.html">美容导师</a></li>
-                                        <li><a href="SeaResult.html">美容助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">化妆师</a></li>
-                                        <li><a href="SeaResult.html">宠物美容</a></li>
-                                        <li><a href="SeaResult.html">美容店长</a></li>
-                                        <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
-                                        <li><a href="SeaResult.html">彩妆培训师</a></li>
-                                        <li><a href="SeaResult.html">美体师</a></li>
-                                    </ul>
+                                <div class="item-sub network-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="network">
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
+                                            <li><a href="SeaResult.html">服务员</a></li>
+                                            <li><a href="SeaResult.html">送餐员</a></li>
+                                            <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
+                                            <li><a href="SeaResult.html">后厨</a></li>
+                                            <li><a href="SeaResult.html">传菜员</a></li>
+                                            <li><a href="SeaResult.html">配菜/打荷</a></li>
+                                            <li><a href="SeaResult.html">洗碗工</a></li>
+                                            <li><a href="SeaResult.html">茶艺师</a></li>
+                                            <li><a href="SeaResult.html">迎宾/接待</a></li>
+                                            <li><a href="SeaResult.html">大唐经理</a></li>
+                                            <li><a href="SeaResult.html">餐饮管理</a></li>
+                                            <li><a href="SeaResult.html">学徒</a></li>
+                                            <li><a href="SeaResult.html">杂工</a></li>
+                                            <li><a href="SeaResult.html">咖啡师</a></li>
+                                            <li><a href="SeaResult.html">预定员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">家政保洁/安保</a></li>
+                                            <li><a href="SeaResult.html">保洁</a></li>
+                                            <li><a href="SeaResult.html">保姆</a></li>
+                                            <li><a href="SeaResult.html">月嫂</a></li>
+                                            <li><a href="SeaResult.html">育婴师/保育员</a></li>
+                                            <li><a href="SeaResult.html">洗衣工</a></li>
+                                            <li><a href="SeaResult.html">钟点工</a></li>
+                                            <li><a href="SeaResult.html">保安</a></li>
+                                            <li><a href="SeaResult.html">护工</a></li>
+                                            <li><a href="SeaResult.html">送水工</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">美容/美发</a></li>
+                                            <li><a href="SeaResult.html">发型师</a></li>
+                                            <li><a href="SeaResult.html">美发助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">洗头工</li>
+                                            <li><a href="SeaResult.html">美容导师</a></li>
+                                            <li><a href="SeaResult.html">美容助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">化妆师</a></li>
+                                            <li><a href="SeaResult.html">宠物美容</a></li>
+                                            <li><a href="SeaResult.html">美容店长</a></li>
+                                            <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
+                                            <li><a href="SeaResult.html">彩妆培训师</a></li>
+                                            <li><a href="SeaResult.html">美体师</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">酒店/旅游</a></li>
+                                            <li><a href="SeaResult.html">酒店前台</a></li>
+                                            <li><a href="SeaResult.html">客房服务员</a></li>
+                                            <li><a href="SeaResult.html">楼面经理</a></li>
+                                            <li><a href="SeaResult.html">行李员</a></li>
+                                            <li><a href="SeaResult.html">救生员</a></li>
+                                            <li><a href="SeaResult.html">酒店管理</a></li>
+                                            <li><a href="SeaResult.html">订票员</a></li>
+                                            <li><a href="SeaResult.html">导游</a></li>
+                                            <li><a href="SeaResult.html">记调签证专员</a></li>
+                                            <li><a href="SeaResult.html">旅游</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">娱乐/休闲</a></li>
+                                            <li><a href="SeaResult.html">酒吧服务员</a></li>
+                                            <li><a href="SeaResult.html">娱乐厅服务员</a></li>
+                                            <li><a href="SeaResult.html">礼仪/迎宾</a></li>
+                                            <li class="red"><a href="SeaResult.html">主持人</a></li>
+                                            <li><a href="SeaResult.html">调酒师</a></li>
+                                            <li><a href="SeaResult.html">音效师</a></li>
+                                            <li><a href="SeaResult.html">灯光师</a></li>
+                                            <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
+                                            <li><a href="SeaResult.html">配音员</a></li>
+                                            <li><a href="SeaResult.html">放映员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">保健/按摩</a></li>
+                                            <li><a href="SeaResult.html">按摩师</a></li>
+                                            <li><a href="SeaResult.html">足疗师</a></li>
+                                            <li><a href="SeaResult.html">搓澡师</a></li>
+                                            <li><a href="SeaResult.html">针灸推拿</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">运动/健身</a></li>
+                                            <li><a href="SeaResult.html">健身教练</a></li>
+                                            <li><a href="SeaResult.html">瑜伽教练</a></li>
+                                            <li><a href="SeaResult.html">舞蹈教师</a></li>
+                                            <li><a href="SeaResult.html">游泳教练</a></li>
+                                            <li><a href="SeaResult.html">台球教练</a></li>
+                                            <li><a href="SeaResult.html">高尔夫球助理</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">酒店/旅游</a></li>
-                                        <li><a href="SeaResult.html">酒店前台</a></li>
-                                        <li><a href="SeaResult.html">客房服务员</a></li>
-                                        <li><a href="SeaResult.html">楼面经理</a></li>
-                                        <li><a href="SeaResult.html">行李员</a></li>
-                                        <li><a href="SeaResult.html">救生员</a></li>
-                                        <li><a href="SeaResult.html">酒店管理</a></li>
-                                        <li><a href="SeaResult.html">订票员</a></li>
-                                        <li><a href="SeaResult.html">导游</a></li>
-                                        <li><a href="SeaResult.html">记调签证专员</a></li>
-                                        <li><a href="SeaResult.html">旅游</a></li>
-                                    </ul>
+                                <div class="item-sub network-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="bigdata">
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
+                                            <li><a href="SeaResult.html">服务员</a></li>
+                                            <li><a href="SeaResult.html">送餐员</a></li>
+                                            <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
+                                            <li><a href="SeaResult.html">后厨</a></li>
+                                            <li><a href="SeaResult.html">传菜员</a></li>
+                                            <li><a href="SeaResult.html">配菜/打荷</a></li>
+                                            <li><a href="SeaResult.html">洗碗工</a></li>
+                                            <li><a href="SeaResult.html">茶艺师</a></li>
+                                            <li><a href="SeaResult.html">迎宾/接待</a></li>
+                                            <li><a href="SeaResult.html">大唐经理</a></li>
+                                            <li><a href="SeaResult.html">餐饮管理</a></li>
+                                            <li><a href="SeaResult.html">学徒</a></li>
+                                            <li><a href="SeaResult.html">杂工</a></li>
+                                            <li><a href="SeaResult.html">咖啡师</a></li>
+                                            <li><a href="SeaResult.html">预定员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">家政保洁/安保</a></li>
+                                            <li><a href="SeaResult.html">保洁</a></li>
+                                            <li><a href="SeaResult.html">保姆</a></li>
+                                            <li><a href="SeaResult.html">月嫂</a></li>
+                                            <li><a href="SeaResult.html">育婴师/保育员</a></li>
+                                            <li><a href="SeaResult.html">洗衣工</a></li>
+                                            <li><a href="SeaResult.html">钟点工</a></li>
+                                            <li><a href="SeaResult.html">保安</a></li>
+                                            <li><a href="SeaResult.html">护工</a></li>
+                                            <li><a href="SeaResult.html">送水工</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">美容/美发</a></li>
+                                            <li><a href="SeaResult.html">发型师</a></li>
+                                            <li><a href="SeaResult.html">美发助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">洗头工</li>
+                                            <li><a href="SeaResult.html">美容导师</a></li>
+                                            <li><a href="SeaResult.html">美容助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">化妆师</a></li>
+                                            <li><a href="SeaResult.html">宠物美容</a></li>
+                                            <li><a href="SeaResult.html">美容店长</a></li>
+                                            <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
+                                            <li><a href="SeaResult.html">彩妆培训师</a></li>
+                                            <li><a href="SeaResult.html">美体师</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">酒店/旅游</a></li>
+                                            <li><a href="SeaResult.html">酒店前台</a></li>
+                                            <li><a href="SeaResult.html">客房服务员</a></li>
+                                            <li><a href="SeaResult.html">楼面经理</a></li>
+                                            <li><a href="SeaResult.html">行李员</a></li>
+                                            <li><a href="SeaResult.html">救生员</a></li>
+                                            <li><a href="SeaResult.html">酒店管理</a></li>
+                                            <li><a href="SeaResult.html">订票员</a></li>
+                                            <li><a href="SeaResult.html">导游</a></li>
+                                            <li><a href="SeaResult.html">记调签证专员</a></li>
+                                            <li><a href="SeaResult.html">旅游</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">娱乐/休闲</a></li>
+                                            <li><a href="SeaResult.html">酒吧服务员</a></li>
+                                            <li><a href="SeaResult.html">娱乐厅服务员</a></li>
+                                            <li><a href="SeaResult.html">礼仪/迎宾</a></li>
+                                            <li class="red"><a href="SeaResult.html">主持人</a></li>
+                                            <li><a href="SeaResult.html">调酒师</a></li>
+                                            <li><a href="SeaResult.html">音效师</a></li>
+                                            <li><a href="SeaResult.html">灯光师</a></li>
+                                            <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
+                                            <li><a href="SeaResult.html">配音员</a></li>
+                                            <li><a href="SeaResult.html">放映员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">保健/按摩</a></li>
+                                            <li><a href="SeaResult.html">按摩师</a></li>
+                                            <li><a href="SeaResult.html">足疗师</a></li>
+                                            <li><a href="SeaResult.html">搓澡师</a></li>
+                                            <li><a href="SeaResult.html">针灸推拿</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">运动/健身</a></li>
+                                            <li><a href="SeaResult.html">健身教练</a></li>
+                                            <li><a href="SeaResult.html">瑜伽教练</a></li>
+                                            <li><a href="SeaResult.html">舞蹈教师</a></li>
+                                            <li><a href="SeaResult.html">游泳教练</a></li>
+                                            <li><a href="SeaResult.html">台球教练</a></li>
+                                            <li><a href="SeaResult.html">高尔夫球助理</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">娱乐/休闲</a></li>
-                                        <li><a href="SeaResult.html">酒吧服务员</a></li>
-                                        <li><a href="SeaResult.html">娱乐厅服务员</a></li>
-                                        <li><a href="SeaResult.html">礼仪/迎宾</a></li>
-                                        <li class="red"><a href="SeaResult.html">主持人</a></li>
-                                        <li><a href="SeaResult.html">调酒师</a></li>
-                                        <li><a href="SeaResult.html">音效师</a></li>
-                                        <li><a href="SeaResult.html">灯光师</a></li>
-                                        <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
-                                        <li><a href="SeaResult.html">配音员</a></li>
-                                        <li><a href="SeaResult.html">放映员</a></li>
-                                    </ul>
+                                <div class="item-sub network-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="yundun">
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
+                                            <li><a href="SeaResult.html">服务员</a></li>
+                                            <li><a href="SeaResult.html">送餐员</a></li>
+                                            <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
+                                            <li><a href="SeaResult.html">后厨</a></li>
+                                            <li><a href="SeaResult.html">传菜员</a></li>
+                                            <li><a href="SeaResult.html">配菜/打荷</a></li>
+                                            <li><a href="SeaResult.html">洗碗工</a></li>
+                                            <li><a href="SeaResult.html">茶艺师</a></li>
+                                            <li><a href="SeaResult.html">迎宾/接待</a></li>
+                                            <li><a href="SeaResult.html">大唐经理</a></li>
+                                            <li><a href="SeaResult.html">餐饮管理</a></li>
+                                            <li><a href="SeaResult.html">学徒</a></li>
+                                            <li><a href="SeaResult.html">杂工</a></li>
+                                            <li><a href="SeaResult.html">咖啡师</a></li>
+                                            <li><a href="SeaResult.html">预定员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">家政保洁/安保</a></li>
+                                            <li><a href="SeaResult.html">保洁</a></li>
+                                            <li><a href="SeaResult.html">保姆</a></li>
+                                            <li><a href="SeaResult.html">月嫂</a></li>
+                                            <li><a href="SeaResult.html">育婴师/保育员</a></li>
+                                            <li><a href="SeaResult.html">洗衣工</a></li>
+                                            <li><a href="SeaResult.html">钟点工</a></li>
+                                            <li><a href="SeaResult.html">保安</a></li>
+                                            <li><a href="SeaResult.html">护工</a></li>
+                                            <li><a href="SeaResult.html">送水工</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">美容/美发</a></li>
+                                            <li><a href="SeaResult.html">发型师</a></li>
+                                            <li><a href="SeaResult.html">美发助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">洗头工</li>
+                                            <li><a href="SeaResult.html">美容导师</a></li>
+                                            <li><a href="SeaResult.html">美容助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">化妆师</a></li>
+                                            <li><a href="SeaResult.html">宠物美容</a></li>
+                                            <li><a href="SeaResult.html">美容店长</a></li>
+                                            <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
+                                            <li><a href="SeaResult.html">彩妆培训师</a></li>
+                                            <li><a href="SeaResult.html">美体师</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">酒店/旅游</a></li>
+                                            <li><a href="SeaResult.html">酒店前台</a></li>
+                                            <li><a href="SeaResult.html">客房服务员</a></li>
+                                            <li><a href="SeaResult.html">楼面经理</a></li>
+                                            <li><a href="SeaResult.html">行李员</a></li>
+                                            <li><a href="SeaResult.html">救生员</a></li>
+                                            <li><a href="SeaResult.html">酒店管理</a></li>
+                                            <li><a href="SeaResult.html">订票员</a></li>
+                                            <li><a href="SeaResult.html">导游</a></li>
+                                            <li><a href="SeaResult.html">记调签证专员</a></li>
+                                            <li><a href="SeaResult.html">旅游</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">娱乐/休闲</a></li>
+                                            <li><a href="SeaResult.html">酒吧服务员</a></li>
+                                            <li><a href="SeaResult.html">娱乐厅服务员</a></li>
+                                            <li><a href="SeaResult.html">礼仪/迎宾</a></li>
+                                            <li class="red"><a href="SeaResult.html">主持人</a></li>
+                                            <li><a href="SeaResult.html">调酒师</a></li>
+                                            <li><a href="SeaResult.html">音效师</a></li>
+                                            <li><a href="SeaResult.html">灯光师</a></li>
+                                            <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
+                                            <li><a href="SeaResult.html">配音员</a></li>
+                                            <li><a href="SeaResult.html">放映员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">保健/按摩</a></li>
+                                            <li><a href="SeaResult.html">按摩师</a></li>
+                                            <li><a href="SeaResult.html">足疗师</a></li>
+                                            <li><a href="SeaResult.html">搓澡师</a></li>
+                                            <li><a href="SeaResult.html">针灸推拿</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">运动/健身</a></li>
+                                            <li><a href="SeaResult.html">健身教练</a></li>
+                                            <li><a href="SeaResult.html">瑜伽教练</a></li>
+                                            <li><a href="SeaResult.html">舞蹈教师</a></li>
+                                            <li><a href="SeaResult.html">游泳教练</a></li>
+                                            <li><a href="SeaResult.html">台球教练</a></li>
+                                            <li><a href="SeaResult.html">高尔夫球助理</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">保健/按摩</a></li>
-                                        <li><a href="SeaResult.html">按摩师</a></li>
-                                        <li><a href="SeaResult.html">足疗师</a></li>
-                                        <li><a href="SeaResult.html">搓澡师</a></li>
-                                        <li><a href="SeaResult.html">针灸推拿</a></li>
-                                    </ul>
+                                <div class="item-sub network-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="manage">
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
+                                            <li><a href="SeaResult.html">服务员</a></li>
+                                            <li><a href="SeaResult.html">送餐员</a></li>
+                                            <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
+                                            <li><a href="SeaResult.html">后厨</a></li>
+                                            <li><a href="SeaResult.html">传菜员</a></li>
+                                            <li><a href="SeaResult.html">配菜/打荷</a></li>
+                                            <li><a href="SeaResult.html">洗碗工</a></li>
+                                            <li><a href="SeaResult.html">茶艺师</a></li>
+                                            <li><a href="SeaResult.html">迎宾/接待</a></li>
+                                            <li><a href="SeaResult.html">大唐经理</a></li>
+                                            <li><a href="SeaResult.html">餐饮管理</a></li>
+                                            <li><a href="SeaResult.html">学徒</a></li>
+                                            <li><a href="SeaResult.html">杂工</a></li>
+                                            <li><a href="SeaResult.html">咖啡师</a></li>
+                                            <li><a href="SeaResult.html">预定员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">家政保洁/安保</a></li>
+                                            <li><a href="SeaResult.html">保洁</a></li>
+                                            <li><a href="SeaResult.html">保姆</a></li>
+                                            <li><a href="SeaResult.html">月嫂</a></li>
+                                            <li><a href="SeaResult.html">育婴师/保育员</a></li>
+                                            <li><a href="SeaResult.html">洗衣工</a></li>
+                                            <li><a href="SeaResult.html">钟点工</a></li>
+                                            <li><a href="SeaResult.html">保安</a></li>
+                                            <li><a href="SeaResult.html">护工</a></li>
+                                            <li><a href="SeaResult.html">送水工</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">美容/美发</a></li>
+                                            <li><a href="SeaResult.html">发型师</a></li>
+                                            <li><a href="SeaResult.html">美发助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">洗头工</li>
+                                            <li><a href="SeaResult.html">美容导师</a></li>
+                                            <li><a href="SeaResult.html">美容助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">化妆师</a></li>
+                                            <li><a href="SeaResult.html">宠物美容</a></li>
+                                            <li><a href="SeaResult.html">美容店长</a></li>
+                                            <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
+                                            <li><a href="SeaResult.html">彩妆培训师</a></li>
+                                            <li><a href="SeaResult.html">美体师</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">酒店/旅游</a></li>
+                                            <li><a href="SeaResult.html">酒店前台</a></li>
+                                            <li><a href="SeaResult.html">客房服务员</a></li>
+                                            <li><a href="SeaResult.html">楼面经理</a></li>
+                                            <li><a href="SeaResult.html">行李员</a></li>
+                                            <li><a href="SeaResult.html">救生员</a></li>
+                                            <li><a href="SeaResult.html">酒店管理</a></li>
+                                            <li><a href="SeaResult.html">订票员</a></li>
+                                            <li><a href="SeaResult.html">导游</a></li>
+                                            <li><a href="SeaResult.html">记调签证专员</a></li>
+                                            <li><a href="SeaResult.html">旅游</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">娱乐/休闲</a></li>
+                                            <li><a href="SeaResult.html">酒吧服务员</a></li>
+                                            <li><a href="SeaResult.html">娱乐厅服务员</a></li>
+                                            <li><a href="SeaResult.html">礼仪/迎宾</a></li>
+                                            <li class="red"><a href="SeaResult.html">主持人</a></li>
+                                            <li><a href="SeaResult.html">调酒师</a></li>
+                                            <li><a href="SeaResult.html">音效师</a></li>
+                                            <li><a href="SeaResult.html">灯光师</a></li>
+                                            <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
+                                            <li><a href="SeaResult.html">配音员</a></li>
+                                            <li><a href="SeaResult.html">放映员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">保健/按摩</a></li>
+                                            <li><a href="SeaResult.html">按摩师</a></li>
+                                            <li><a href="SeaResult.html">足疗师</a></li>
+                                            <li><a href="SeaResult.html">搓澡师</a></li>
+                                            <li><a href="SeaResult.html">针灸推拿</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">运动/健身</a></li>
+                                            <li><a href="SeaResult.html">健身教练</a></li>
+                                            <li><a href="SeaResult.html">瑜伽教练</a></li>
+                                            <li><a href="SeaResult.html">舞蹈教师</a></li>
+                                            <li><a href="SeaResult.html">游泳教练</a></li>
+                                            <li><a href="SeaResult.html">台球教练</a></li>
+                                            <li><a href="SeaResult.html">高尔夫球助理</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">运动/健身</a></li>
-                                        <li><a href="SeaResult.html">健身教练</a></li>
-                                        <li><a href="SeaResult.html">瑜伽教练</a></li>
-                                        <li><a href="SeaResult.html">舞蹈教师</a></li>
-                                        <li><a href="SeaResult.html">游泳教练</a></li>
-                                        <li><a href="SeaResult.html">台球教练</a></li>
-                                        <li><a href="SeaResult.html">高尔夫球助理</a></li>
-                                    </ul>
+                                <div class="item-sub service-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="service">
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
+                                            <li><a href="SeaResult.html">服务员</a></li>
+                                            <li><a href="SeaResult.html">送餐员</a></li>
+                                            <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
+                                            <li><a href="SeaResult.html">后厨</a></li>
+                                            <li><a href="SeaResult.html">传菜员</a></li>
+                                            <li><a href="SeaResult.html">配菜/打荷</a></li>
+                                            <li><a href="SeaResult.html">洗碗工</a></li>
+                                            <li><a href="SeaResult.html">茶艺师</a></li>
+                                            <li><a href="SeaResult.html">迎宾/接待</a></li>
+                                            <li><a href="SeaResult.html">大唐经理</a></li>
+                                            <li><a href="SeaResult.html">餐饮管理</a></li>
+                                            <li><a href="SeaResult.html">学徒</a></li>
+                                            <li><a href="SeaResult.html">杂工</a></li>
+                                            <li><a href="SeaResult.html">咖啡师</a></li>
+                                            <li><a href="SeaResult.html">预定员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">家政保洁/安保</a></li>
+                                            <li><a href="SeaResult.html">保洁</a></li>
+                                            <li><a href="SeaResult.html">保姆</a></li>
+                                            <li><a href="SeaResult.html">月嫂</a></li>
+                                            <li><a href="SeaResult.html">育婴师/保育员</a></li>
+                                            <li><a href="SeaResult.html">洗衣工</a></li>
+                                            <li><a href="SeaResult.html">钟点工</a></li>
+                                            <li><a href="SeaResult.html">保安</a></li>
+                                            <li><a href="SeaResult.html">护工</a></li>
+                                            <li><a href="SeaResult.html">送水工</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">美容/美发</a></li>
+                                            <li><a href="SeaResult.html">发型师</a></li>
+                                            <li><a href="SeaResult.html">美发助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">洗头工</li>
+                                            <li><a href="SeaResult.html">美容导师</a></li>
+                                            <li><a href="SeaResult.html">美容助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">化妆师</a></li>
+                                            <li><a href="SeaResult.html">宠物美容</a></li>
+                                            <li><a href="SeaResult.html">美容店长</a></li>
+                                            <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
+                                            <li><a href="SeaResult.html">彩妆培训师</a></li>
+                                            <li><a href="SeaResult.html">美体师</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">酒店/旅游</a></li>
+                                            <li><a href="SeaResult.html">酒店前台</a></li>
+                                            <li><a href="SeaResult.html">客房服务员</a></li>
+                                            <li><a href="SeaResult.html">楼面经理</a></li>
+                                            <li><a href="SeaResult.html">行李员</a></li>
+                                            <li><a href="SeaResult.html">救生员</a></li>
+                                            <li><a href="SeaResult.html">酒店管理</a></li>
+                                            <li><a href="SeaResult.html">订票员</a></li>
+                                            <li><a href="SeaResult.html">导游</a></li>
+                                            <li><a href="SeaResult.html">记调签证专员</a></li>
+                                            <li><a href="SeaResult.html">旅游</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">娱乐/休闲</a></li>
+                                            <li><a href="SeaResult.html">酒吧服务员</a></li>
+                                            <li><a href="SeaResult.html">娱乐厅服务员</a></li>
+                                            <li><a href="SeaResult.html">礼仪/迎宾</a></li>
+                                            <li class="red"><a href="SeaResult.html">主持人</a></li>
+                                            <li><a href="SeaResult.html">调酒师</a></li>
+                                            <li><a href="SeaResult.html">音效师</a></li>
+                                            <li><a href="SeaResult.html">灯光师</a></li>
+                                            <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
+                                            <li><a href="SeaResult.html">配音员</a></li>
+                                            <li><a href="SeaResult.html">放映员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">保健/按摩</a></li>
+                                            <li><a href="SeaResult.html">按摩师</a></li>
+                                            <li><a href="SeaResult.html">足疗师</a></li>
+                                            <li><a href="SeaResult.html">搓澡师</a></li>
+                                            <li><a href="SeaResult.html">针灸推拿</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">运动/健身</a></li>
+                                            <li><a href="SeaResult.html">健身教练</a></li>
+                                            <li><a href="SeaResult.html">瑜伽教练</a></li>
+                                            <li><a href="SeaResult.html">舞蹈教师</a></li>
+                                            <li><a href="SeaResult.html">游泳教练</a></li>
+                                            <li><a href="SeaResult.html">台球教练</a></li>
+                                            <li><a href="SeaResult.html">高尔夫球助理</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="item-sub network-bg tpl1 product-bg-common common-header-clearfix"
-                                 sidebar-type="network">
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
-                                        <li><a href="SeaResult.html">服务员</a></li>
-                                        <li><a href="SeaResult.html">送餐员</a></li>
-                                        <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
-                                        <li><a href="SeaResult.html">后厨</a></li>
-                                        <li><a href="SeaResult.html">传菜员</a></li>
-                                        <li><a href="SeaResult.html">配菜/打荷</a></li>
-                                        <li><a href="SeaResult.html">洗碗工</a></li>
-                                        <li><a href="SeaResult.html">茶艺师</a></li>
-                                        <li><a href="SeaResult.html">迎宾/接待</a></li>
-                                        <li><a href="SeaResult.html">大唐经理</a></li>
-                                        <li><a href="SeaResult.html">餐饮管理</a></li>
-                                        <li><a href="SeaResult.html">学徒</a></li>
-                                        <li><a href="SeaResult.html">杂工</a></li>
-                                        <li><a href="SeaResult.html">咖啡师</a></li>
-                                        <li><a href="SeaResult.html">预定员</a></li>
-                                    </ul>
+                                <div class="item-sub middleware-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="middleware">
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
+                                            <li><a href="SeaResult.html">服务员</a></li>
+                                            <li><a href="SeaResult.html">送餐员</a></li>
+                                            <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
+                                            <li><a href="SeaResult.html">后厨</a></li>
+                                            <li><a href="SeaResult.html">传菜员</a></li>
+                                            <li><a href="SeaResult.html">配菜/打荷</a></li>
+                                            <li><a href="SeaResult.html">洗碗工</a></li>
+                                            <li><a href="SeaResult.html">茶艺师</a></li>
+                                            <li><a href="SeaResult.html">迎宾/接待</a></li>
+                                            <li><a href="SeaResult.html">大唐经理</a></li>
+                                            <li><a href="SeaResult.html">餐饮管理</a></li>
+                                            <li><a href="SeaResult.html">学徒</a></li>
+                                            <li><a href="SeaResult.html">杂工</a></li>
+                                            <li><a href="SeaResult.html">咖啡师</a></li>
+                                            <li><a href="SeaResult.html">预定员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">家政保洁/安保</a></li>
+                                            <li><a href="SeaResult.html">保洁</a></li>
+                                            <li><a href="SeaResult.html">保姆</a></li>
+                                            <li><a href="SeaResult.html">月嫂</a></li>
+                                            <li><a href="SeaResult.html">育婴师/保育员</a></li>
+                                            <li><a href="SeaResult.html">洗衣工</a></li>
+                                            <li><a href="SeaResult.html">钟点工</a></li>
+                                            <li><a href="SeaResult.html">保安</a></li>
+                                            <li><a href="SeaResult.html">护工</a></li>
+                                            <li><a href="SeaResult.html">送水工</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">美容/美发</a></li>
+                                            <li><a href="SeaResult.html">发型师</a></li>
+                                            <li><a href="SeaResult.html">美发助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">洗头工</li>
+                                            <li><a href="SeaResult.html">美容导师</a></li>
+                                            <li><a href="SeaResult.html">美容助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">化妆师</a></li>
+                                            <li><a href="SeaResult.html">宠物美容</a></li>
+                                            <li><a href="SeaResult.html">美容店长</a></li>
+                                            <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
+                                            <li><a href="SeaResult.html">彩妆培训师</a></li>
+                                            <li><a href="SeaResult.html">美体师</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">酒店/旅游</a></li>
+                                            <li><a href="SeaResult.html">酒店前台</a></li>
+                                            <li><a href="SeaResult.html">客房服务员</a></li>
+                                            <li><a href="SeaResult.html">楼面经理</a></li>
+                                            <li><a href="SeaResult.html">行李员</a></li>
+                                            <li><a href="SeaResult.html">救生员</a></li>
+                                            <li><a href="SeaResult.html">酒店管理</a></li>
+                                            <li><a href="SeaResult.html">订票员</a></li>
+                                            <li><a href="SeaResult.html">导游</a></li>
+                                            <li><a href="SeaResult.html">记调签证专员</a></li>
+                                            <li><a href="SeaResult.html">旅游</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">娱乐/休闲</a></li>
+                                            <li><a href="SeaResult.html">酒吧服务员</a></li>
+                                            <li><a href="SeaResult.html">娱乐厅服务员</a></li>
+                                            <li><a href="SeaResult.html">礼仪/迎宾</a></li>
+                                            <li class="red"><a href="SeaResult.html">主持人</a></li>
+                                            <li><a href="SeaResult.html">调酒师</a></li>
+                                            <li><a href="SeaResult.html">音效师</a></li>
+                                            <li><a href="SeaResult.html">灯光师</a></li>
+                                            <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
+                                            <li><a href="SeaResult.html">配音员</a></li>
+                                            <li><a href="SeaResult.html">放映员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">保健/按摩</a></li>
+                                            <li><a href="SeaResult.html">按摩师</a></li>
+                                            <li><a href="SeaResult.html">足疗师</a></li>
+                                            <li><a href="SeaResult.html">搓澡师</a></li>
+                                            <li><a href="SeaResult.html">针灸推拿</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">运动/健身</a></li>
+                                            <li><a href="SeaResult.html">健身教练</a></li>
+                                            <li><a href="SeaResult.html">瑜伽教练</a></li>
+                                            <li><a href="SeaResult.html">舞蹈教师</a></li>
+                                            <li><a href="SeaResult.html">游泳教练</a></li>
+                                            <li><a href="SeaResult.html">台球教练</a></li>
+                                            <li><a href="SeaResult.html">高尔夫球助理</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">家政保洁/安保</a></li>
-                                        <li><a href="SeaResult.html">保洁</a></li>
-                                        <li><a href="SeaResult.html">保姆</a></li>
-                                        <li><a href="SeaResult.html">月嫂</a></li>
-                                        <li><a href="SeaResult.html">育婴师/保育员</a></li>
-                                        <li><a href="SeaResult.html">洗衣工</a></li>
-                                        <li><a href="SeaResult.html">钟点工</a></li>
-                                        <li><a href="SeaResult.html">保安</a></li>
-                                        <li><a href="SeaResult.html">护工</a></li>
-                                        <li><a href="SeaResult.html">送水工</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">美容/美发</a></li>
-                                        <li><a href="SeaResult.html">发型师</a></li>
-                                        <li><a href="SeaResult.html">美发助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">洗头工</li>
-                                        <li><a href="SeaResult.html">美容导师</a></li>
-                                        <li><a href="SeaResult.html">美容助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">化妆师</a></li>
-                                        <li><a href="SeaResult.html">宠物美容</a></li>
-                                        <li><a href="SeaResult.html">美容店长</a></li>
-                                        <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
-                                        <li><a href="SeaResult.html">彩妆培训师</a></li>
-                                        <li><a href="SeaResult.html">美体师</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">酒店/旅游</a></li>
-                                        <li><a href="SeaResult.html">酒店前台</a></li>
-                                        <li><a href="SeaResult.html">客房服务员</a></li>
-                                        <li><a href="SeaResult.html">楼面经理</a></li>
-                                        <li><a href="SeaResult.html">行李员</a></li>
-                                        <li><a href="SeaResult.html">救生员</a></li>
-                                        <li><a href="SeaResult.html">酒店管理</a></li>
-                                        <li><a href="SeaResult.html">订票员</a></li>
-                                        <li><a href="SeaResult.html">导游</a></li>
-                                        <li><a href="SeaResult.html">记调签证专员</a></li>
-                                        <li><a href="SeaResult.html">旅游</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">娱乐/休闲</a></li>
-                                        <li><a href="SeaResult.html">酒吧服务员</a></li>
-                                        <li><a href="SeaResult.html">娱乐厅服务员</a></li>
-                                        <li><a href="SeaResult.html">礼仪/迎宾</a></li>
-                                        <li class="red"><a href="SeaResult.html">主持人</a></li>
-                                        <li><a href="SeaResult.html">调酒师</a></li>
-                                        <li><a href="SeaResult.html">音效师</a></li>
-                                        <li><a href="SeaResult.html">灯光师</a></li>
-                                        <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
-                                        <li><a href="SeaResult.html">配音员</a></li>
-                                        <li><a href="SeaResult.html">放映员</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">保健/按摩</a></li>
-                                        <li><a href="SeaResult.html">按摩师</a></li>
-                                        <li><a href="SeaResult.html">足疗师</a></li>
-                                        <li><a href="SeaResult.html">搓澡师</a></li>
-                                        <li><a href="SeaResult.html">针灸推拿</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">运动/健身</a></li>
-                                        <li><a href="SeaResult.html">健身教练</a></li>
-                                        <li><a href="SeaResult.html">瑜伽教练</a></li>
-                                        <li><a href="SeaResult.html">舞蹈教师</a></li>
-                                        <li><a href="SeaResult.html">游泳教练</a></li>
-                                        <li><a href="SeaResult.html">台球教练</a></li>
-                                        <li><a href="SeaResult.html">高尔夫球助理</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item-sub network-bg tpl1 product-bg-common common-header-clearfix"
-                                 sidebar-type="bigdata">
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
-                                        <li><a href="SeaResult.html">服务员</a></li>
-                                        <li><a href="SeaResult.html">送餐员</a></li>
-                                        <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
-                                        <li><a href="SeaResult.html">后厨</a></li>
-                                        <li><a href="SeaResult.html">传菜员</a></li>
-                                        <li><a href="SeaResult.html">配菜/打荷</a></li>
-                                        <li><a href="SeaResult.html">洗碗工</a></li>
-                                        <li><a href="SeaResult.html">茶艺师</a></li>
-                                        <li><a href="SeaResult.html">迎宾/接待</a></li>
-                                        <li><a href="SeaResult.html">大唐经理</a></li>
-                                        <li><a href="SeaResult.html">餐饮管理</a></li>
-                                        <li><a href="SeaResult.html">学徒</a></li>
-                                        <li><a href="SeaResult.html">杂工</a></li>
-                                        <li><a href="SeaResult.html">咖啡师</a></li>
-                                        <li><a href="SeaResult.html">预定员</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">家政保洁/安保</a></li>
-                                        <li><a href="SeaResult.html">保洁</a></li>
-                                        <li><a href="SeaResult.html">保姆</a></li>
-                                        <li><a href="SeaResult.html">月嫂</a></li>
-                                        <li><a href="SeaResult.html">育婴师/保育员</a></li>
-                                        <li><a href="SeaResult.html">洗衣工</a></li>
-                                        <li><a href="SeaResult.html">钟点工</a></li>
-                                        <li><a href="SeaResult.html">保安</a></li>
-                                        <li><a href="SeaResult.html">护工</a></li>
-                                        <li><a href="SeaResult.html">送水工</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">美容/美发</a></li>
-                                        <li><a href="SeaResult.html">发型师</a></li>
-                                        <li><a href="SeaResult.html">美发助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">洗头工</li>
-                                        <li><a href="SeaResult.html">美容导师</a></li>
-                                        <li><a href="SeaResult.html">美容助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">化妆师</a></li>
-                                        <li><a href="SeaResult.html">宠物美容</a></li>
-                                        <li><a href="SeaResult.html">美容店长</a></li>
-                                        <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
-                                        <li><a href="SeaResult.html">彩妆培训师</a></li>
-                                        <li><a href="SeaResult.html">美体师</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">酒店/旅游</a></li>
-                                        <li><a href="SeaResult.html">酒店前台</a></li>
-                                        <li><a href="SeaResult.html">客房服务员</a></li>
-                                        <li><a href="SeaResult.html">楼面经理</a></li>
-                                        <li><a href="SeaResult.html">行李员</a></li>
-                                        <li><a href="SeaResult.html">救生员</a></li>
-                                        <li><a href="SeaResult.html">酒店管理</a></li>
-                                        <li><a href="SeaResult.html">订票员</a></li>
-                                        <li><a href="SeaResult.html">导游</a></li>
-                                        <li><a href="SeaResult.html">记调签证专员</a></li>
-                                        <li><a href="SeaResult.html">旅游</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">娱乐/休闲</a></li>
-                                        <li><a href="SeaResult.html">酒吧服务员</a></li>
-                                        <li><a href="SeaResult.html">娱乐厅服务员</a></li>
-                                        <li><a href="SeaResult.html">礼仪/迎宾</a></li>
-                                        <li class="red"><a href="SeaResult.html">主持人</a></li>
-                                        <li><a href="SeaResult.html">调酒师</a></li>
-                                        <li><a href="SeaResult.html">音效师</a></li>
-                                        <li><a href="SeaResult.html">灯光师</a></li>
-                                        <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
-                                        <li><a href="SeaResult.html">配音员</a></li>
-                                        <li><a href="SeaResult.html">放映员</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">保健/按摩</a></li>
-                                        <li><a href="SeaResult.html">按摩师</a></li>
-                                        <li><a href="SeaResult.html">足疗师</a></li>
-                                        <li><a href="SeaResult.html">搓澡师</a></li>
-                                        <li><a href="SeaResult.html">针灸推拿</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">运动/健身</a></li>
-                                        <li><a href="SeaResult.html">健身教练</a></li>
-                                        <li><a href="SeaResult.html">瑜伽教练</a></li>
-                                        <li><a href="SeaResult.html">舞蹈教师</a></li>
-                                        <li><a href="SeaResult.html">游泳教练</a></li>
-                                        <li><a href="SeaResult.html">台球教练</a></li>
-                                        <li><a href="SeaResult.html">高尔夫球助理</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item-sub network-bg tpl1 product-bg-common common-header-clearfix"
-                                 sidebar-type="yundun">
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
-                                        <li><a href="SeaResult.html">服务员</a></li>
-                                        <li><a href="SeaResult.html">送餐员</a></li>
-                                        <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
-                                        <li><a href="SeaResult.html">后厨</a></li>
-                                        <li><a href="SeaResult.html">传菜员</a></li>
-                                        <li><a href="SeaResult.html">配菜/打荷</a></li>
-                                        <li><a href="SeaResult.html">洗碗工</a></li>
-                                        <li><a href="SeaResult.html">茶艺师</a></li>
-                                        <li><a href="SeaResult.html">迎宾/接待</a></li>
-                                        <li><a href="SeaResult.html">大唐经理</a></li>
-                                        <li><a href="SeaResult.html">餐饮管理</a></li>
-                                        <li><a href="SeaResult.html">学徒</a></li>
-                                        <li><a href="SeaResult.html">杂工</a></li>
-                                        <li><a href="SeaResult.html">咖啡师</a></li>
-                                        <li><a href="SeaResult.html">预定员</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">家政保洁/安保</a></li>
-                                        <li><a href="SeaResult.html">保洁</a></li>
-                                        <li><a href="SeaResult.html">保姆</a></li>
-                                        <li><a href="SeaResult.html">月嫂</a></li>
-                                        <li><a href="SeaResult.html">育婴师/保育员</a></li>
-                                        <li><a href="SeaResult.html">洗衣工</a></li>
-                                        <li><a href="SeaResult.html">钟点工</a></li>
-                                        <li><a href="SeaResult.html">保安</a></li>
-                                        <li><a href="SeaResult.html">护工</a></li>
-                                        <li><a href="SeaResult.html">送水工</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">美容/美发</a></li>
-                                        <li><a href="SeaResult.html">发型师</a></li>
-                                        <li><a href="SeaResult.html">美发助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">洗头工</li>
-                                        <li><a href="SeaResult.html">美容导师</a></li>
-                                        <li><a href="SeaResult.html">美容助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">化妆师</a></li>
-                                        <li><a href="SeaResult.html">宠物美容</a></li>
-                                        <li><a href="SeaResult.html">美容店长</a></li>
-                                        <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
-                                        <li><a href="SeaResult.html">彩妆培训师</a></li>
-                                        <li><a href="SeaResult.html">美体师</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">酒店/旅游</a></li>
-                                        <li><a href="SeaResult.html">酒店前台</a></li>
-                                        <li><a href="SeaResult.html">客房服务员</a></li>
-                                        <li><a href="SeaResult.html">楼面经理</a></li>
-                                        <li><a href="SeaResult.html">行李员</a></li>
-                                        <li><a href="SeaResult.html">救生员</a></li>
-                                        <li><a href="SeaResult.html">酒店管理</a></li>
-                                        <li><a href="SeaResult.html">订票员</a></li>
-                                        <li><a href="SeaResult.html">导游</a></li>
-                                        <li><a href="SeaResult.html">记调签证专员</a></li>
-                                        <li><a href="SeaResult.html">旅游</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">娱乐/休闲</a></li>
-                                        <li><a href="SeaResult.html">酒吧服务员</a></li>
-                                        <li><a href="SeaResult.html">娱乐厅服务员</a></li>
-                                        <li><a href="SeaResult.html">礼仪/迎宾</a></li>
-                                        <li class="red"><a href="SeaResult.html">主持人</a></li>
-                                        <li><a href="SeaResult.html">调酒师</a></li>
-                                        <li><a href="SeaResult.html">音效师</a></li>
-                                        <li><a href="SeaResult.html">灯光师</a></li>
-                                        <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
-                                        <li><a href="SeaResult.html">配音员</a></li>
-                                        <li><a href="SeaResult.html">放映员</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">保健/按摩</a></li>
-                                        <li><a href="SeaResult.html">按摩师</a></li>
-                                        <li><a href="SeaResult.html">足疗师</a></li>
-                                        <li><a href="SeaResult.html">搓澡师</a></li>
-                                        <li><a href="SeaResult.html">针灸推拿</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">运动/健身</a></li>
-                                        <li><a href="SeaResult.html">健身教练</a></li>
-                                        <li><a href="SeaResult.html">瑜伽教练</a></li>
-                                        <li><a href="SeaResult.html">舞蹈教师</a></li>
-                                        <li><a href="SeaResult.html">游泳教练</a></li>
-                                        <li><a href="SeaResult.html">台球教练</a></li>
-                                        <li><a href="SeaResult.html">高尔夫球助理</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item-sub network-bg tpl1 product-bg-common common-header-clearfix"
-                                 sidebar-type="manage">
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
-                                        <li><a href="SeaResult.html">服务员</a></li>
-                                        <li><a href="SeaResult.html">送餐员</a></li>
-                                        <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
-                                        <li><a href="SeaResult.html">后厨</a></li>
-                                        <li><a href="SeaResult.html">传菜员</a></li>
-                                        <li><a href="SeaResult.html">配菜/打荷</a></li>
-                                        <li><a href="SeaResult.html">洗碗工</a></li>
-                                        <li><a href="SeaResult.html">茶艺师</a></li>
-                                        <li><a href="SeaResult.html">迎宾/接待</a></li>
-                                        <li><a href="SeaResult.html">大唐经理</a></li>
-                                        <li><a href="SeaResult.html">餐饮管理</a></li>
-                                        <li><a href="SeaResult.html">学徒</a></li>
-                                        <li><a href="SeaResult.html">杂工</a></li>
-                                        <li><a href="SeaResult.html">咖啡师</a></li>
-                                        <li><a href="SeaResult.html">预定员</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">家政保洁/安保</a></li>
-                                        <li><a href="SeaResult.html">保洁</a></li>
-                                        <li><a href="SeaResult.html">保姆</a></li>
-                                        <li><a href="SeaResult.html">月嫂</a></li>
-                                        <li><a href="SeaResult.html">育婴师/保育员</a></li>
-                                        <li><a href="SeaResult.html">洗衣工</a></li>
-                                        <li><a href="SeaResult.html">钟点工</a></li>
-                                        <li><a href="SeaResult.html">保安</a></li>
-                                        <li><a href="SeaResult.html">护工</a></li>
-                                        <li><a href="SeaResult.html">送水工</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">美容/美发</a></li>
-                                        <li><a href="SeaResult.html">发型师</a></li>
-                                        <li><a href="SeaResult.html">美发助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">洗头工</li>
-                                        <li><a href="SeaResult.html">美容导师</a></li>
-                                        <li><a href="SeaResult.html">美容助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">化妆师</a></li>
-                                        <li><a href="SeaResult.html">宠物美容</a></li>
-                                        <li><a href="SeaResult.html">美容店长</a></li>
-                                        <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
-                                        <li><a href="SeaResult.html">彩妆培训师</a></li>
-                                        <li><a href="SeaResult.html">美体师</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">酒店/旅游</a></li>
-                                        <li><a href="SeaResult.html">酒店前台</a></li>
-                                        <li><a href="SeaResult.html">客房服务员</a></li>
-                                        <li><a href="SeaResult.html">楼面经理</a></li>
-                                        <li><a href="SeaResult.html">行李员</a></li>
-                                        <li><a href="SeaResult.html">救生员</a></li>
-                                        <li><a href="SeaResult.html">酒店管理</a></li>
-                                        <li><a href="SeaResult.html">订票员</a></li>
-                                        <li><a href="SeaResult.html">导游</a></li>
-                                        <li><a href="SeaResult.html">记调签证专员</a></li>
-                                        <li><a href="SeaResult.html">旅游</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">娱乐/休闲</a></li>
-                                        <li><a href="SeaResult.html">酒吧服务员</a></li>
-                                        <li><a href="SeaResult.html">娱乐厅服务员</a></li>
-                                        <li><a href="SeaResult.html">礼仪/迎宾</a></li>
-                                        <li class="red"><a href="SeaResult.html">主持人</a></li>
-                                        <li><a href="SeaResult.html">调酒师</a></li>
-                                        <li><a href="SeaResult.html">音效师</a></li>
-                                        <li><a href="SeaResult.html">灯光师</a></li>
-                                        <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
-                                        <li><a href="SeaResult.html">配音员</a></li>
-                                        <li><a href="SeaResult.html">放映员</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">保健/按摩</a></li>
-                                        <li><a href="SeaResult.html">按摩师</a></li>
-                                        <li><a href="SeaResult.html">足疗师</a></li>
-                                        <li><a href="SeaResult.html">搓澡师</a></li>
-                                        <li><a href="SeaResult.html">针灸推拿</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">运动/健身</a></li>
-                                        <li><a href="SeaResult.html">健身教练</a></li>
-                                        <li><a href="SeaResult.html">瑜伽教练</a></li>
-                                        <li><a href="SeaResult.html">舞蹈教师</a></li>
-                                        <li><a href="SeaResult.html">游泳教练</a></li>
-                                        <li><a href="SeaResult.html">台球教练</a></li>
-                                        <li><a href="SeaResult.html">高尔夫球助理</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item-sub service-bg tpl1 product-bg-common common-header-clearfix"
-                                 sidebar-type="service">
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
-                                        <li><a href="SeaResult.html">服务员</a></li>
-                                        <li><a href="SeaResult.html">送餐员</a></li>
-                                        <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
-                                        <li><a href="SeaResult.html">后厨</a></li>
-                                        <li><a href="SeaResult.html">传菜员</a></li>
-                                        <li><a href="SeaResult.html">配菜/打荷</a></li>
-                                        <li><a href="SeaResult.html">洗碗工</a></li>
-                                        <li><a href="SeaResult.html">茶艺师</a></li>
-                                        <li><a href="SeaResult.html">迎宾/接待</a></li>
-                                        <li><a href="SeaResult.html">大唐经理</a></li>
-                                        <li><a href="SeaResult.html">餐饮管理</a></li>
-                                        <li><a href="SeaResult.html">学徒</a></li>
-                                        <li><a href="SeaResult.html">杂工</a></li>
-                                        <li><a href="SeaResult.html">咖啡师</a></li>
-                                        <li><a href="SeaResult.html">预定员</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">家政保洁/安保</a></li>
-                                        <li><a href="SeaResult.html">保洁</a></li>
-                                        <li><a href="SeaResult.html">保姆</a></li>
-                                        <li><a href="SeaResult.html">月嫂</a></li>
-                                        <li><a href="SeaResult.html">育婴师/保育员</a></li>
-                                        <li><a href="SeaResult.html">洗衣工</a></li>
-                                        <li><a href="SeaResult.html">钟点工</a></li>
-                                        <li><a href="SeaResult.html">保安</a></li>
-                                        <li><a href="SeaResult.html">护工</a></li>
-                                        <li><a href="SeaResult.html">送水工</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">美容/美发</a></li>
-                                        <li><a href="SeaResult.html">发型师</a></li>
-                                        <li><a href="SeaResult.html">美发助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">洗头工</li>
-                                        <li><a href="SeaResult.html">美容导师</a></li>
-                                        <li><a href="SeaResult.html">美容助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">化妆师</a></li>
-                                        <li><a href="SeaResult.html">宠物美容</a></li>
-                                        <li><a href="SeaResult.html">美容店长</a></li>
-                                        <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
-                                        <li><a href="SeaResult.html">彩妆培训师</a></li>
-                                        <li><a href="SeaResult.html">美体师</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">酒店/旅游</a></li>
-                                        <li><a href="SeaResult.html">酒店前台</a></li>
-                                        <li><a href="SeaResult.html">客房服务员</a></li>
-                                        <li><a href="SeaResult.html">楼面经理</a></li>
-                                        <li><a href="SeaResult.html">行李员</a></li>
-                                        <li><a href="SeaResult.html">救生员</a></li>
-                                        <li><a href="SeaResult.html">酒店管理</a></li>
-                                        <li><a href="SeaResult.html">订票员</a></li>
-                                        <li><a href="SeaResult.html">导游</a></li>
-                                        <li><a href="SeaResult.html">记调签证专员</a></li>
-                                        <li><a href="SeaResult.html">旅游</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">娱乐/休闲</a></li>
-                                        <li><a href="SeaResult.html">酒吧服务员</a></li>
-                                        <li><a href="SeaResult.html">娱乐厅服务员</a></li>
-                                        <li><a href="SeaResult.html">礼仪/迎宾</a></li>
-                                        <li class="red"><a href="SeaResult.html">主持人</a></li>
-                                        <li><a href="SeaResult.html">调酒师</a></li>
-                                        <li><a href="SeaResult.html">音效师</a></li>
-                                        <li><a href="SeaResult.html">灯光师</a></li>
-                                        <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
-                                        <li><a href="SeaResult.html">配音员</a></li>
-                                        <li><a href="SeaResult.html">放映员</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">保健/按摩</a></li>
-                                        <li><a href="SeaResult.html">按摩师</a></li>
-                                        <li><a href="SeaResult.html">足疗师</a></li>
-                                        <li><a href="SeaResult.html">搓澡师</a></li>
-                                        <li><a href="SeaResult.html">针灸推拿</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">运动/健身</a></li>
-                                        <li><a href="SeaResult.html">健身教练</a></li>
-                                        <li><a href="SeaResult.html">瑜伽教练</a></li>
-                                        <li><a href="SeaResult.html">舞蹈教师</a></li>
-                                        <li><a href="SeaResult.html">游泳教练</a></li>
-                                        <li><a href="SeaResult.html">台球教练</a></li>
-                                        <li><a href="SeaResult.html">高尔夫球助理</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item-sub middleware-bg tpl1 product-bg-common common-header-clearfix"
-                                 sidebar-type="middleware">
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
-                                        <li><a href="SeaResult.html">服务员</a></li>
-                                        <li><a href="SeaResult.html">送餐员</a></li>
-                                        <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
-                                        <li><a href="SeaResult.html">后厨</a></li>
-                                        <li><a href="SeaResult.html">传菜员</a></li>
-                                        <li><a href="SeaResult.html">配菜/打荷</a></li>
-                                        <li><a href="SeaResult.html">洗碗工</a></li>
-                                        <li><a href="SeaResult.html">茶艺师</a></li>
-                                        <li><a href="SeaResult.html">迎宾/接待</a></li>
-                                        <li><a href="SeaResult.html">大唐经理</a></li>
-                                        <li><a href="SeaResult.html">餐饮管理</a></li>
-                                        <li><a href="SeaResult.html">学徒</a></li>
-                                        <li><a href="SeaResult.html">杂工</a></li>
-                                        <li><a href="SeaResult.html">咖啡师</a></li>
-                                        <li><a href="SeaResult.html">预定员</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">家政保洁/安保</a></li>
-                                        <li><a href="SeaResult.html">保洁</a></li>
-                                        <li><a href="SeaResult.html">保姆</a></li>
-                                        <li><a href="SeaResult.html">月嫂</a></li>
-                                        <li><a href="SeaResult.html">育婴师/保育员</a></li>
-                                        <li><a href="SeaResult.html">洗衣工</a></li>
-                                        <li><a href="SeaResult.html">钟点工</a></li>
-                                        <li><a href="SeaResult.html">保安</a></li>
-                                        <li><a href="SeaResult.html">护工</a></li>
-                                        <li><a href="SeaResult.html">送水工</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">美容/美发</a></li>
-                                        <li><a href="SeaResult.html">发型师</a></li>
-                                        <li><a href="SeaResult.html">美发助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">洗头工</li>
-                                        <li><a href="SeaResult.html">美容导师</a></li>
-                                        <li><a href="SeaResult.html">美容助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">化妆师</a></li>
-                                        <li><a href="SeaResult.html">宠物美容</a></li>
-                                        <li><a href="SeaResult.html">美容店长</a></li>
-                                        <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
-                                        <li><a href="SeaResult.html">彩妆培训师</a></li>
-                                        <li><a href="SeaResult.html">美体师</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">酒店/旅游</a></li>
-                                        <li><a href="SeaResult.html">酒店前台</a></li>
-                                        <li><a href="SeaResult.html">客房服务员</a></li>
-                                        <li><a href="SeaResult.html">楼面经理</a></li>
-                                        <li><a href="SeaResult.html">行李员</a></li>
-                                        <li><a href="SeaResult.html">救生员</a></li>
-                                        <li><a href="SeaResult.html">酒店管理</a></li>
-                                        <li><a href="SeaResult.html">订票员</a></li>
-                                        <li><a href="SeaResult.html">导游</a></li>
-                                        <li><a href="SeaResult.html">记调签证专员</a></li>
-                                        <li><a href="SeaResult.html">旅游</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">娱乐/休闲</a></li>
-                                        <li><a href="SeaResult.html">酒吧服务员</a></li>
-                                        <li><a href="SeaResult.html">娱乐厅服务员</a></li>
-                                        <li><a href="SeaResult.html">礼仪/迎宾</a></li>
-                                        <li class="red"><a href="SeaResult.html">主持人</a></li>
-                                        <li><a href="SeaResult.html">调酒师</a></li>
-                                        <li><a href="SeaResult.html">音效师</a></li>
-                                        <li><a href="SeaResult.html">灯光师</a></li>
-                                        <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
-                                        <li><a href="SeaResult.html">配音员</a></li>
-                                        <li><a href="SeaResult.html">放映员</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">保健/按摩</a></li>
-                                        <li><a href="SeaResult.html">按摩师</a></li>
-                                        <li><a href="SeaResult.html">足疗师</a></li>
-                                        <li><a href="SeaResult.html">搓澡师</a></li>
-                                        <li><a href="SeaResult.html">针灸推拿</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">运动/健身</a></li>
-                                        <li><a href="SeaResult.html">健身教练</a></li>
-                                        <li><a href="SeaResult.html">瑜伽教练</a></li>
-                                        <li><a href="SeaResult.html">舞蹈教师</a></li>
-                                        <li><a href="SeaResult.html">游泳教练</a></li>
-                                        <li><a href="SeaResult.html">台球教练</a></li>
-                                        <li><a href="SeaResult.html">高尔夫球助理</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item-sub mobileservice-bg tpl1 product-bg-common common-header-clearfix"
-                                 sidebar-type="mobileservice">
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
-                                        <li><a href="SeaResult.html">服务员</a></li>
-                                        <li><a href="SeaResult.html">送餐员</a></li>
-                                        <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
-                                        <li><a href="SeaResult.html">后厨</a></li>
-                                        <li><a href="SeaResult.html">传菜员</a></li>
-                                        <li><a href="SeaResult.html">配菜/打荷</a></li>
-                                        <li><a href="SeaResult.html">洗碗工</a></li>
-                                        <li><a href="SeaResult.html">茶艺师</a></li>
-                                        <li><a href="SeaResult.html">迎宾/接待</a></li>
-                                        <li><a href="SeaResult.html">大唐经理</a></li>
-                                        <li><a href="SeaResult.html">餐饮管理</a></li>
-                                        <li><a href="SeaResult.html">学徒</a></li>
-                                        <li><a href="SeaResult.html">杂工</a></li>
-                                        <li><a href="SeaResult.html">咖啡师</a></li>
-                                        <li><a href="SeaResult.html">预定员</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">家政保洁/安保</a></li>
-                                        <li><a href="SeaResult.html">保洁</a></li>
-                                        <li><a href="SeaResult.html">保姆</a></li>
-                                        <li><a href="SeaResult.html">月嫂</a></li>
-                                        <li><a href="SeaResult.html">育婴师/保育员</a></li>
-                                        <li><a href="SeaResult.html">洗衣工</a></li>
-                                        <li><a href="SeaResult.html">钟点工</a></li>
-                                        <li><a href="SeaResult.html">保安</a></li>
-                                        <li><a href="SeaResult.html">护工</a></li>
-                                        <li><a href="SeaResult.html">送水工</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">美容/美发</a></li>
-                                        <li><a href="SeaResult.html">发型师</a></li>
-                                        <li><a href="SeaResult.html">美发助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">洗头工</li>
-                                        <li><a href="SeaResult.html">美容导师</a></li>
-                                        <li><a href="SeaResult.html">美容助理/学徒</a></li>
-                                        <li><a href="SeaResult.html">化妆师</a></li>
-                                        <li><a href="SeaResult.html">宠物美容</a></li>
-                                        <li><a href="SeaResult.html">美容店长</a></li>
-                                        <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
-                                        <li><a href="SeaResult.html">彩妆培训师</a></li>
-                                        <li><a href="SeaResult.html">美体师</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">酒店/旅游</a></li>
-                                        <li><a href="SeaResult.html">酒店前台</a></li>
-                                        <li><a href="SeaResult.html">客房服务员</a></li>
-                                        <li><a href="SeaResult.html">楼面经理</a></li>
-                                        <li><a href="SeaResult.html">行李员</a></li>
-                                        <li><a href="SeaResult.html">救生员</a></li>
-                                        <li><a href="SeaResult.html">酒店管理</a></li>
-                                        <li><a href="SeaResult.html">订票员</a></li>
-                                        <li><a href="SeaResult.html">导游</a></li>
-                                        <li><a href="SeaResult.html">记调签证专员</a></li>
-                                        <li><a href="SeaResult.html">旅游</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">娱乐/休闲</a></li>
-                                        <li><a href="SeaResult.html">酒吧服务员</a></li>
-                                        <li><a href="SeaResult.html">娱乐厅服务员</a></li>
-                                        <li><a href="SeaResult.html">礼仪/迎宾</a></li>
-                                        <li class="red"><a href="SeaResult.html">主持人</a></li>
-                                        <li><a href="SeaResult.html">调酒师</a></li>
-                                        <li><a href="SeaResult.html">音效师</a></li>
-                                        <li><a href="SeaResult.html">灯光师</a></li>
-                                        <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
-                                        <li><a href="SeaResult.html">配音员</a></li>
-                                        <li><a href="SeaResult.html">放映员</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">保健/按摩</a></li>
-                                        <li><a href="SeaResult.html">按摩师</a></li>
-                                        <li><a href="SeaResult.html">足疗师</a></li>
-                                        <li><a href="SeaResult.html">搓澡师</a></li>
-                                        <li><a href="SeaResult.html">针灸推拿</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mecolumn">
-                                    <ul>
-                                        <li><a href="SeaResult.html">运动/健身</a></li>
-                                        <li><a href="SeaResult.html">健身教练</a></li>
-                                        <li><a href="SeaResult.html">瑜伽教练</a></li>
-                                        <li><a href="SeaResult.html">舞蹈教师</a></li>
-                                        <li><a href="SeaResult.html">游泳教练</a></li>
-                                        <li><a href="SeaResult.html">台球教练</a></li>
-                                        <li><a href="SeaResult.html">高尔夫球助理</a></li>
-                                    </ul>
+                                <div class="item-sub mobileservice-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="mobileservice">
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
+                                            <li><a href="SeaResult.html">服务员</a></li>
+                                            <li><a href="SeaResult.html">送餐员</a></li>
+                                            <li class="red"><a href="SeaResult.html">厨师/厨师长</a></li>
+                                            <li><a href="SeaResult.html">后厨</a></li>
+                                            <li><a href="SeaResult.html">传菜员</a></li>
+                                            <li><a href="SeaResult.html">配菜/打荷</a></li>
+                                            <li><a href="SeaResult.html">洗碗工</a></li>
+                                            <li><a href="SeaResult.html">茶艺师</a></li>
+                                            <li><a href="SeaResult.html">迎宾/接待</a></li>
+                                            <li><a href="SeaResult.html">大唐经理</a></li>
+                                            <li><a href="SeaResult.html">餐饮管理</a></li>
+                                            <li><a href="SeaResult.html">学徒</a></li>
+                                            <li><a href="SeaResult.html">杂工</a></li>
+                                            <li><a href="SeaResult.html">咖啡师</a></li>
+                                            <li><a href="SeaResult.html">预定员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">家政保洁/安保</a></li>
+                                            <li><a href="SeaResult.html">保洁</a></li>
+                                            <li><a href="SeaResult.html">保姆</a></li>
+                                            <li><a href="SeaResult.html">月嫂</a></li>
+                                            <li><a href="SeaResult.html">育婴师/保育员</a></li>
+                                            <li><a href="SeaResult.html">洗衣工</a></li>
+                                            <li><a href="SeaResult.html">钟点工</a></li>
+                                            <li><a href="SeaResult.html">保安</a></li>
+                                            <li><a href="SeaResult.html">护工</a></li>
+                                            <li><a href="SeaResult.html">送水工</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">美容/美发</a></li>
+                                            <li><a href="SeaResult.html">发型师</a></li>
+                                            <li><a href="SeaResult.html">美发助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">洗头工</li>
+                                            <li><a href="SeaResult.html">美容导师</a></li>
+                                            <li><a href="SeaResult.html">美容助理/学徒</a></li>
+                                            <li><a href="SeaResult.html">化妆师</a></li>
+                                            <li><a href="SeaResult.html">宠物美容</a></li>
+                                            <li><a href="SeaResult.html">美容店长</a></li>
+                                            <li><a href="SeaResult.html">美容/瘦身顾问</a></li>
+                                            <li><a href="SeaResult.html">彩妆培训师</a></li>
+                                            <li><a href="SeaResult.html">美体师</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">酒店/旅游</a></li>
+                                            <li><a href="SeaResult.html">酒店前台</a></li>
+                                            <li><a href="SeaResult.html">客房服务员</a></li>
+                                            <li><a href="SeaResult.html">楼面经理</a></li>
+                                            <li><a href="SeaResult.html">行李员</a></li>
+                                            <li><a href="SeaResult.html">救生员</a></li>
+                                            <li><a href="SeaResult.html">酒店管理</a></li>
+                                            <li><a href="SeaResult.html">订票员</a></li>
+                                            <li><a href="SeaResult.html">导游</a></li>
+                                            <li><a href="SeaResult.html">记调签证专员</a></li>
+                                            <li><a href="SeaResult.html">旅游</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">娱乐/休闲</a></li>
+                                            <li><a href="SeaResult.html">酒吧服务员</a></li>
+                                            <li><a href="SeaResult.html">娱乐厅服务员</a></li>
+                                            <li><a href="SeaResult.html">礼仪/迎宾</a></li>
+                                            <li class="red"><a href="SeaResult.html">主持人</a></li>
+                                            <li><a href="SeaResult.html">调酒师</a></li>
+                                            <li><a href="SeaResult.html">音效师</a></li>
+                                            <li><a href="SeaResult.html">灯光师</a></li>
+                                            <li><a href="SeaResult.html">摄影师/摄影师影视</a></li>
+                                            <li><a href="SeaResult.html">配音员</a></li>
+                                            <li><a href="SeaResult.html">放映员</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">保健/按摩</a></li>
+                                            <li><a href="SeaResult.html">按摩师</a></li>
+                                            <li><a href="SeaResult.html">足疗师</a></li>
+                                            <li><a href="SeaResult.html">搓澡师</a></li>
+                                            <li><a href="SeaResult.html">针灸推拿</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mecolumn">
+                                        <ul>
+                                            <li><a href="SeaResult.html">运动/健身</a></li>
+                                            <li><a href="SeaResult.html">健身教练</a></li>
+                                            <li><a href="SeaResult.html">瑜伽教练</a></li>
+                                            <li><a href="SeaResult.html">舞蹈教师</a></li>
+                                            <li><a href="SeaResult.html">游泳教练</a></li>
+                                            <li><a href="SeaResult.html">台球教练</a></li>
+                                            <li><a href="SeaResult.html">高尔夫球助理</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </li>
-        </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="clearbox"></div>
     </div>
     <div class="clearbox"></div>
-</div>
-<div class="clearbox"></div>
-<div class="clearbox"></div>
+    <div class="clearbox"></div>
 
-<div id="link"></div>
-<div id="footer"></div>
+    <div id="link"></div>
+    <div id="footer"></div>
 </body>
 
 </html>

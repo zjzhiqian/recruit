@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzq.project.user.dao.SysParamMapper">
+
+    <select id="getParamByKey" resultType="int">
+    select value from sys_param where keyWord = #{key} and deleted_at is null
+  </select>
+
+    <update id="addLogCount">
+    update sys_param set value = value+1 where keyWord = "logCount"
+  </update>
+
+
+</mapper>
