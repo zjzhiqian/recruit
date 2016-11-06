@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface JobNewsMapper extends Dao<JobNews,Integer> {
     List<JobNews> getJobNews();
+
+    JobNews getJobNewsDetail(Integer id);
 }

@@ -12,10 +12,6 @@ import java.util.function.Supplier;
  */
 public class EnumerationUtils {
     public static <T> Iterable<T> toIterable(final Supplier<Enumeration<T>> enumerationSupplier) {
-        return new Iterable() {
-            public Iterator<T> iterator() {
-                return CollectionUtils.toIterator((Enumeration)enumerationSupplier.get());
-            }
-        };
+        return (Iterable) () -> CollectionUtils.toIterator((Enumeration)enumerationSupplier.get());
     }
 }

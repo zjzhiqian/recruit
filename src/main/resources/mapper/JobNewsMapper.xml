@@ -4,8 +4,11 @@
 
 
     <select id="getJobNews" resultType="com.hzq.project.resume.dao.entity.JobNews">
-    select * from job_news  where deleted_at is null order by updated_at desc
+    select id,title from job_news  where deleted_at is null order by updated_at desc
   </select>
+    <select id="getJobNewsDetail" resultType="com.hzq.project.resume.dao.entity.JobNews">
+        select * from job_news where deleted_at is null and id = #{id}
+    </select>
 
 
     <!---->

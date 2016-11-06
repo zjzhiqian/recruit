@@ -13,4 +13,5 @@ public interface JobNewsService {
      */
     List<JobNews> getJobNews();
 
+    JobNews getJobNewsDetail(Integer id);
 }

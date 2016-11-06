@@ -20,4 +20,9 @@ public class JobNewsServiceImpl implements JobNewsService {
     public List<JobNews> getJobNews() {
         return jobNewsMapper.getJobNews();
     }
+
+    @Override
+    public JobNews getJobNewsDetail(Integer id) {
+        return jobNewsMapper.getJobNewsDetail(id);
+    }
 }

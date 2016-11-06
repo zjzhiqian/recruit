@@ -26,18 +26,12 @@
 
             $.ajax({
                 type: "GET",
-                url: "api/v3/jobNews/getJobNews",
+                url: "api/v3/jobNews/getJobNewsDetail/"+id,
                 dataType: 'json',
                 async: false,
                 success: function (rs) {
                     if (rs.success) {
-                        var data = rs.data;
-                        var str = "";
-                        for (var i = 0; i < data.length; i++) {
-                            if (data[i]['id'] == id)
-                                content = data[i]['content'];
-                        }
-                        $("#jobMessage").html(str)
+                        content = rs.data.content;
 
                     } else {
                         alert(rs.data.error);
@@ -46,8 +40,6 @@
             });
             $("#title").html(decodeURI(title));
             $("#content").html(content);
-
-
         });
     </script>
 </head>

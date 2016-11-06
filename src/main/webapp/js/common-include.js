@@ -122,9 +122,9 @@ function includeHeader() {
                 window.location.href = "PostJob.html";
             }
         } else {
-            alert("请前往登录")
+            alert("请前往登录");
         }
-
+        return false;
     });
 
 
@@ -207,8 +207,8 @@ function includeFoot() {
         "        </div>\n" +
         "        <div id=\"copy\">ICP经营许可证编号 浙ICP备16037214号 台州市鹏腾网络科技有限公司版权所有</div>\n" +
         "        <div id=\"footer-photo\">\n" +
-        "            <img src=\"images/ba.png\" alt=\"\">\n" +
-        "            <img src=\"images/wl.png\" alt=\"\">\n" +
+        // "            <img src=\"images/ba.png\" alt=\"\">\n" +
+        // "            <img src=\"images/wl.png\" alt=\"\">\n" +
         "        </div>"
     )
 

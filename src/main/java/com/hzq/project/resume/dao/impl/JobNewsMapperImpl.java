@@ -16,4 +16,9 @@ public class JobNewsMapperImpl extends BaseDao<JobNews, Integer> implements JobN
     public List<JobNews> getJobNews() {
         return selectList("getJobNews", null);
     }
+
+    @Override
+    public JobNews getJobNewsDetail(Integer id) {
+        return selectOne("getJobNewsDetail",id);
+    }
 }
