@@ -53,7 +53,9 @@ public class SecondCarServiceImpl implements SecondCarService {
     @Override
     public PageResult<SecondCarInfo> getSecondCarByParam(SecondCarParam param) {
         Integer current = param.getCurrent();
+        param.setPer(7);//分页每页7跳
         Integer per = param.getPer();
+
         List<SecondCarInfo> pageData = secondCarMapper.getSecondCarParamList(param);
         Integer count = secondCarMapper.getSecondCarParamCount(param);
         return new PageResult<>(current, per, count, pageData);

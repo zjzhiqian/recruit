@@ -27,7 +27,7 @@
             //店铺类型
             var carStoreStr = "";
             for (var i = 0; i < carStoreArr.length; i++) {
-                carStoreStr = carStoreStr + "<option value=\"" + i + "\">" + carStoreArr[i] + "</option>";
+                carStoreStr = carStoreStr + "<option value=\"" + (i+1) + "\">" + carStoreArr[i] + "</option>";
             }
             $("#area").html(carStoreStr);
             //省份

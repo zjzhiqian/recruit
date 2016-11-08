@@ -53,7 +53,7 @@
 //                                        "                <li>\n" +
 //                                        "                    <input id=\"jb\" type=\"button\" onclick=\"changeJb()\" value=\"举报\">\n" +
 //                                        "                </li>\n" +
-                                        "            </ul>", info['company'],carStoreArrJson[info['type']], info['name'], info['phone'], info['address'], info['watch'], info['updatedAt'])
+                                        "            </ul>", info['company'], carStoreArrJson[info['type']], info['name'], info['phone'], info['address'], info['watch'], info['updatedAt'])
                         )
                     } else {
                         alert(rs.data.error);
@@ -78,60 +78,63 @@
                             var dt = info[i];
                             str1 = str1 +
                                     $.formatString("<li class=\"marri\">\n" +
-                                            "            <div class=\"carimg\"><img src=\"{0}\" alt=\"\"></div>\n" +
-                                            "            <div class=\"cartit\">{1}</div>\n" +
+                                            "            <div class=\"carimg\"><img src=\"{0}\" alt=\"\" onclick=\"window.location.href='TwBusDea.html?id={1}'\"></div>\n" +
+                                            "            <div class=\"cartit\">{2}</div>\n" +
                                             "            <div class=\"stomale\">\n" +
                                             "                <ul class=\"carsinfo\">\n" +
-                                            "                    <li>里程:{2}万公里</li>\n" +
-                                            "                    <li>年份：{3}</li>\n" +
+                                            "                    <li>里程:{3}万公里</li>\n" +
+                                            "                    <li>年份：{4}</li>\n" +
 //                                            "                    <li>地址：台州椒江</li>\n"+
                                             "                    <div class=\"clearbox\">\n" +
                                             "                    </div>\n" +
                                             "                </ul>\n" +
                                             "            </div>\n" +
                                             "            <div class=\"stomari\">\n" +
-                                            "                ￥<span>{4}万元</span>\n" +
+                                            "                ￥<span>{5}万元</span>\n" +
                                             "            </div>\n" +
                                             "        </li>\n" +
                                             "        \n" +
-                                            "        \n", dt['pictue'], carTypeJson2[dt['type']] + " " + dt['title'], dt['journey'], dt['buyTime'], dt['price'])
+                                            "        \n", dt['pictue'],dt['id'], carTypeJson2[dt['type']] + " " + dt['title'], dt['journey'], dt['buyTime'], dt['price'])
                         }
                         str1 = str1 + " <div class=\"clearbox\"></div>";
                         $("#sub1").html(str1);
 
-                        if (info.length > 4) {
-                            var str2 = "";
-                            for (var j = 4; j < info.length; j++) {
-                                var tt = info[j];
-                                str2 = str2 +
-                                        $.formatString("<li class=\"marri\">\n" +
-                                                "            <div class=\"carimg\"><img src=\"{0}\" alt=\"\"></div>\n" +
-                                                "            <div class=\"cartit\">{1}</div>\n" +
-                                                "            <div class=\"stomale\">\n" +
-                                                "                <ul class=\"carsinfo\">\n" +
-                                                "                    <li>里程:{2}万公里</li>\n" +
-                                                "                    <li>年份：{3}</li>\n" +
-//                                            "                    <li>地址：台州椒江</li>\n"+
-                                                "                    <div class=\"clearbox\">\n" +
-                                                "                    </div>\n" +
-                                                "                </ul>\n" +
-                                                "            </div>\n" +
-                                                "            <div class=\"stomari\">\n" +
-                                                "                ￥<span>{4}万元</span>\n" +
-                                                "            </div>\n" +
-                                                "        </li>\n" +
-                                                "        \n" +
-                                                "        \n", tt['pictue'], carTypeJson2[tt['type']] + " " + tt['title'], tt['journey'], tt['buyTime'], tt['price'])
-                            }
-                            str2 = str2 + " <div class=\"clearbox\"></div>";
-                            $("#sub2").html(str1);
-                        }
+//                        if (info.length > 4) {
+//                            var str2 = "";
+//                            for (var j = 4; j < info.length; j++) {
+//                                var tt = info[j];
+//                                str2 = str2 +
+//                                        $.formatString("<li class=\"marri\">\n" +
+//                                                "            <div class=\"carimg\"><img src=\"{0}\" alt=\"\"></div>\n" +
+//                                                "            <div class=\"cartit\">{1}</div>\n" +
+//                                                "            <div class=\"stomale\">\n" +
+//                                                "                <ul class=\"carsinfo\">\n" +
+//                                                "                    <li>里程:{2}万公里</li>\n" +
+//                                                "                    <li>年份：{3}</li>\n" +
+////                                            "                    <li>地址：台州椒江</li>\n"+
+//                                                "                    <div class=\"clearbox\">\n" +
+//                                                "                    </div>\n" +
+//                                                "                </ul>\n" +
+//                                                "            </div>\n" +
+//                                                "            <div class=\"stomari\">\n" +
+//                                                "                ￥<span>{4}万元</span>\n" +
+//                                                "            </div>\n" +
+//                                                "        </li>\n" +
+//                                                "        \n" +
+//                                                "        \n", tt['pictue'], carTypeJson2[tt['type']] + " " + tt['title'], tt['journey'], tt['buyTime'], tt['price'])
+//                            }
+//                            str2 = str2 + " <div class=\"clearbox\"></div>";
+//                            $("#sub2").html(str1);
+//                        }
                     } else {
                         alert(rs.data.error);
                     }
                 }
             });
 
+            function goCar(id) {
+                window.location.href = "TwBusDea.html?id=" + id;
+            }
         });
     </script>
 
@@ -179,7 +182,7 @@
 <!-- 最新车源 -->
 <div class="stolist">
     <div class="title2 float">商家推荐</div>
-    <div class="carmore" onclick="document.getElementById('carmore').style.display = 'block';">查看全部</div>
+    <div class="carmore" onclick="document.getElementById('carmore').style.display = 'block';"></div>
     <div class="clearbox"></div>
     <ul class="stomain" id="sub2">
         <li class="marri">

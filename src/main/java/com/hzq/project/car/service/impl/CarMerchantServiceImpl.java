@@ -53,6 +53,11 @@ public class CarMerchantServiceImpl implements CarMerchantService {
     public CarMerchantView getCarMerchantById(Integer id) {
         CarMerchant carMerchant = Optional.ofNullable(carMerchantMapper.getByPk(id)).orElseThrow(() -> new CarException("商家不存在"));
         if (carMerchant.getUpdatedAt() == null) carMerchant.setUpdatedAt(carMerchant.getCreatedAt());
+
+        //添加商家的浏览量
+        carMerchantMapper.addWatchCount(id);
+
+
         return Creator.newInstance(carMerchant, CarMerchantView.class);
     }
 }

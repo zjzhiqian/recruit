@@ -23,6 +23,8 @@ public class BasePage {
 
     public void setPer(Integer per) {
         this.per = per;
+        if (current == null) current = 1;
+        setStart((current - 1) * per);
     }
 
     public Integer getCurrent() {

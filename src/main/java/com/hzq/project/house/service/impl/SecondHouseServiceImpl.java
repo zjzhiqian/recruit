@@ -41,6 +41,7 @@ public class SecondHouseServiceImpl implements SecondHouseService {
     @Override
     public PageResult<SecondHouseListInfo> getSecondHouseByParam(SecondHouseParam param) {
         Integer current = param.getCurrent();
+        param.setPer(7); //每页显示7条
         Integer per = param.getPer();
         List<SecondHouseListInfo> pageData = secondHouseMapper.getSecondHouseParamList(param);
         pageData.forEach(info -> info.setImg(info.getCarPic().split(",")[0]));

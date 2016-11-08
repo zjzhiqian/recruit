@@ -14,4 +14,9 @@ public class CarMerchantMapperImpl extends BaseDao<CarMerchant,Integer> implemen
     public CarMerchant getCarMerchantByUserId(Integer userId) {
         return selectOne("getCarMerchantByUserId",userId);
     }
+
+    @Override
+    public int addWatchCount(Integer id) {
+        return updateByParam("addWatchCount",id);
+    }
 }

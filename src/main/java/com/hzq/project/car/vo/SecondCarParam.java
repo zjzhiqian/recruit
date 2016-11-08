@@ -8,7 +8,6 @@ import java.math.BigDecimal;
  * Created by hzq on 16/9/27.
  */
 public class SecondCarParam  extends BasePage{
-
     private String title;
     private Integer type;
     private Integer year;
