@@ -267,4 +267,36 @@ public class SecondCar {
     public void setConstrct(String constrct) {
         this.constrct = constrct;
     }
+
+    @Override
+    public String toString() {
+        return "SecondCar{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", merchantId=" + merchantId +
+                ", isMerchant=" + isMerchant +
+                ", type=" + type +
+                ", title='" + title + '\'' +
+                ", journey=" + journey +
+                ", buyTime='" + buyTime + '\'' +
+                ", licenseTime='" + licenseTime + '\'' +
+                ", insuranceDeadtime='" + insuranceDeadtime + '\'' +
+                ", introduction='" + introduction + '\'' +
+                ", nature='" + nature + '\'' +
+                ", exhaust=" + exhaust +
+                ", pictue='" + pictue + '\'' +
+                ", price=" + price +
+                ", year=" + year +
+                ", color=" + color +
+                ", carPic='" + carPic + '\'' +
+                ", concactName='" + concactName + '\'' +
+                ", concactPhone='" + concactPhone + '\'' +
+                ", watch=" + watch +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", deletedAt=" + deletedAt +
+                ", times=" + times +
+                ", constrct='" + constrct + '\'' +
+                '}';
+    }
 }

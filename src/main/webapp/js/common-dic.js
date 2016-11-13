@@ -136,6 +136,7 @@ var carTypeJson = {
     "众泰": 77
 };
 var carTypeJson2 = {
+    0: "未知",
     1: "奥迪",
     2: "别克",
     3: "宝马",
