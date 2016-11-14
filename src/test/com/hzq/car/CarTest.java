@@ -84,7 +84,10 @@ public class CarTest {
         if (isProd) url = DATA_URL_PROD;
 
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -6);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date parse = format.parse("2016-10-26");
+        calendar.setTime(parse);
+//        calendar.add(Calendar.MONTH, -6);
         Date grabDate = calendar.getTime();
 
         while (grabDate.before(new Date())) {

@@ -57,6 +57,13 @@ public class SecondCarServiceImpl implements SecondCarService {
         Integer per = param.getPer();
 
         List<SecondCarInfo> pageData = secondCarMapper.getSecondCarParamList(param);
+        pageData.forEach(car -> {
+            String title = car.getTitle();
+            if (title.length() > 30) {
+                car.setTitle(title.substring(0, 30));
+            }
+        });
+
         Integer count = secondCarMapper.getSecondCarParamCount(param);
         return new PageResult<>(current, per, count, pageData);
     }
