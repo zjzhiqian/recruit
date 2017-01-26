@@ -46,7 +46,7 @@
         <!-- 自动生成数据库表的对应关系  -->
 
 
-        <table tableName="sys_param" domainObjectName="SysParam"
+        <table tableName="favor" domainObjectName="Favor"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

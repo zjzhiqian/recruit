@@ -76,7 +76,7 @@ function includeHeader() {
         " <div id=\"menu\">\n" +
         "        <ul>\n" +
         "            <li><a href=\"Index.html\" target=\"_blank\">全部招聘</a></li>\n" +
-        "            <li><a href=\"PartTimeJob.html\" target=\"_blank\">兼职招聘</a></li>\n" +
+        "            <li><a href=\"PartTimeJob.html\" target=\"_blank\">个人简历</a></li>\n" +
         "            <li class=\"high-end\"><a href=\"HighJob.html\" target=\"_blank\">高端招聘</a><img src=\"images/new.png\" alt=\"\"></li>\n" +
         "            <li><a href=\"Poerscenter.html\" target=\"_blank\">个人中心</a></li>\n" +
         "            <li><a href=\"BusSear.html\" target=\"_blank\">二手车</a></li>\n" +

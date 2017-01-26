@@ -1,4 +1,4 @@
-package com.hzq.car;
+package com.hzq.project.cronJob;
 
 import com.alibaba.fastjson.JSON;
 import com.hzq.project.car.dao.SecondCarMapper;
@@ -14,13 +14,10 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,11 +31,10 @@ import java.util.*;
  * CarTest
  * Created by hzq on 16/11/6.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
-public class CarTest {
+@Component
+public class CartUtil {
     @Autowired
-    SecondCarMapper secondCarMapper;
+    private SecondCarMapper secondCarMapper;
 
 
     private static final CloseableHttpClient client = HttpClients.custom().build();
@@ -47,7 +43,7 @@ public class CarTest {
     private static final String DATA_URL_TEST = "http://42.96.134.15:20009/api/car/queryCar.json";
     private static final String DATA_URL_PROD = "https://open.souche.com/api/car/queryCar.json";
     private static final boolean isProd = true;
-    private static Logger logger = LoggerFactory.getLogger(CarTest.class);
+    private static Logger logger = LoggerFactory.getLogger(CartUtil.class);
 
 
     /**
@@ -75,33 +71,17 @@ public class CarTest {
         return (String) ((Map) map.get("data")).get("access_token");
     }
 
-    @Test
-    public void test01() throws IOException, ParseException {
 
-
-//        String token = getToken();
-//        logger.warn("getToken: {}", token);
-        String token = "ec0d2ba64b031e6dc6c60c4452cb6368";
+    public void startGrab() throws Exception{
+        String token = getToken();
+        logger.warn("getToken: {}", token);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DATE, -1);
+        Date grabDate = calendar.getTime();
         String url = DATA_URL_TEST;
         if (isProd) url = DATA_URL_PROD;
-
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date parse = format.parse("2017-01-12");
-        calendar.setTime(parse);
-//        calendar.add(Calendar.MONTH, -6);
-        Date grabDate = calendar.getTime();
-
-        while (grabDate.before(new Date())) {
-            try {
-                sendAndSave(token, grabDate, url);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            calendar.add(Calendar.DATE, 1);
-            grabDate = calendar.getTime();
-        }
-
+        sendAndSave(token, grabDate, url);
     }
 
 

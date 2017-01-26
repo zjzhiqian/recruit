@@ -5,3 +5,4 @@
 /src/main/resources/generatorConfig.xml
 /src/main/resources/mysql.properties
 /src/main/resources/redis.properties
+/src/test/resources/mysql.properties

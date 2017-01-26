@@ -59,8 +59,8 @@ public class SecondCarServiceImpl implements SecondCarService {
         List<SecondCarInfo> pageData = secondCarMapper.getSecondCarParamList(param);
         pageData.forEach(car -> {
             String title = car.getTitle();
-            if (title.length() > 30) {
-                car.setTitle(title.substring(0, 30));
+            if (title.length() > 20) {
+                car.setTitle(title.substring(0, 20));
             }
         });
 

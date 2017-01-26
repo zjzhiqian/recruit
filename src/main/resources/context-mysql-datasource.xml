@@ -10,8 +10,9 @@
 
 
     <context:component-scan base-package="com.hzq">
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-        <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
 
 
@@ -61,8 +62,17 @@
         <constructor-arg ref="simpleSqlSessionFactory"/>
     </bean>
 
-
-
     <aop:aspectj-autoproxy/>
+
+    <bean id="recoverScheduler" scope="prototype" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"/>
+
+
+    <bean id="carJob" class="com.hzq.project.cronJob.CarJob">
+        <property name="scheduler" ref="recoverScheduler"/>
+        <property name="cartUtil" ref="cartUtil"/>
+        <!--<property name="cronExpression" value="0 0 0,02 * * ?"/>-->
+        <property name="cronExpression" value="0/20 * * * * ?"/>
+    </bean>
+
 
 </beans>
