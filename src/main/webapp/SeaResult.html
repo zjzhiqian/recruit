@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="css/jquery.pagination.css">
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
 
-    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260773247'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1260773247' type='text/javascript'%3E%3C/script%3E"));</script>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan id='cnzz_stat_icon_1260773247'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1260773247' type='text/javascript'%3E%3C/script%3E"));</script>
     <script src="js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="js/common-include.js"></script>
     <script src="js/jquery.luara.0.0.1.min.js"></script>
@@ -38,37 +39,62 @@
                 workStr = workStr + "<option value=\"" + i + "\">" + workArr[i] + "</option>";
             }
             $("#area").html(workStr);
+            //学历
+            var education = "";
+            for (var i = 0; i < studyArr.length; i++) {
+                education = education + "<option value=\"" + i + "\">" + studyArr[i] + "</option>";
+            }
+            $("#education").html(education);
+            //工作年限
+            var year = "";
+            for (var i = 0; i < yearArr.length; i++) {
+                year = year + "<option value=\"" + i + "\">" + yearArr[i] + "</option>";
+            }
+            $("#workYear").html(year);
 
             //行业
             var typeParam = getQueryString("type");
             if (typeParam != null && typeParam != "null") {
                 $("#jobType").val(typeParam);
             }
-
             //关键字
             var titleParam = decodeURI(getQueryString("title"));
             if (titleParam != null && titleParam != "null") {
                 $("#searchText").val(titleParam);
             }
-
-            //行业
+            //工作区域
             var areaParam = getQueryString("area");
             if (areaParam != null && areaParam != "null") {
                 $("#area").val(areaParam);
             }
+            //学历
+            var educationParam = getQueryString("education");
+            if (educationParam != null && educationParam != "null") {
+                $("#education").val(educationParam);
+            }
+            //工作年限
+            var workYearParam = getQueryString("workYear");
+            if (workYearParam != null && workYearParam != "null") {
+                $("#workYear").val(workYearParam);
+            }
+            //试用期
+            var probationParam = getQueryString("probation");
+            if (probationParam != null && probationParam != "null") {
+                $("#probation").val(probationParam);
+            }
+
 
             var salaryParam = getQueryString("salary");
             var postDate = getQueryString("postDate");
 
-            sendAjaxQuery(0, typeParam, titleParam, areaParam,salaryParam, postDate);
-
+            sendAjaxQuery(0, typeParam, titleParam, areaParam, salaryParam, postDate, educationParam, workYearParam, probationParam);
 
 
             /**
              * 查询
              * @param page 页码
              */
-            function sendAjaxQuery(page, type, title, area, salary, postDate) {
+            function sendAjaxQuery(page, type, title, area, salary, postDate, education, workYear, probation) {
                 if (type == undefined || type == null || type == "null") {
                     type = -1
                 }
@@ -85,12 +111,25 @@
                 if (postDate == undefined || postDate == "") {
                     postDate = -1;
                 }
+                if (education == undefined || education == "") {
+                    education = -1;
+                }
+                if (workYear == undefined || workYear == "") {
+                    workYear = -1;
+                }
+                if (probation == undefined || probation == "") {
+                    probation = -1;
+                }
 
                 function pageSelectCallback(page, jq) {
                     var title = $("#searchText").val();
                     var type = $("#jobType").val();
                     var area = $("#area").val();
-                    sendAjaxQuery(page, type, title, area);
+
+                    var education = $("#education").val();
+                    var workYear = $("#workYear").val();
+                    var probation = $("#probation").val();
+                    sendAjaxQuery(page, type, title, area, -1, -1, education, workYear, probation);
                     return false;
                 }
 
@@ -99,9 +138,12 @@
                     var title = $("#searchText").val();
                     var type = $("#jobType").val();
                     var area = $("#area").val();
-                    sendAjaxQuery(0, type, title, area);
+                    var education = $("#education").val();
+                    var workYear = $("#workYear").val();
+                    var probation = $("#probation").val();
+                    sendAjaxQuery(0, type, title, area, -1, -1, education, workYear, probation);
                     return false;
-                })
+                });
 
 
                 $("#flush").click(function (e) {
@@ -109,6 +151,9 @@
                     $("#jobType").val(-1);
                     $("#area").val(0);
                     $("#searchText").val("");
+                    $("#education").val(0);
+                    $("#workYear").val(0);
+                    $("#probation").val(-1);
                     return false;
                 })
 
@@ -116,7 +161,7 @@
                 //查询职位
                 $.ajax({
                     type: "GET",
-                    url: "api/v3/recruitment/searchJob?type=" + type + "&title=" + title + "&page=" + (page + 1) + "&workArea=" + area + "&salary=" + salary + "&postDate=" + postDate,
+                    url: "api/v3/recruitment/searchJob?type=" + type + "&title=" + title + "&page=" + (page + 1) + "&workArea=" + area + "&salary=" + salary + "&postDate=" + postDate + "&education=" + education + "&workYear=" + workYear + "&probation=" + probation,
                     dataType: 'json',
                     async: false,
                     success: function (rs) {
@@ -134,7 +179,6 @@
                                 var workAreaStr = workArr[workArea];
                                 var study = resultDatas[i]['education'];
                                 var studyStr = studyArr[study];
-
 
                                 resultDataStr = resultDataStr +
                                         " <li>\n" +
@@ -187,10 +231,7 @@
                         }
                     }
                 });
-
             }
-
-
         });
     </script>
 
@@ -217,6 +258,31 @@
                 </select>
                 <div class="clearbox"></div>
             </div>
+
+            <div id="nextkey1">
+                <span class="nextktit">学历</span>
+                <select id="education"
+                        style="margin-left: 1px;margin-top: 5px;margin-right: 10px;width: 337px;border: 1px solid darkgrey;height: 35px"></select>
+                <span class="nextktit" style="width: 140px">工作年限</span>
+                <select id="workYear"
+                        style="margin-top: 5px;margin-right: 10px;width: 256px;border: 1px solid darkgrey;height: 35px"></select>
+                <div class="clearbox"></div>
+            </div>
+
+            <div id="nextkey2">
+                <span class="nextktit" style="width: 120px">试用期</span>
+                <select id="probation" name="probation"
+                        style="margin-top: 5px;margin-right: 10px;width: 279px;border: 1px solid darkgrey;height: 35px">
+                    <option value="-1">不限</option>
+                    <option value="1">1个月</option>
+                    <option value="2">2个月</option>
+                    <option value="3">3个月</option>
+                    <option value="4">6个月</option>
+                </select>
+                <div class="clearbox"></div>
+            </div>
+
+
             <div id="btnsearch">
                 <input type="submit">
             </div>

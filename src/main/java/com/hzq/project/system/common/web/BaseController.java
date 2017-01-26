@@ -39,4 +39,13 @@ public class BaseController {
     }
 
 
+    protected Integer getUserType() {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        UserInfo userInfo = (UserInfo) requestAttributes.getAttribute("subject", RequestAttributes.SCOPE_REQUEST);
+        if (userInfo == null)
+            throw new UnauthorizedException("您未登录,请前往登录");
+        return userInfo.getUserType();
+    }
+
+
 }

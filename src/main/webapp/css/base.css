@@ -2892,7 +2892,7 @@ input[type="text"] {
     background-color: white;
 }
 
-#seawrap {
+#jobTypeseawrap {
     width: 1200px;
     background-color: #F5F5F5;
 }
@@ -2936,6 +2936,14 @@ input[type="text"] {
 }
 
 #nextkey {
+    clear: both;
+}
+
+#nextkey1 {
+    clear: both;
+}
+
+#nextkey2 {
     clear: both;
 }
 

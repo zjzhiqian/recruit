@@ -10,7 +10,8 @@
     <link href="images/favicon.ico" rel="Shortcut Icon">
     <link rel="stylesheet" href="css/base.css">
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
-    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260773247'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1260773247' type='text/javascript'%3E%3C/script%3E"));</script>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan id='cnzz_stat_icon_1260773247'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1260773247' type='text/javascript'%3E%3C/script%3E"));</script>
 
     <script src="js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="js/common-include.js"></script>
@@ -71,6 +72,43 @@
                     }
                 });
             }
+
+            var id = getQueryString("id");
+            //收藏状态
+            $.ajax({
+                type: "GET",
+                url: "api/v3/favor/getFavor/1/1/" + id,
+                dataType: 'json',
+                async: false,
+                success: function (rs) {
+                    if (rs.success) {
+                        var count = rs.data;
+                        if (count == 1) {
+                            $("#sc").attr("status", 1);
+                            changeScStyle(true);
+                        }
+                    }
+                }
+            });
+
+            //举报状态
+            $.ajax({
+                type: "GET",
+                url: "api/v3/favor/getFavor/0/1/" + id,
+                dataType: 'json',
+                async: false,
+                success: function (rs) {
+                    if (rs.success) {
+                        var count = rs.data;
+                        if (count == 1) {
+                            $("#jb").attr("status", 1);
+                            changeJbStyle(true);
+                        }
+                    }
+                }
+            });
+
+
 
 
             var body = "<tbody>\n" +
@@ -184,7 +222,7 @@
             //投递简历
             $.ajax({
                 type: "POST",
-                url: "api/v3/resume/postResume/" + 1 + "?resumeId=" + resumeId,
+                url: "api/v3/resume/postResume/" + jobId + "?resumeId=" + resumeId,
                 dataType: 'json',
                 success: function (rs) {
                     if (rs.success) {
@@ -197,37 +235,126 @@
 
         }
 
+        function changeScStyle(flag) {
+            if (flag) {
+                sc.value = "已收藏";
+                sc.style.backgroundImage = 'url(images/ysc.png)';
+                sc.style.backgroundRepeat = "no-repeat";
+                sc.style.paddingLeft = "20px";
+                sc.style.backgroundPosition = " left center";
+            } else {
+                sc.value = "收藏";
+                sc.style.backgroundImage = '';
+                sc.style.backgroundRepeat = '';
+                sc.style.paddingLeft = '';
+                sc.style.backgroundPosition = '';
+            }
+        }
 
+        function changeJbStyle(flag) {
+            if (flag) {
+//                document.getElementById('lift').style.display = 'block';
+                jb.value = "取消举报";
+                jb.style.backgroundImage = 'url(images/yjb.png)';
+                jb.style.backgroundRepeat = "no-repeat";
+                jb.style.paddingLeft = "20px";
+                jb.style.backgroundPosition = " left center";
+            } else {
+                jb.value = "举报";
+                jb.style.backgroundImage = '';
+                jb.style.backgroundRepeat = '';
+                jb.style.paddingLeft = '';
+                jb.style.backgroundPosition = ''
+            }
+        }
+
+
+        //收藏,取消收藏
         function changeSc() {
-            sc.value = "已收藏";
-            sc.style.backgroundImage = 'url(images/ysc.png)';
-            sc.style.backgroundRepeat = "no-repeat";
-            sc.style.paddingLeft = "20px";
-            sc.style.backgroundPosition = " left center";
+            var id = getQueryString("id");
+            var status = $("#sc").attr('status');
+            if (status == 1) {
+                //取消收藏
+                $.ajax({
+                    type: "POST",
+                    url: "api/v3/favor/doFavor/1/1/" + id + "/1",
+                    dataType: 'json',
+                    async: false,
+                    success: function (rs) {
+                        if (rs.success) {
+                            alert("取消收藏成功");
+                            $("#sc").attr("status", 0);
+                            changeScStyle(false);
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+            } else {
+                //收藏操作
+                $.ajax({
+                    type: "POST",
+                    url: "api/v3/favor/doFavor/1/1/" + id + "/0",
+                    dataType: 'json',
+                    async: false,
+                    success: function (rs) {
+                        console.log(rs);
+                        if (rs.success) {
+                            alert("收藏成功");
+                            $("#sc").attr("status", 1);
+                            changeScStyle(true);
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+            }
         }
+
+        //举报,取消举报
         function changeJb() {
-            jb.value = "已举报";
-            jb.style.backgroundImage = 'url(images/yjb.png)';
-            jb.style.backgroundRepeat = "no-repeat";
-            jb.style.paddingLeft = "20px";
-            jb.style.backgroundPosition = " left center";
+            var id = getQueryString("id");
+            var status = $("#jb").attr('status');
+            if (status == 1) {
+                //取消举报
+                $.ajax({
+                    type: "POST",
+                    url: "api/v3/favor/doFavor/0/1/" + id + "/1",
+                    dataType: 'json',
+                    async: false,
+                    success: function (rs) {
+                        if (rs.success) {
+                            alert("取消举报成功");
+                            $("#jb").attr("status", 0);
+                            changeJbStyle(false);
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+            } else {
+                //举报操作
+                $.ajax({
+                    type: "POST",
+                    url: "api/v3/favor/doFavor/0/1/" + id + "/0",
+                    dataType: 'json',
+                    async: false,
+                    success: function (rs) {
+                        console.log(rs);
+                        if (rs.success) {
+                            alert("举报成功");
+                            $("#jb").attr("status", 1);
+                            changeJbStyle(true);
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+
+            }
         }
-        function changeSc() {
-            alert("收藏成功！");
-            sc.value = "已收藏";
-            sc.style.backgroundImage = 'url(images/ysc.png)';
-            sc.style.backgroundRepeat = "no-repeat";
-            sc.style.paddingLeft = "20px";
-            sc.style.backgroundPosition = " left center";
-        }
-        function changeJb() {
-            document.getElementById('lift').style.display = 'block';
-            jb.value = "已举报";
-            jb.style.backgroundImage = 'url(images/yjb.png)';
-            jb.style.backgroundRepeat = "no-repeat";
-            jb.style.paddingLeft = "20px";
-            jb.style.backgroundPosition = " left center";
-        }
+
+
     </script>
 </head>
 
@@ -248,16 +375,15 @@
         <div id="introduction" class="frmin">
 
         </div>
-        <!--<div class="sj">-->
-        <!--<ul>-->
-        <!--&lt;!&ndash;<li>&ndash;&gt;-->
-        <!--&lt;!&ndash;<input id="sc" type="button" onclick="changeSc()" value="收藏">&ndash;&gt;-->
-        <!--&lt;!&ndash;</li>&ndash;&gt;-->
-        <!--&lt;!&ndash;<li>i-->
-        <!--&lt;!&ndash;<input id="jb" type="button" onclick="changeJb()" value="举报">&ndash;&gt;-->
-        <!--&lt;!&ndash;</li>&ndash;&gt;-->
-        <!--</ul>-->
-        <!--</div>-->
+        <div class="sj">
+            <ul>
+                <li>
+                    <input id="sc" type="button" onclick="changeSc()" value="收藏">
+                </li>
+                <input id="jb" type="button" onclick="changeJb()" value="举报">
+                </li>
+            </ul>
+        </div>
         <div class="lg">
             <ul>
                 <li id="watch"></li>

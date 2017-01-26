@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzq.project.user.dao.FavorMapper">
+
+    <select id="getByPk" resultType="com.hzq.project.user.dao.entity.Favor" parameterType="java.lang.Integer">
+    select
+    *
+    from favor
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <insert id="insert" parameterType="com.hzq.project.user.dao.entity.Favor">
+        insert into favor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="isFavor != null">
+                is_favor,
+            </if>
+            <if test="favorId != null">
+                favor_id,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="createdAt != null">
+                created_at,
+            </if>
+            <if test="updatedAt != null">
+                updated_at,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="isFavor != null">
+                #{isFavor,jdbcType=INTEGER},
+            </if>
+            <if test="favorId != null">
+                #{favorId,jdbcType=INTEGER},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=INTEGER},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="deleteByUserIdAndTypeAndRelationId">
+    delete from favor where user_id = #{userId} and type = #{type} and  favor_id = #{relationId} and user_type = #{userType}
+  </update>
+
+    <select id="getFavorCount" resultType="int">
+        select count(1) from favor where user_id = #{userId} and type = #{type} and  favor_id = #{relationId} and is_favor = #{isFavor} and user_type = #{userType}
+    </select>
+
+    <select id="favorList" resultType="com.hzq.project.user.dao.entity.Favor">
+        select * from favor where user_id = #{userId} and is_favor = 1 and user_type=#{userType}
+    </select>
+</mapper>

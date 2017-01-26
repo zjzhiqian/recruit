@@ -13,6 +13,34 @@ public class RecruitmentQueryParamVo{
     private Integer page;
     private Integer postDate;
 
+    private Integer education;
+    private Integer workYear;
+    private Integer probation;
+
+
+    public Integer getEducation() {
+        return education;
+    }
+
+    public void setEducation(Integer education) {
+        this.education = education;
+    }
+
+    public Integer getWorkYear() {
+        return workYear;
+    }
+
+    public void setWorkYear(Integer workYear) {
+        this.workYear = workYear;
+    }
+
+    public Integer getProbation() {
+        return probation;
+    }
+
+    public void setProbation(Integer probation) {
+        this.probation = probation;
+    }
 
     public Integer getPostDate() {
         return postDate;

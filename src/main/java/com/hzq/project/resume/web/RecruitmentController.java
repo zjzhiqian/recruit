@@ -149,6 +149,18 @@ public class RecruitmentController extends BaseController {
         if (salary == null || salary == -1) {
             paramVo.setSalary(null);
         }
+        Integer education = paramVo.getEducation();
+        if (education == null || education == -1) {
+            paramVo.setEducation(null);
+        }
+        Integer workYear = paramVo.getWorkYear();
+        if (workYear == null || workYear == -1) {
+            paramVo.setWorkYear(null);
+        }
+        Integer probation = paramVo.getProbation();
+        if (probation == null || probation == -1) {
+            paramVo.setProbation(null);
+        }
 
         RecruitmentQueryParam param = Creator.newInstance(paramVo, RecruitmentQueryParam.class);
         param.setPage(paramVo.getPage());

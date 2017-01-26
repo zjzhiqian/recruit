@@ -13,10 +13,39 @@ public class RecruitmentQueryParam extends BasePage{
     private Integer salary;
     private Integer type;
 
+    private Integer education;
+    private Integer workYear;
+    private Integer probation;
+
+
+
     private String beginDate;
     private String endDate;
 
 
+    public Integer getEducation() {
+        return education;
+    }
+
+    public void setEducation(Integer education) {
+        this.education = education;
+    }
+
+    public Integer getWorkYear() {
+        return workYear;
+    }
+
+    public void setWorkYear(Integer workYear) {
+        this.workYear = workYear;
+    }
+
+    public Integer getProbation() {
+        return probation;
+    }
+
+    public void setProbation(Integer probation) {
+        this.probation = probation;
+    }
 
     public String getBeginDate() {
         return beginDate;

@@ -164,6 +164,17 @@
         <if test="salary !=null">
             and rc.salary = #{salary,jdbcType=INTEGER}
         </if>
+
+        <if test="education !=null">
+            and rc.education = #{education,jdbcType=INTEGER}
+        </if>
+        <if test="workYear !=null">
+            and rc.work_year = #{workYear,jdbcType=INTEGER}
+        </if>
+        <if test="probation !=null">
+            and rc.probation = #{probation,jdbcType=INTEGER}
+        </if>
+
         <if test="beginDate!=null">
             and rc.created_at &gt;= #{beginDate,jdbcType = TIMESTAMP}
         </if>
@@ -195,6 +206,18 @@
         <if test="salary !=null">
             and rc.salary = #{salary,jdbcType=INTEGER}
         </if>
+
+        <if test="education !=null">
+            and rc.education = #{education,jdbcType=INTEGER}
+        </if>
+        <if test="workYear !=null">
+            and rc.work_year = #{workYear,jdbcType=INTEGER}
+        </if>
+        <if test="probation !=null">
+            and rc.probation = #{probation,jdbcType=INTEGER}
+        </if>
+
+
         <if test="beginDate!=null">
             and rc.created_at &gt;= #{beginDate,jdbcType = TIMESTAMP}
         </if>
