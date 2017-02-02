@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="css/jquery.pagination.css">
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
 
-    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260773247'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1260773247' type='text/javascript'%3E%3C/script%3E"));</script>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan id='cnzz_stat_icon_1260773247'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1260773247' type='text/javascript'%3E%3C/script%3E"));</script>
     <script src="js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="js/common-include.js"></script>
     <script src="js/jquery.luara.0.0.1.min.js"></script>
@@ -53,9 +54,6 @@
             $("#starsal").html(moneyStr);
 
 
-
-
-
             function pageSelectCallback(page, jq) {
                 var title = $("#searchText").val();
                 var type = $("#jobType").val();
@@ -70,6 +68,19 @@
                 return false;
             }
 
+
+            function getResult() {
+                return " <li class=\"hea\">\n"+
+                        "                        <a href=\"FrmDea.html\"></a>\n"+
+                        "                        <ul>\n"+
+                        "                            <li class=\"jobnames\">职位</li>\n"+
+                        "                            <li class=\"jobsa black\">年薪</li>\n"+
+                        "                            <li class=\"jobadd\">地点</li>\n"+
+                        "                        </ul>\n"+
+                        "                        </a>\n"+
+                        "                    </li>";
+            }
+
             function sendAjaxQuery(page) {
                 //查询兼职
                 $.ajax({
@@ -81,27 +92,118 @@
                         if (rs.success) {
                             var resultDatas = rs.data.resultList;
                             var pageData = rs.data.page;
+                            var length = resultDatas.length;
 
-                            var resultDataStr = "";
-                            for (var i = 0; i < resultDatas.length; i++) {
-                                var salary = resultDatas[i]['salary'];
-                                var salaryStr = moneyArr[salary];
-                                var workArea = resultDatas[i]['workArea'];
-                                var workAreaStr = workArr[workArea];
-
-                                resultDataStr = resultDataStr +
-                                        " <li>\n" +
-                                        "     <a href=\"WorkInfo.html?id=" + resultDatas[i]['id'] + "&companyId=" + resultDatas[i]['companyId'] + "\">\n" +
-                                        "         <ul>\n" +
-                                        "            <li class=\"jobnames\">" + resultDatas[i]['title'] + "</li>\n" +
-                                        "            <li class=\"jobsa\">" + salaryStr + "</li>\n" +
-                                        "            <li class=\"jobadd\">" + workAreaStr + "</li>\n" +
-                                        "         </ul>\n" +
-                                        "     </a>\n" +
-                                        "</li>"
+                            var length01 = length;
+                            if (true) {
+                                if (length > 6) length01 = 6;
+                                var resultDataStr = getResult();
+                                for (var i = 0; i < length01; i++) {
+                                    var salary = resultDatas[i]['salary'];
+                                    var salaryStr = moneyArr[salary];
+                                    var workArea = resultDatas[i]['workArea'];
+                                    var workAreaStr = workArr[workArea];
+                                    resultDataStr = resultDataStr +
+                                            " <li>\n" +
+                                            "     <a href=\"WorkInfo.html?id=" + resultDatas[i]['id'] + "&companyId=" + resultDatas[i]['companyId'] + "\">\n" +
+                                            "         <ul>\n" +
+                                            "            <li class=\"jobnames\">" + resultDatas[i]['title'] + "</li>\n" +
+                                            "            <li class=\"jobsa\">" + salaryStr + "</li>\n" +
+                                            "            <li class=\"jobadd\">" + workAreaStr + "</li>\n" +
+                                            "         </ul>\n" +
+                                            "     </a>\n" +
+                                            "</li>"
+                                }
+                                $("#position01").html(resultDataStr);
                             }
 
-                            $("#resultData").html(resultDataStr);
+                            if (length > 6) {
+                                var length02 = length;
+                                if (length > 12) {
+                                    length02 = 12;
+                                }
+                                var resultDataStr = getResult();
+                                for (var i = 6; i < length02; i++) {
+                                    var salary = resultDatas[i]['salary'];
+                                    var salaryStr = moneyArr[salary];
+                                    var workArea = resultDatas[i]['workArea'];
+                                    var workAreaStr = workArr[workArea];
+                                    resultDataStr = resultDataStr +
+                                            " <li>\n" +
+                                            "     <a href=\"WorkInfo.html?id=" + resultDatas[i]['id'] + "&companyId=" + resultDatas[i]['companyId'] + "\">\n" +
+                                            "         <ul>\n" +
+                                            "            <li class=\"jobnames\">" + resultDatas[i]['title'] + "</li>\n" +
+                                            "            <li class=\"jobsa\">" + salaryStr + "</li>\n" +
+                                            "            <li class=\"jobadd\">" + workAreaStr + "</li>\n" +
+                                            "         </ul>\n" +
+                                            "     </a>\n" +
+                                            "</li>"
+                                }
+                                $("#position02").html(resultDataStr);
+                            }else{
+                                $("#position02").html("");
+                            }
+
+
+                            if (length > 12) {
+                                var length03 = length;
+                                if (length > 18) {
+                                    length03 = 18;
+                                }
+                                var resultDataStr = getResult();
+                                for (var i = 12; i < length03; i++) {
+                                    var salary = resultDatas[i]['salary'];
+                                    var salaryStr = moneyArr[salary];
+                                    var workArea = resultDatas[i]['workArea'];
+                                    var workAreaStr = workArr[workArea];
+                                    resultDataStr = resultDataStr +
+                                            " <li>\n" +
+                                            "     <a href=\"WorkInfo.html?id=" + resultDatas[i]['id'] + "&companyId=" + resultDatas[i]['companyId'] + "\">\n" +
+                                            "         <ul>\n" +
+                                            "            <li class=\"jobnames\">" + resultDatas[i]['title'] + "</li>\n" +
+                                            "            <li class=\"jobsa\">" + salaryStr + "</li>\n" +
+                                            "            <li class=\"jobadd\">" + workAreaStr + "</li>\n" +
+                                            "         </ul>\n" +
+                                            "     </a>\n" +
+                                            "</li>"
+                                }
+                                $("#position03").html(resultDataStr);
+                            }else{
+                                $("#position03").html("");
+                            }
+
+
+                            if (length > 18) {
+                                var length04 = length;
+                                if (length > 24) {
+                                    length04 = 24;
+                                }
+                                var resultDataStr = getResult();
+                                for (var i = 18; i < length04; i++) {
+                                    var salary = resultDatas[i]['salary'];
+                                    var salaryStr = moneyArr[salary];
+                                    var workArea = resultDatas[i]['workArea'];
+                                    var workAreaStr = workArr[workArea];
+                                    resultDataStr = resultDataStr +
+                                            " <li>\n" +
+                                            "     <a href=\"WorkInfo.html?id=" + resultDatas[i]['id'] + "&companyId=" + resultDatas[i]['companyId'] + "\">\n" +
+                                            "         <ul>\n" +
+                                            "            <li class=\"jobnames\">" + resultDatas[i]['title'] + "</li>\n" +
+                                            "            <li class=\"jobsa\">" + salaryStr + "</li>\n" +
+                                            "            <li class=\"jobadd\">" + workAreaStr + "</li>\n" +
+                                            "         </ul>\n" +
+                                            "     </a>\n" +
+                                            "</li>"
+                                }
+                                $("#position04").html(resultDataStr);
+                            }else{
+                                $("#position04").html("");
+                            }
+
+
+
+
+
 
                             $(".pagination").pagination(pageData.count, {
                                 callback: pageSelectCallback,
@@ -189,10 +291,41 @@
     <div id="heimain">
         <div class="heimle marti">
             <div class="heijobt"><span>|</span>最新发布职位</div>
-            <ul id="resultData">
+            <ul id="position01">
+            </ul>
+        </div>
+
+        <div class="heimri">
+            <div class="heijobt"></div>
+            <ul id="position02">
 
             </ul>
         </div>
+        <div class="heimle marti">
+            <div class="heijobt"></div>
+            <ul id="position03">
+            </ul>
+        </div>
+        <div class="heimri">
+            <div class="heijobt"></div>
+            <ul id="position04">
+            </ul>
+        </div>
+        <div class="clearbox"></div>
+        <!--<div class="repage">-->
+            <!--<ul>-->
+                <!--<li>上一页</li>-->
+                <!--<li class="repageon">1</li>-->
+                <!--<li>...</li>-->
+                <!--<li>8</li>-->
+                <!--<li>下一页</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <div id="page" class="pagination">
+            <div class="clearbox"></div>
+            </ul>
+        </div>
+
         <div class="clearbox"></div>
     </div>
     <!-- 高端招聘主要内容 E-->

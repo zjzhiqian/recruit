@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>台州创新网 - 兼职招聘</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link href="images/favicon.ico" rel="Shortcut Icon">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/jquery.pagination.css">
+    <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260773247'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1260773247' type='text/javascript'%3E%3C/script%3E"));</script>
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="js/common-include.js"></script>
+    <script src="js/jquery.luara.0.0.1.min.js"></script>
+
+    <script type="text/javascript" src="js/jquery.pagination.js"></script>
+
+
+    <script>
+        $(function () {
+            includeHeader();
+            includeFoot();
+            includeLink();
+
+            $("a").click(function (e) {
+                var href = $(this).attr("href");
+                if (href == "SeaResult.html") {
+                    e.preventDefault();
+                    var title = $(this).html();
+                    if (title.length > 1) {
+                        window.location.href = "SeaResult.html?title=" + title
+                    }
+                    return;
+                }
+            });
+
+
+            function pageSelectCallback(page, jq) {
+                var title = $("#searchText").val();
+                var type = $("#jobType").val();
+                var area = $("#area").val();
+                sendAjaxQuery(page, type, title, area);
+                return false;
+            }
+
+
+            function pageSelectCallback(page, jq) {
+                sendAjaxQuery(page);
+                return false;
+            }
+
+            function sendAjaxQuery(page) {
+                //查询兼职
+                $.ajax({
+                    type: "GET",
+                    url: "api/v3/recruitment/partTimeJob?page="+(page+1),
+                    dataType: 'json',
+                    async: false,
+                    success: function (rs) {
+                        if (rs.success) {
+                            var resultDatas = rs.data.resultList;
+                            var pageData = rs.data.page;
+
+                            var resultDataStr = "";
+                            for (var i = 0; i < resultDatas.length; i++) {
+
+                                resultDataStr = resultDataStr +
+
+                                        "                <li><a href=\"WorkInfo.html?id=" + resultDatas[i]['id'] + "&companyId=" + resultDatas[i]['companyId'] + "\"" + " target=\"_blank\">\n" +
+                                        "                    <ul>\n" +
+                                        "                        <li class=\"worktit\">" + resultDatas[i]['title'] + " </li>\n" +
+                                        "                        <li class=\"reltime\">" + resultDatas[i]['createdAt'] + "</li>\n" +
+                                        "                    </ul>\n" +
+                                        "                </a>\n" +
+                                        "                </li>\n"
+                            }
+
+                            $("#resultData").html(resultDataStr);
+
+                            $(".pagination").pagination(pageData.count, {
+                                callback: pageSelectCallback,
+                                items_per_page: pageData.per,
+                                next_text: '下一页',
+                                prev_text: '上一页',
+                                num_edge_entries: 1,
+                                current_page: parseInt(page)
+                            });
+
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+
+            }
+
+            sendAjaxQuery(0);
+
+
+        });
+    </script>
+</head>
+
+<body>
+<div id="header">
+</div>
+<!-- 兼职热门职位 S -->
+<div id="hotjob">
+    <div class="title2">
+        兼职热门职位
+    </div>
+    <ul class="job">
+        <li><a href="SeaResult.html" target="_blank">学生兼职</a></li>
+        <li><a href="SeaResult.html" target="_blank">模特</a></li>
+        <li><a href="SeaResult.html" target="_blank">礼仪小姐</a></li>
+        <li><a href="SeaResult.html" target="_blank">摄影师</a></li>
+        <li><a href="SeaResult.html" target="_blank">小时工/钟点工</a></li>
+        <li><a href="SeaResult.html" target="_blank">促销员</a></li>
+        <li><a href="SeaResult.html" target="_blank">传单派发</a></li>
+        <li><a href="SeaResult.html" target="_blank">问卷调查</a></li>
+        <li><a href="SeaResult.html" target="_blank">手工制作</a></li>
+        <li><a href="SeaResult.html" target="_blank">网站建设</a></li>
+        <li><a href="SeaResult.html" target="_blank">设计制作</a></li>
+        <li><a href="SeaResult.html" target="_blank">家教</a></li>
+        <li><a href="SeaResult.html" target="_blank">会计</a></li>
+        <li><a href="SeaResult.html" target="_blank">翻译</a></li>
+        <li><a href="SeaResult.html" target="_blank">实习生</a></li>
+        <li><a href="SeaResult.html" target="_blank">酒吧KTV</a></li>
+        <li><a href="SeaResult.html" target="_blank">服务员</a></li>
+        <li><a href="SeaResult.html" target="_blank">销售</a></li>
+        <li><a href="SeaResult.html" target="_blank">其他兼职</a></li>
+    </ul>
+</div>
+<!-- 兼职热门职位 E -->
+<div id="laestjob">
+    <div class="title3">
+        最新兼职招聘信息
+    </div>
+    <div class="jobcon">
+        <div class="joble">
+            <div class="jobtit"><a href="SeaResult.html" target="_blank">所有兼职>></a></div>
+            <ul id="resultData">
+            </ul>
+
+
+        </div>
+
+        <div id="page" class="pagination">
+            <div class="clearbox"></div>
+        </div>
+        <div class="clearbox"></div>
+
+
+    </div>
+</div>
+<div id="link"></div>
+<div id="footer"></div>
+</body>
+
+</html>

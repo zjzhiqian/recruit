@@ -79,9 +79,8 @@ public class RecruitmentServiceImpl implements RecruitmentService {
 
     @Override
     public PageResult<Recruitment> getHighJob(Integer page) {
-        Integer per = 10;
+        Integer per = 24;
         if (page == null) page = 1;
-
         Map<String, Integer> map = ImmutableMap.of("start", (page - 1) * per, "per", per);
         List<Recruitment> pageData = recruitmentMapper.getHighJobList(map);
         Integer count = recruitmentMapper.getHighJobCount(map);

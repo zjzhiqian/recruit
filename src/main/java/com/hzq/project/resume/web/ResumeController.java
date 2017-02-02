@@ -34,6 +34,17 @@ public class ResumeController extends BaseController {
     @Autowired
     private ResumeService resumeService;
 
+
+
+    /**
+     * 搜索简历
+     */
+    @RequiresRoles(Roles.USER)
+    @RequestMapping(path = "/queryResult", method = RequestMethod.POST)
+    public List<Resume> queryResume() {
+        return null;
+    }
+
     /**
      * 新增简历
      */
