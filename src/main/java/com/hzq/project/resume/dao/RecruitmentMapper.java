@@ -3,6 +3,7 @@ package com.hzq.project.resume.dao;
 import com.hzq.project.resume.dao.entity.Recruitment;
 import com.hzq.project.resume.dao.entity.RecruitmentSearchResult;
 import com.hzq.project.resume.dao.entity.Resume;
+import com.hzq.project.resume.dao.entity.ResumeQueryParamList;
 import com.hzq.project.resume.vo.RecruitmentQueryParam;
 import com.hzq.project.resume.vo.ResumeQueryParam;
 import com.hzq.project.system.common.dao.Dao;
@@ -56,4 +57,5 @@ public interface RecruitmentMapper extends Dao<Recruitment,Integer> {
     List<Resume> getReceivedResume(ResumeQueryParam param);
 
     Integer getReceivedResumeCount(ResumeQueryParam param);
+
 }

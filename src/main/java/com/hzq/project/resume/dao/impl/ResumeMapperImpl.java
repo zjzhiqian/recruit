@@ -2,6 +2,7 @@ package com.hzq.project.resume.dao.impl;
 
 import com.hzq.project.resume.dao.ResumeMapper;
 import com.hzq.project.resume.dao.entity.Resume;
+import com.hzq.project.resume.dao.entity.ResumeQueryParamList;
 import com.hzq.project.system.common.dao.BaseDao;
 import org.springframework.stereotype.Repository;
 
@@ -26,5 +27,15 @@ public class ResumeMapperImpl extends BaseDao<Resume, Integer> implements Resume
     @Override
     public int addWatchCount(Integer id) {
         return updateByParam("addWatchCount", id);
+    }
+
+    @Override
+    public List<Resume> getResumeByParamList(ResumeQueryParamList param) {
+        return selectList("getResumeByParamList", param);
+    }
+
+    @Override
+    public Integer getResumeCountByParamList(ResumeQueryParamList param) {
+        return getSqlSession().selectOne(getIbatisSqlMapNamespace() + ".getResumeCountByParamList", param);
     }
 }

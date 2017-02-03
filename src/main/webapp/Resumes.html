@@ -11,11 +11,14 @@
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/jquery.pagination.css">
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
-    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260773247'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1260773247' type='text/javascript'%3E%3C/script%3E"));</script>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan id='cnzz_stat_icon_1260773247'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1260773247' type='text/javascript'%3E%3C/script%3E"));</script>
     <script src="js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="js/common-include.js"></script>
     <script src="js/jquery.luara.0.0.1.min.js"></script>
 
+
+    <script type="text/javascript" src="js/common-dic.js"></script>
     <script type="text/javascript" src="js/jquery.pagination.js"></script>
 
 
@@ -25,60 +28,282 @@
             includeFoot();
             includeLink();
 
-            $("a").click(function (e) {
-                var href = $(this).attr("href");
-                if (href == "SeaResult.html") {
-                    e.preventDefault();
-                    var title = $(this).html();
-                    if (title.length > 1) {
-                        window.location.href = "SeaResult.html?title=" + title
-                    }
-                    return;
-                }
+//          关键词,工作区域,职位类别,工作年限,工资范围,发布时间,学历
+            //工作区域
+            var workStr = "";
+            for (var i = 0; i < workArr.length; i++) {
+                workStr = workStr + "<option value=\"" + i + "\">" + workArr[i] + "</option>";
+            }
+            $("#area").html(workStr);
+            //职位类别
+            var jobStr = "";
+            for (var i = 0; i < jobArrSearch.length; i++) {
+                jobStr = jobStr + "<option value=\"" + (i - 1) + "\">" + jobArrSearch[i] + "</option>";
+            }
+            $("#jobType").html(jobStr);
+            //工作年限
+            var year = "";
+            for (var i = 0; i < yearArr.length; i++) {
+                year = year + "<option value=\"" + i + "\">" + yearArr[i] + "</option>";
+            }
+            $("#workYear").html(year);
+            //期望月薪
+            var moneyStr = "";
+            for (var i = 0; i < moneyArr.length; i++) {
+                moneyStr = moneyStr + "<option value=\"" + i + "\">" + moneyArr[i] + "</option>";
+            }
+            $("#salary").html(moneyStr);
+            //学历
+            var education = "";
+            for (var i = 0; i < studyArr.length; i++) {
+                education = education + "<option value=\"" + i + "\">" + studyArr[i] + "</option>";
+            }
+            $("#education").html(education);
+            //标题,发布时间
+//===========
+            //工作区域
+            var areaParam = getQueryString("area");
+            if (areaParam != null && areaParam != "null") {
+                $("#area").val(areaParam);
+            }
+            //职位类别
+            var typeParam = getQueryString("type");
+            if (typeParam != null && typeParam != "null") {
+                $("#jobType").val(areaParam);
+            }
+            //工作年限
+            var workYearParam = getQueryString("workYear");
+            if (workYearParam != null && workYearParam != "null") {
+                $("#workYear").val(workYearParam);
+            }
+            //期望月薪
+            var salaryParam = decodeURI(getQueryString("salary"));
+            if (salaryParam != null && salaryParam != "null") {
+                $("#salary").val(salaryParam);
+            }
+            //学历
+            var educationParam = getQueryString("education");
+            if (educationParam != null && educationParam != "null") {
+                $("#education").val(educationParam);
+            }
+            //关键字
+            var titleParam = decodeURI(getQueryString("title"));
+            if (titleParam != null && titleParam != "null") {
+                $("#title").val(titleParam);
+            }
+            //发布时间
+            var postDateParam = getQueryString("postDate");
+            if (postDateParam != null && postDateParam != "null") {
+                $("#postDate").val(postDateParam);
+            }
+
+            sendAjaxQuery(0, areaParam, typeParam, workYearParam, salaryParam, educationParam, titleParam, postDateParam);
+
+
+            function getResult() {
+                return "<li class=\"hea\">\n"+
+                        "                    <a href=\"FrmDea.html\"></a>\n"+
+                        "                    <ul>\n"+
+                        "                        <li class=\"jobnames2\">姓名</li>\n"+
+                        "                        <li class=\"jobsa black\">性别</li>\n"+
+                        "                        <li class=\"jobadd\">职位类别</li>\n"+
+                        "                        <li class=\"jobadd\">工资要求</li>\n"+
+                        "                    </ul>\n"+
+                        "                    </a>\n"+
+                        "                </li>";
+            }
+
+
+            function pageSelectCallback(page, jq) {
+                var area = $("#area").val();
+                var type = $("#jobType").val();
+                var workYear = $("#workYear").val();
+                var salary = $("#salary").val();
+                var education = $("#education").val();
+                var title = $("#title").val();
+                var postDate = $("#postDate").val();
+                sendAjaxQuery(page, area, type, workYear, salary, education, title, postDate);
+                return false;
+            }
+
+            $("#btnSearch").unbind().bind().click(function (e) {
+                var area = $("#area").val();
+                var type = $("#jobType").val();
+                var workYear = $("#workYear").val();
+                var salary = $("#salary").val();
+                var education = $("#education").val();
+                var title = $("#title").val();
+                var postDate = $("#postDate").val();
+                sendAjaxQuery(0, area, type, workYear, salary, education, title, postDate);
+                return false;
             });
 
+            function sendAjaxQuery(page, area, type, workYear, salary, education, title, postDate) {
+                if (area == undefined || area == null || area == "null" || area == 0) {
+                    area = -1
+                }
+                if (type == undefined || type == null || type == "null") {
+                    type = -1;
+                }
+                if (workYear == undefined || workYear == "") {
+                    workYear = -1;
+                }
+                if (salary == undefined || salary == null || salary == "null" || salary == 0) {
+                    salary = -1
+                }
+                if (education == undefined || education == "") {
+                    education = -1;
+                }
+                if (title == undefined || title == null || title == "null") {
+                    title = ""
+                }
+                if (postDate == undefined || postDate == "") {
+                    postDate = -1;
+                }
 
-            function pageSelectCallback(page, jq) {
-                var title = $("#searchText").val();
-                var type = $("#jobType").val();
-                var area = $("#area").val();
-                sendAjaxQuery(page, type, title, area);
-                return false;
-            }
 
-
-            function pageSelectCallback(page, jq) {
-                sendAjaxQuery(page);
-                return false;
-            }
-
-            function sendAjaxQuery(page) {
                 //查询兼职
                 $.ajax({
                     type: "GET",
-                    url: "api/v3/recruitment/partTimeJob?page="+(page+1),
+                    url: "api/v3/resume/queryResult?page=" + (page + 1) + "&area=" + area + "&type=" + type + "&workYear=" + workYear + "&salary=" + salary + "&education=" + education + "&title=" + title + "&postDate=" + postDate,
                     dataType: 'json',
                     async: false,
                     success: function (rs) {
                         if (rs.success) {
                             var resultDatas = rs.data.resultList;
                             var pageData = rs.data.page;
+                            var length = resultDatas.length;
 
-                            var resultDataStr = "";
-                            for (var i = 0; i < resultDatas.length; i++) {
-
-                                resultDataStr = resultDataStr +
-
-                                        "                <li><a href=\"WorkInfo.html?id=" + resultDatas[i]['id'] + "&companyId=" + resultDatas[i]['companyId'] + "\"" + " target=\"_blank\">\n" +
-                                        "                    <ul>\n" +
-                                        "                        <li class=\"worktit\">" + resultDatas[i]['title'] + " </li>\n" +
-                                        "                        <li class=\"reltime\">" + resultDatas[i]['createdAt'] + "</li>\n" +
-                                        "                    </ul>\n" +
-                                        "                </a>\n" +
-                                        "                </li>\n"
+                            var length01 = length;
+                            if (true) {
+                                if (length > 6) length01 = 6;
+                                var resultDataStr = getResult();
+                                for (var i = 0; i < length01; i++) {
+                                    var id = resultDatas[i]['id'];
+                                    var name = resultDatas[i]['name'];
+                                    var sex='男';
+                                    if(0 == resultDatas[i]['sex']) sex='女';
+                                    var type = resultDatas[i]['type'];
+                                    var jobType = jobArrJson[type];
+                                    var salary = resultDatas[i]['salary'];
+                                    var salaryStr = moneyArr[salary];
+                                    resultDataStr = resultDataStr +
+                                            $.formatString( " <li>\n"+
+                                                    "                    <a href=\"ResumeInfo.html?id={0}\">\n"+
+                                                    "                        <ul>\n"+
+                                                    "                            <li class=\"jobnames2\">{1}</li>\n"+
+                                                    "                            <li class=\"jobsa\">{2}</li>\n"+
+                                                    "                            <li class=\"jobadd\">{3}</li>\n"+
+                                                    "                            <li class=\"jobadd\">{4}</li>\n"+
+                                                    "                        </ul>\n"+
+                                                    "                    </a>\n"+
+                                                    "                </li>",id,name,sex,jobType,salaryStr);
+                                }
+                                $("#position01").html(resultDataStr);
                             }
 
-                            $("#resultData").html(resultDataStr);
+                            if (length > 6) {
+                                var length02 = length;
+                                if (length > 12) {
+                                    length02 = 12;
+                                }
+                                var resultDataStr = getResult();
+                                for (var i = 6; i < length02; i++) {
+                                    var id = resultDatas[i]['id'];
+                                    var name = resultDatas[i]['name'];
+                                    var sex='男';
+                                    if(0 == resultDatas[i]['sex']) sex='女';
+                                    var type = resultDatas[i]['type'];
+                                    var jobType = jobArrJson[type];
+                                    var salary = resultDatas[i]['salary'];
+                                    var salaryStr = moneyArr[salary];
+
+                                    resultDataStr = resultDataStr +
+                                            $.formatString( " <li>\n"+
+                                                    "                    <a href=\"ResumeInfo.html?id={0}\">\n"+
+                                                    "                        <ul>\n"+
+                                                    "                            <li class=\"jobnames2\">{1}</li>\n"+
+                                                    "                            <li class=\"jobsa\">{2}</li>\n"+
+                                                    "                            <li class=\"jobadd\">{3}</li>\n"+
+                                                    "                            <li class=\"jobadd\">{4}</li>\n"+
+                                                    "                        </ul>\n"+
+                                                    "                    </a>\n"+
+                                                    "                </li>",id,name,sex,jobType,salaryStr);
+                                }
+                                $("#position02").html(resultDataStr);
+                            }else{
+                                $("#position02").html("");
+                            }
+
+
+                            if (length > 12) {
+                                var length03 = length;
+                                if (length > 18) {
+                                    length03 = 18;
+                                }
+                                var resultDataStr = getResult();
+                                for (var i = 12; i < length03; i++) {
+                                    var id = resultDatas[i]['id'];
+                                    var name = resultDatas[i]['name'];
+                                    var sex='男';
+                                    if(0 == resultDatas[i]['sex']) sex='女';
+                                    var type = resultDatas[i]['type'];
+                                    var jobType = jobArrJson[type];
+                                    var salary = resultDatas[i]['salary'];
+                                    var salaryStr = moneyArr[salary];
+
+                                    resultDataStr = resultDataStr +
+                                            $.formatString( " <li>\n"+
+                                                    "                    <a href=\"ResumeInfo.html?id={0}\">\n"+
+                                                    "                        <ul>\n"+
+                                                    "                            <li class=\"jobnames2\">{1}</li>\n"+
+                                                    "                            <li class=\"jobsa\">{2}</li>\n"+
+                                                    "                            <li class=\"jobadd\">{3}</li>\n"+
+                                                    "                            <li class=\"jobadd\">{4}</li>\n"+
+                                                    "                        </ul>\n"+
+                                                    "                    </a>\n"+
+                                                    "                </li>",id,name,sex,jobType,salaryStr);
+                                }
+                                $("#position03").html(resultDataStr);
+                            }else{
+                                $("#position03").html("");
+                            }
+
+
+                            if (length > 18) {
+                                var length04 = length;
+                                if (length > 24) {
+                                    length04 = 24;
+                                }
+                                var resultDataStr = getResult();
+                                for (var i = 18; i < length04; i++) {
+                                    var id = resultDatas[i]['id'];
+                                    var name = resultDatas[i]['name'];
+                                    var sex='男';
+                                    if(0 == resultDatas[i]['sex']) sex='女';
+                                    var type = resultDatas[i]['type'];
+                                    var jobType = jobArrJson[type];
+                                    var salary = resultDatas[i]['salary'];
+                                    var salaryStr = moneyArr[salary];
+
+                                    resultDataStr = resultDataStr +
+                                            $.formatString( " <li>\n"+
+                                                    "                    <a href=\"ResumeInfo.html?id={0}\">\n"+
+                                                    "                        <ul>\n"+
+                                                    "                            <li class=\"jobnames2\">{1}</li>\n"+
+                                                    "                            <li class=\"jobsa\">{2}</li>\n"+
+                                                    "                            <li class=\"jobadd\">{3}</li>\n"+
+                                                    "                            <li class=\"jobadd\">{4}</li>\n"+
+                                                    "                        </ul>\n"+
+                                                    "                    </a>\n"+
+                                                    "                </li>",id,name,sex,jobType,salaryStr);
+                                }
+                                $("#position04").html(resultDataStr);
+                            }else{
+                                $("#position04").html("");
+                            }
+
+
 
                             $(".pagination").pagination(pageData.count, {
                                 callback: pageSelectCallback,
@@ -97,8 +322,6 @@
 
             }
 
-            sendAjaxQuery(0);
-
 
         });
     </script>
@@ -107,54 +330,82 @@
 <body>
 <div id="header">
 </div>
-<!-- 兼职热门职位 S -->
-<div id="hotjob">
+<div id="heijob">
     <div class="title2">
-        兼职热门职位
+        搜索简历
     </div>
-    <ul class="job">
-        <li><a href="SeaResult.html" target="_blank">学生兼职</a></li>
-        <li><a href="SeaResult.html" target="_blank">模特</a></li>
-        <li><a href="SeaResult.html" target="_blank">礼仪小姐</a></li>
-        <li><a href="SeaResult.html" target="_blank">摄影师</a></li>
-        <li><a href="SeaResult.html" target="_blank">小时工/钟点工</a></li>
-        <li><a href="SeaResult.html" target="_blank">促销员</a></li>
-        <li><a href="SeaResult.html" target="_blank">传单派发</a></li>
-        <li><a href="SeaResult.html" target="_blank">问卷调查</a></li>
-        <li><a href="SeaResult.html" target="_blank">手工制作</a></li>
-        <li><a href="SeaResult.html" target="_blank">网站建设</a></li>
-        <li><a href="SeaResult.html" target="_blank">设计制作</a></li>
-        <li><a href="SeaResult.html" target="_blank">家教</a></li>
-        <li><a href="SeaResult.html" target="_blank">会计</a></li>
-        <li><a href="SeaResult.html" target="_blank">翻译</a></li>
-        <li><a href="SeaResult.html" target="_blank">实习生</a></li>
-        <li><a href="SeaResult.html" target="_blank">酒吧KTV</a></li>
-        <li><a href="SeaResult.html" target="_blank">服务员</a></li>
-        <li><a href="SeaResult.html" target="_blank">销售</a></li>
-        <li><a href="SeaResult.html" target="_blank">其他兼职</a></li>
-    </ul>
-</div>
-<!-- 兼职热门职位 E -->
-<div id="laestjob">
-    <div class="title3">
-        最新兼职招聘信息
-    </div>
-    <div class="jobcon">
-        <div class="joble">
-            <div class="jobtit"><a href="SeaResult.html" target="_blank">所有兼职>></a></div>
-            <ul id="resultData">
-            </ul>
-
-
-        </div>
-
-        <div id="page" class="pagination">
+    <div id="heicondi">
+        <ul>
+            <li><span>关键词</span>
+                <input id="title" type="text" placeholder="请输入职位关键字">
+            </li>
+            <li><span>工作区域</span>
+                <select id="area" class="heiadd">
+                </select>
+            </li>
+            <li><span>职位类别</span>
+                <select id="jobType" class="heij">
+                </select>
+            </li>
+            <li><span>工作年限</span>
+                <select id="workYear" class="heipost">
+                </select>
+            </li>
+        </ul>
+        <div id="heitj" class="heitj"><span>工资范围</span>
+            <select id="salary" style="width: 481px">
+            </select>
+            <span>发布时间</span>
+            <select id="postDate" style="width: 200px">
+                <option value="-1">不限</option>
+                <option value="1">一天内</option>
+                <option value="2">三天内</option>
+                <option value="3">一周内</option>
+                <option value="4">一个月内</option>
+            </select>
+            <span>学历</span>
+            <select id="education" style="width: 200px">
+            </select>
             <div class="clearbox"></div>
         </div>
-        <div class="clearbox"></div>
-
-
+        <div class="submit">
+            <a href="SeaResult.html" target="_blank"><input id="btnSearch" type="submit" value="搜索职位"></a>
+        </div>
     </div>
+    <!-- 高端招聘主要内容 S -->
+    <div id="heimain">
+        <div class="heimle marti">
+            <div class="heijobt"><span>|</span>最新发布简历</div>
+            <ul>
+               <div id="position01"></div>
+
+            </ul>
+        </div>
+        <div class="heimri">
+            <div class="heijobt"><!-- <span>|</span>高薪推荐职位 --></div>
+            <ul>
+                <div id="position02"></div>
+            </ul>
+        </div>
+        <div class="heimle marti">
+            <div class="heijobt"><!-- <span>|</span>热门招聘职位 --></div>
+            <ul>
+                <div id="position03"></div>
+            </ul>
+        </div>
+        <div class="heimri">
+            <div class="heijobt"><!-- <span>|</span>最佳信用职位 --></div>
+            <ul>
+                <div id="position04"></div>
+            </ul>
+        </div>
+        <div class="clearbox"></div>
+        <div id="page" class="pagination">
+            <div class="clearbox"></div>
+            </ul>
+        </div>
+    </div>
+    <!-- 高端招聘主要内容 E-->
 </div>
 <div id="link"></div>
 <div id="footer"></div>

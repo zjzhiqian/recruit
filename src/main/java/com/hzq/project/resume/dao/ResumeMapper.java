@@ -2,6 +2,7 @@ package com.hzq.project.resume.dao;
 
 
 import com.hzq.project.resume.dao.entity.Resume;
+import com.hzq.project.resume.dao.entity.ResumeQueryParamList;
 import com.hzq.project.system.common.dao.Dao;
 
 import java.util.List;
@@ -22,5 +23,11 @@ public interface ResumeMapper extends Dao<Resume,Integer> {
     List<Resume> getResumeByUserId(Integer userId);
 
     int addWatchCount(Integer resumeId);
+
+
+
+    List<Resume> getResumeByParamList(ResumeQueryParamList param);
+
+    Integer getResumeCountByParamList(ResumeQueryParamList param);
 
 }

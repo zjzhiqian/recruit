@@ -70,8 +70,8 @@
     <bean id="carJob" class="com.hzq.project.cronJob.CarJob">
         <property name="scheduler" ref="recoverScheduler"/>
         <property name="cartUtil" ref="cartUtil"/>
-        <!--<property name="cronExpression" value="0 0 0,02 * * ?"/>-->
-        <property name="cronExpression" value="0/20 * * * * ?"/>
+        <property name="cronExpression" value="0 0 0,02 * * ?"/>
+        <!--<property name="cronExpression" value="0/20 * * * * ?"/>-->
     </bean>
 
 

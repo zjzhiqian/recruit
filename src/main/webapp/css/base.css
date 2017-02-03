@@ -2758,9 +2758,9 @@ input[type="text"] {
     font-size: 18px;
 }
 
-#heiadd,
-#heipost,
-#heij {
+.heiadd,
+.heipost,
+.heij {
     width: 481px;
     height: 35px;
     float: left;
@@ -2768,7 +2768,7 @@ input[type="text"] {
     margin-left: 0px !important;
 }
 
-#heitj span {
+.heitj span {
     display: block;
     float: left;
     *float: left;
@@ -2781,7 +2781,7 @@ input[type="text"] {
     margin-right: 10px;
 }
 
-#heitj select {
+.heitj select {
     width: 108px;
     height: 35px;
     margin-left: 0 !important;
@@ -2849,6 +2849,19 @@ input[type="text"] {
 
 .jobnames {
     width: 250px;
+    height: 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+    float: left;
+    *float: left;
+    line-height: 25px;
+    color: #333;
+}
+
+.jobnames2 {
+    width: 90px;
     height: 25px;
     white-space: nowrap;
     overflow: hidden;

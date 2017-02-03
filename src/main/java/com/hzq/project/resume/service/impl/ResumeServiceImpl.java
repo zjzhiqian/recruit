@@ -3,10 +3,7 @@ package com.hzq.project.resume.service.impl;
 import com.hzq.project.resume.dao.RecruitmentMapper;
 import com.hzq.project.resume.dao.ResumeJobRelationMapper;
 import com.hzq.project.resume.dao.ResumeMapper;
-import com.hzq.project.resume.dao.entity.Recruitment;
-import com.hzq.project.resume.dao.entity.RecruitmentSearchResult;
-import com.hzq.project.resume.dao.entity.Resume;
-import com.hzq.project.resume.dao.entity.ResumeJobRelation;
+import com.hzq.project.resume.dao.entity.*;
 import com.hzq.project.resume.exception.ResumeException;
 import com.hzq.project.resume.service.ResumeService;
 import com.hzq.project.resume.vo.ResumeQueryParam;
@@ -105,11 +102,20 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public Resume getResumeByCompanyAndCompanyId(Integer resumeId, Integer companyId) {
-        List<ResumeJobRelation> relation = resumeJobRelationMapper.getRelationByCompanyId(companyId);
-        List<ResumeJobRelation> relations = relation.stream().filter(re -> re.getResumeId().equals(resumeId)).collect(toList());
-        if (relations.size() == 0)
-            throw new ResumeException("您无权查看简历");
+//        List<ResumeJobRelation> relation = resumeJobRelationMapper.getRelationByCompanyId(companyId);
+//        List<ResumeJobRelation> relations = relation.stream().filter(re -> re.getResumeId().equals(resumeId)).collect(toList());
+//        if (relations.size() == 0)
+//            throw new ResumeException("您无权查看简历");
         resumeMapper.addWatchCount(resumeId);
         return resumeMapper.getByPk(resumeId);
+    }
+
+    @Override
+    public PageResult<Resume> queryResume(ResumeQueryParamList param) {
+        Integer current = param.getCurrent();
+        Integer per = param.getPer();
+        List<Resume> pageData = resumeMapper.getResumeByParamList(param);
+        Integer count = resumeMapper.getResumeCountByParamList(param);
+        return new PageResult<>(current, per, count, pageData);
     }
 }

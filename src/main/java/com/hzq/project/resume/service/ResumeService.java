@@ -1,6 +1,7 @@
 package com.hzq.project.resume.service;
 
 import com.hzq.project.resume.dao.entity.Resume;
+import com.hzq.project.resume.dao.entity.ResumeQueryParamList;
 import com.hzq.project.resume.vo.ResumeQueryParam;
 import com.hzq.project.system.common.dao.PageResult;
 
@@ -34,4 +35,6 @@ public interface ResumeService {
     PageResult<Resume> getReceivedResume(ResumeQueryParam param);
 
     Resume getResumeByCompanyAndCompanyId(Integer id, Integer companyId);
+
+    PageResult<Resume> queryResume(ResumeQueryParamList param);
 }

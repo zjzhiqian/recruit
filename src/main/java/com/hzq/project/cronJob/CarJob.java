@@ -22,7 +22,7 @@ public class CarJob implements Job, InitializingBean {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
         try {
-//            cartUtil.startGrab();
+            cartUtil.startGrab();
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("error: {}", e);
