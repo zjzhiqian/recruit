@@ -1,7 +1,7 @@
 package com.hzq.project.user.web;
 
-import com.hzq.project.car.dao.entity.SecondCar;
 import com.hzq.project.car.service.SecondCarService;
+import com.hzq.project.house.dao.SecondHouseMapper;
 import com.hzq.project.resume.dao.RecruitmentMapper;
 import com.hzq.project.system.common.util.Creator;
 import com.hzq.project.system.common.util.ValidatorHelper;
@@ -40,6 +40,9 @@ public class FavorController extends BaseController {
     @Autowired
     RecruitmentMapper recruitmentMapper;
 
+    @Autowired
+    SecondHouseMapper secondHouseMapper;
+
 
     /**
      * 添加取消收藏/添加取消举报
@@ -65,6 +68,9 @@ public class FavorController extends BaseController {
             } else if (type == 1) {//职位
                 url = "WorkInfo.html?id=" + relationId + "&companyId=17";
                 title = Optional.ofNullable(recruitmentMapper.getByPk(relationId)).orElseThrow(() -> new FavorException("职位不存在")).getTitle();
+            } else if (type == 2) {
+                url = "TwHouDea.html?id=" + relationId;
+                title = Optional.ofNullable(secondHouseMapper.getByPk(relationId)).orElseThrow(() -> new FavorException("二手房不存在")).getTitle();
             } else {
                 return new BaseResult("");
             }

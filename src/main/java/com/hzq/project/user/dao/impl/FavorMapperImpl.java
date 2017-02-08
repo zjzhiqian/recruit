@@ -16,18 +16,19 @@ import java.util.List;
 @Repository
 public class FavorMapperImpl extends BaseDao<Favor, Integer> implements FavorMapper {
     @Override
-    public int deleteByUserIdAndTypeAndRelationId(Integer userId, Integer type, Integer relationId,Integer userType) {
-        return updateByParam(".deleteByUserIdAndTypeAndRelationId", ImmutableMap.of("userId", userId, "type", type, "relationId", relationId,"userType","userType"));
+    public int deleteByUserIdAndTypeAndRelationId(Integer userId, Integer type, Integer relationId, Integer userType) {
+        return updateByParam(".deleteByUserIdAndTypeAndRelationId", ImmutableMap.of("userId", userId, "type", type, "relationId", relationId, "userType", userType));
     }
 
     @Override
-    public int getFavorCount(Integer userId, Integer type, Integer relationId, Integer isFavor,Integer userType) {;
-        return getSqlSession().selectOne(getIbatisSqlMapNamespace() + ".getFavorCount", ImmutableMap.of("userId", userId, "type", type, "relationId", relationId, "isFavor", isFavor,"userType",userType));
+    public int getFavorCount(Integer userId, Integer type, Integer relationId, Integer isFavor, Integer userType) {
+        ;
+        return getSqlSession().selectOne(getIbatisSqlMapNamespace() + ".getFavorCount", ImmutableMap.of("userId", userId, "type", type, "relationId", relationId, "isFavor", isFavor, "userType", userType));
     }
 
     @Override
-    public List<Favor> favorList(Integer userId,Integer userType) {
+    public List<Favor> favorList(Integer userId, Integer userType) {
 
-        return selectList("favorList",ImmutableMap.of("userType",userType,"userId",userId));
+        return selectList("favorList", ImmutableMap.of("userType", userType, "userId", userId));
     }
 }

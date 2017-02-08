@@ -70,16 +70,19 @@
                                 "                <p>联系人：{9}</p>\n" +
                                 "                <p>联系电话：<b>{10}</b></p>\n" +
                                 "            </div>\n" +
-                                "            <!--<div class=\"sj\">-->\n" +
-                                "                <!--<ul>-->\n" +
-                                "                    <!--<li>-->\n" +
-                                "                        <!--<input id=\"sc\" type=\"button\" onclick=\"changeSc()\" value=\"收藏\">-->\n" +
-                                "                    <!--</li>-->\n" +
-                                "                    <!--<li>-->\n" +
-                                "                        <!--<input id=\"jb\" type=\"button\" onclick=\"changeJb()\" value=\"举报\">-->\n" +
-                                "                    <!--</li>-->\n" +
-                                "                <!--</ul>-->\n" +
-                                "            <!--</div>-->\n" +
+
+                                " <div class=\"sj\">\n"+
+                                "            <ul>\n"+
+                                "                <li>\n"+
+                                "                    <input id=\"sc\" type=\"button\" onclick=\"changeSc()\" status=\"0\" value=\"收藏\">\n"+
+                                "                </li>\n"+
+                                "                <li>\n"+
+                                "                    <input id=\"jb\" type=\"button\" onclick=\"changeJb()\" status='0' value=\"举报\">\n"+
+                                "                </li>\n"+
+                                "            </ul>\n"+
+                                "        </div>"
+                                        +
+
                                 "            <div class=\"lg\">\n" +
                                 "                <ul>\n" +
                                 "                    <li>浏览次数:{11}</li>\n" +
@@ -119,29 +122,167 @@
                 }
             });
 
+
+            //收藏状态
+            $.ajax({
+                type: "GET",
+                url: "api/v3/favor/getFavor/1/2/" + id,
+                dataType: 'json',
+                async: false,
+                success: function (rs) {
+                    if (rs.success) {
+                        var count = rs.data;
+                        if (count == 1) {
+                            $("#sc").attr("status", 1);
+                            changeScStyle(true);
+                        }
+                    }
+                }
+            });
+
+            //举报状态
+            $.ajax({
+                type: "GET",
+                url: "api/v3/favor/getFavor/0/2/" + id,
+                dataType: 'json',
+                async: false,
+                success: function (rs) {
+                    if (rs.success) {
+                        var count = rs.data;
+                        if (count == 1) {
+                            $("#jb").attr("status", 1);
+                            changeJbStyle(true);
+                        }
+                    }
+                }
+            });
+
+
         });
     </script>
 
 
     <script>
+
+        function changeScStyle(flag) {
+            if (flag) {
+                sc.value = "已收藏";
+                sc.style.backgroundImage = 'url(images/ysc.png)';
+                sc.style.backgroundRepeat = "no-repeat";
+                sc.style.paddingLeft = "20px";
+                sc.style.backgroundPosition = " left center";
+            } else {
+                sc.value = "收藏";
+                sc.style.backgroundImage = '';
+                sc.style.backgroundRepeat = '';
+                sc.style.paddingLeft = '';
+                sc.style.backgroundPosition = '';
+            }
+        }
+
+        function changeJbStyle(flag) {
+            if (flag) {
+//                document.getElementById('lift').style.display = 'block';
+                jb.value = "取消举报";
+                jb.style.backgroundImage = 'url(images/yjb.png)';
+                jb.style.backgroundRepeat = "no-repeat";
+                jb.style.paddingLeft = "20px";
+                jb.style.backgroundPosition = " left center";
+            } else {
+                jb.value = "举报";
+                jb.style.backgroundImage = '';
+                jb.style.backgroundRepeat = '';
+                jb.style.paddingLeft = '';
+                jb.style.backgroundPosition = ''
+            }
+        }
+
+
+        //收藏,取消收藏
         function changeSc() {
-            alert("收藏成功！");
-            sc.value = "已收藏";
-            sc.style.backgroundImage = 'url(images/ysc.png)';
-            sc.style.backgroundRepeat = "no-repeat";
-            sc.style.paddingLeft = "20px";
-            sc.style.backgroundPosition = " left center";
+            var id = getQueryString("id");
+            var status = $("#sc").attr('status');
+            if (status == 1) {
+                //取消收藏
+                $.ajax({
+                    type: "POST",
+                    url: "api/v3/favor/doFavor/1/2/" + id + "/1",
+                    dataType: 'json',
+                    async: false,
+                    success: function (rs) {
+                        if (rs.success) {
+                            alert("取消收藏成功");
+                            $("#sc").attr("status", 0);
+                            changeScStyle(false);
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+            } else {
+                //收藏操作
+                $.ajax({
+                    type: "POST",
+                    url: "api/v3/favor/doFavor/1/2/" + id + "/0",
+                    dataType: 'json',
+                    async: false,
+                    success: function (rs) {
+                        console.log(rs);
+                        if (rs.success) {
+                            alert("收藏成功");
+                            $("#sc").attr("status", 1);
+                            changeScStyle(true);
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+            }
         }
-    </script>
-    <script>
+
+        //举报,取消举报
         function changeJb() {
-            document.getElementById('lift').style.display = 'block';
-            jb.value = "已举报";
-            jb.style.backgroundImage = 'url(images/yjb.png)';
-            jb.style.backgroundRepeat = "no-repeat";
-            jb.style.paddingLeft = "20px";
-            jb.style.backgroundPosition = " left center";
+            var id = getQueryString("id");
+            var status = $("#jb").attr('status');
+            if (status == 1) {
+                //取消举报
+                $.ajax({
+                    type: "POST",
+                    url: "api/v3/favor/doFavor/0/2/" + id + "/1",
+                    dataType: 'json',
+                    async: false,
+                    success: function (rs) {
+                        if (rs.success) {
+                            alert("取消举报成功");
+                            $("#jb").attr("status", 0);
+                            changeJbStyle(false);
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+            } else {
+                //举报操作
+                $.ajax({
+                    type: "POST",
+                    url: "api/v3/favor/doFavor/0/2/" + id + "/0",
+                    dataType: 'json',
+                    async: false,
+                    success: function (rs) {
+                        console.log(rs);
+                        if (rs.success) {
+                            alert("举报成功");
+                            $("#jb").attr("status", 1);
+                            changeJbStyle(true);
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+
+            }
         }
+
     </script>
 </head>
 

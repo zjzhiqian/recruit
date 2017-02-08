@@ -167,7 +167,7 @@ function includeFoot() {
     $("#footer").html(
         " <div id=\"footer-main\">\n" +
         "            <div id=\"footerlef\"><img src=\"images/photo.png\" alt=\"\">\n" +
-        "                <div>客服：0576-82875986</div>\n" +
+        "                <div>客服：15268882759</div>\n" +
         "                <div class=\"clearboth\"></div>\n" +
         "            </div>\n" +
         "            <div id=\"footermid\">\n" +

@@ -29,6 +29,7 @@ import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * CarTest
@@ -81,18 +82,22 @@ public class CarTest {
 
 //        String token = getToken();
 //        logger.warn("getToken: {}", token);
-        String token = "ec0d2ba64b031e6dc6c60c4452cb6368";
+        String token = "543a7eed89c17b4ba85f7c92fd240124";
         String url = DATA_URL_TEST;
         if (isProd) url = DATA_URL_PROD;
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date parse = format.parse("2017-01-12");
+        Date parse = format.parse("2017-01-27");
         calendar.setTime(parse);
 //        calendar.add(Calendar.MONTH, -6);
         Date grabDate = calendar.getTime();
 
-        while (grabDate.before(new Date())) {
+
+        Calendar NOW = Calendar.getInstance();
+        NOW.add(Calendar.DATE, -2);
+
+        while (grabDate.before(NOW.getTime())) {
             try {
                 sendAndSave(token, grabDate, url);
             } catch (Exception e) {

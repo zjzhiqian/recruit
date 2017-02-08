@@ -44,7 +44,7 @@ public class ResumeController extends BaseController {
     /**
      * 搜索简历
      */
-    @RequiresRoles(Roles.COMPANY)
+//    @RequiresRoles(Roles.COMPANY)
     @RequestMapping(path = "/queryResult", method = RequestMethod.GET)
     public PageResult<Resume> queryResume(ResumeQueryParamListVo resumeQueryParamListVo) {
 //        学历,职位类别,工作年限,工资范围,期望工作区域,发布时间
@@ -68,7 +68,7 @@ public class ResumeController extends BaseController {
         }
 
         String workYear = paramVo.getWorkYear();
-        if (StringUtils.isEmpty(workYear) || "-1".equals(workYear)) {
+        if (StringUtils.isEmpty(workYear) || "-1".equals(workYear) || "0".equals(workYear)) {
             paramVo.setWorkYear(null);
         }
         Integer salary = paramVo.getSalary();
@@ -175,10 +175,15 @@ public class ResumeController extends BaseController {
     /**
      * 企业查看收到简历id
      */
-    @RequiresRoles(Roles.COMPANY)
+//    @RequiresRoles(Roles.COMPANY)
     @RequestMapping(path = "/receivedResume/{id}", method = RequestMethod.GET)
     public Resume receivedResumeById(@PathVariable Integer id) {
-        return resumeService.getResumeByCompanyAndCompanyId(id, getCompanyId());
+        Integer companyId = null;
+        try {
+            companyId = getCompanyId();
+        } catch (Exception e) {
+        }
+        return resumeService.getResumeByCompanyAndCompanyId(id, companyId);
     }
 
 }
