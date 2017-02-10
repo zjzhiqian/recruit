@@ -32,11 +32,16 @@ public class SecondCarMapperImpl extends BaseDao<SecondCar, Integer> implements 
 
     @Override
     public int addWatchCount(Integer id) {
-        return updateByParam("addWatchCount",id);
+        return updateByParam("addWatchCount", id);
     }
 
     @Override
     public List<SecondCarInfo> getCarMerchantRecommendedByMerchantId(Integer id) {
-        return this.getSqlSession().selectList("getCarMerchantRecommendedByMerchantId",id);
+        return this.getSqlSession().selectList("getCarMerchantRecommendedByMerchantId", id);
+    }
+
+    @Override
+    public List<SecondCar> getSecondCarByUserId(Integer userId) {
+        return selectList("getSecondCarByUserId", userId);
     }
 }

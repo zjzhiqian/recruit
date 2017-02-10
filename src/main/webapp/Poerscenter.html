@@ -34,6 +34,7 @@
             includeFoot();
 
             var info = getCookie('info');
+            var userType = null;
             if (info != null) {
                 var json = $.parseJSON(eval('(' + info + ')'));
                 var userName = json["userName"];
@@ -41,12 +42,11 @@
                 $("#name2").html(userName);
                 $("#name3").text(userName);
                 $("#name4").html(userName);
-                var userType = json["userType"];
+                userType = json["userType"];
                 if (userType == 1) {
                     $("#zhaopin").remove();
                     $("#tab3").remove();
                     $("#fabu").addClass('active');
-
                     //个人用户
 //                    getUserInfo();
                     //获取简历数量
@@ -152,7 +152,30 @@
                 }
             });
 
-
+            if (userType == 1) {
+                //用户最近发布
+                $.ajax({
+                    type: "GET",
+                    url: "api/v3/center/postList",
+                    dataType: 'json',
+                    success: function (rs) {
+                        if (rs.success) {
+                            var info = rs.data;
+                            var tmp = "";
+                            for (var i = 0; i < info.length; i++) {
+                                tmp = tmp +
+                                        $.formatString("<li>\n" +
+                                                "<div class=\"maintit\"><a href=\"{0}\">{1}</a></div>\n" +
+                                                "<div class=\"maintimes\">阅读{2}</div>\n" +
+                                                "</li>", info[i]['url'], info[i]['title'], info[i]['watch']);
+                            }
+                            $("#userNearPub").html(tmp);
+                        } else {
+                            alert(rs.data.error);
+                        }
+                    }
+                });
+            }
         });
     </script>
 
@@ -203,15 +226,8 @@
                         </div>
                         <div class="pubmaincon">
                             <div class="maincon" style="display:block">
-                                <ul>
-                                    <li>
-                                        <div class="maintit">法国代购求清仓</div>
-                                        <div class="maintimes">阅读9</div>
-                                    </li>
-                                    <li>
-                                        <div class="maintit">法国代购求清仓</div>
-                                        <div class="maintimes">阅读9</div>
-                                    </li>
+                                <ul id="userNearPub">
+
                                 </ul>
                             </div>
                             <div class="maincon" style="display:none">

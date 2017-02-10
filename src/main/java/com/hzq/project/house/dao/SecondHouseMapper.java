@@ -15,4 +15,5 @@ public interface SecondHouseMapper extends Dao<SecondHouse,Integer> {
     void addWatchCount(Integer id);
 
 
+    List<SecondHouse> getSecondHouseByUserId(Integer userId);
 }

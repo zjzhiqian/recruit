@@ -21,4 +21,6 @@ public interface SecondCarMapper extends Dao<SecondCar,Integer> {
     int addWatchCount(Integer id);
 
     List<SecondCarInfo> getCarMerchantRecommendedByMerchantId(Integer id);
+
+    List<SecondCar> getSecondCarByUserId(Integer logInId);
 }

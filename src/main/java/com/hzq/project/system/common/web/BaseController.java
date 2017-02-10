@@ -47,5 +47,12 @@ public class BaseController {
         return userInfo.getUserType();
     }
 
+    protected Integer getLogInId() {
+        Integer type = getUserType();
+        if (type == 2) return getCompanyId();
+        if (type == 1) return getUserId();
+        return null;
+    }
+
 
 }

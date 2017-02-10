@@ -25,4 +25,9 @@ public class SecondHouseMapperImpl extends BaseDao<SecondHouse, Integer> impleme
     public void addWatchCount(Integer id) {
         updateByParam("addWatchCount", id);
     }
+
+    @Override
+    public List<SecondHouse> getSecondHouseByUserId(Integer userId) {
+        return selectList("getSecondHouseByUserId", userId);
+    }
 }

@@ -48,7 +48,6 @@ public class SecondCarController extends BaseController {
 
         //驾照
         secondCarVo.setPictue("/upload/" + UpLoadController.CAR_MERCHANT + "/" + secondCarVo.getPictue());
-        //汽车照片url
         StringJoiner joiner = new StringJoiner(",");
 
         String[] urls = secondCarVo.getCarPic().split(",");
