@@ -27,6 +27,12 @@
             includeLink();
 
 
+            $(document).keypress(function (e) {
+                if (e.keyCode == 13 || e.keyCode == 108) {
+                    $("#sea").click()
+                }
+            });
+
             var title = getQueryString("title");
             if (title == null || title==undefined) {
                 title="";

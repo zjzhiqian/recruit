@@ -29,6 +29,12 @@
             includeFoot();
             includeLink();
 
+            $(document).keypress(function (e) {
+                if (e.keyCode == 13 || e.keyCode == 108) {
+                    $("#searchBtn").click()
+                }
+            });
+
 
             //工作区域
             var workStr = "";
@@ -45,6 +51,12 @@
             }
             $("#heipost").html(jobStr);
 
+            //工作年限
+            var year = "";
+            for (var i = 0; i < yearArr.length; i++) {
+                year = year + "<option value=\"" + i + "\">" + yearArr[i] + "</option>";
+            }
+            $("#workYear").html(year);
 
             //期望月薪
             var moneyStr = "";
@@ -52,6 +64,15 @@
                 moneyStr = moneyStr + "<option value=\"" + i + "\">" + moneyArr[i] + "</option>";
             }
             $("#starsal").html(moneyStr);
+
+
+            //学历
+            var education = "";
+            for (var i = 0; i < studyArr.length; i++) {
+                education = education + "<option value=\"" + i + "\">" + studyArr[i] + "</option>";
+            }
+            $("#education").html(education);
+
 
 
             function pageSelectCallback(page, jq) {
@@ -226,12 +247,18 @@
 
 
             $("#searchBtn").click(function () {
+//                workYear 工作年限
+//              education
                 var title = $("#title").val();
                 var area = $("#heiadd").val();
                 var type = $("#heipost").val();
                 var salary = $("#starsal").val();
                 var postDate = $("#pubdate").val();
-                window.open("SeaResult.html?title=" + title + "&area=" + area + "&type=" + type + "&salary=" + salary + "&postDate=" + postDate);
+
+
+                var workYear = $("#workYear").val();
+                var education = $("#education").val();
+                window.open("SeaResult.html?title=" + title + "&area=" + area + "&type=" + type + "&salary=" + salary + "&postDate=" + postDate+"&education="+education+"&workYear="+workYear);
                 return false;
             });
 
@@ -260,27 +287,26 @@
                 <select id="heipost" class="heipost">
                 </select>
             </li>
+            <li><span>工作年限</span>
+                <select id="workYear" class="heipost">
+                </select>
+            </li>
         </ul>
-        <div id="heitj" class="heitj"><span>月薪范围</span>
-            <select id="starsal">
-            </select><span class="line">    </span>
+        <div id="heitj" class="heitj">
+            <span>工资范围</span>
+            <select id="starsal" style="width: 481px;height: 35px;"></select>
+            <span class="line">    </span>
 
-            <!--<span>企业性质</span>-->
-            <!--<select id="business">-->
-            <!--<option value="1">不限</option>-->
-            <!--<option value="2">个体</option>-->
-            <!--</select> <span>职位性质</span>-->
-            <!--<select id="jobnature">-->
-            <!--<option value="1">不限</option>-->
-            <!--<option value="2">个体</option>-->
-            </select><span>发布时间</span>
-            <select id="pubdate">
+            <span>发布时间</span>
+            <select id="pubdate" style="width: 200px;height: 35px">
                 <option value="-1">不限</option>
                 <option value="1">一天内</option>
                 <option value="2">三天内</option>
                 <option value="3">一周内</option>
                 <option value="4">一个月内</option>
             </select>
+            <span>学历</span>
+            <select id="education" style="width: 200px"></select>
             <div class="clearbox"></div>
         </div>
         <div class="submit">

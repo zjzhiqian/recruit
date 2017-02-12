@@ -27,6 +27,14 @@
             includeFoot();
             includeLink();
 
+            $(document).keypress(function (e) {
+                if (e.keyCode == 13 || e.keyCode == 108) {
+                    $("#sea").click()
+                }
+            });
+
+
+
             var $tab_li = $('#searmain #busgoods a');
             $tab_li.hover(function () {
                 $(this).addClass('logintit').siblings().removeClass('logintit');
@@ -337,7 +345,21 @@
             <div style="margin-top: 5px;">
                 <ul>
                     <span style="float: left;margin-right: 5px;">A</span>
-                    <li><a type="3" href="#">奥迪</a></li>
+
+
+                    <li><a href="#">AC Schnitzer</a></li>
+                    <li><a href="#">ALPINA</a></li>
+                    <li><a href="#">Arash</a></li>
+                    <li><a href="#">ARCFOX</a></li>
+
+
+                    <li><a href="#">奥迪</a></li>
+
+
+
+                    <li><a href="#">阿尔法罗密欧</a></li>
+                    <li><a href="#">阿斯顿·马丁</a></li>
+                    <li><a href="#">安凯客车</a></li>
                 </ul>
             </div>
             <br/>
@@ -356,6 +378,16 @@
                     <li><a>北汽幻速</a></li>
                     <li><a>北京奔腾</a></li>
                     <li><a>北汽新能源</a></li>
+
+
+                    <li><a>巴博斯</a></li>
+                    <li><a>宝沃北京</a></li>
+                    <li><a>北汽幻速</a></li>
+                    <li><a>北汽威旺</a></li>
+                    <li><a>比速汽车</a></li>
+                    <li><a>标致</a></li>
+                    <li><a>宾利</a></li>
+                    <li><a>布加迪</a></li>
                 </ul>
             </div>
 
@@ -363,30 +395,61 @@
             <div style="margin-top: 5px;">
                 <ul>
                     <span style="float: left;margin-right: 5px">C</span>
+
+                    <li><a>Caterham</a></li>
+
                     <li><a>长安商用</a></li>
                     <li><a>长安长城</a></li>
+
+                    <li><a>昌河</a></li>
+                    <li><a>成功汽车</a></li>
+                    <li><a>长安商用</a></li>
+                    <li><a>长城</a></li>
+                    <li><a>长江EV</a></li>
                 </ul>
             </div>
             <br/>
             <div style="margin-top: 5px;">
                 <ul>
                     <span style="float: left;margin-right: 5px">D</span>
+
+
+                    <li><a>Dacia</a></li>
+                    <li><a>DMC</a></li>
+
                     <li><a>大众</a></li>
                     <li><a>东风</a></li>
                     <li><a>东南</a></li>
                     <li><a>道奇</a></li>
                     <li><a>DS</a></li>
+
+
+                    <li><a>大发</a></li>
+                    <li><a>东风风度</a></li>
+                    <li><a>东风风光</a></li>
+                    <li><a>东风风行</a></li>
+                    <li><a>东风风神</a></li>
+                    <li><a>东风小康</a></li>
                 </ul>
             </div>
             <br/>
             <div style="margin-top: 5px;">
                 <ul>
                     <span style="float: left;margin-right: 5px">F</span>
+
+                    <li><a>Faraday</a></li>
+                    <li><a>Future</a></li>
+                    <li><a>Fisker</a></li>
+
                     <li><a>福特</a></li>
                     <li><a>丰田</a></li>
                     <li><a>福田</a></li>
                     <li><a>菲亚特</a></li>
                     <li><a>福汽启腾</a></li>
+
+                    <li><a>法拉利</a></li>
+                    <li><a>福迪</a></li>
+                    <li><a>福田乘用车</a></li>
                 </ul>
             </div>
 
@@ -394,17 +457,42 @@
             <div style="margin-top: 5px;">
                 <ul>
                     <span style="float: left;margin-right: 5px">G</span>
+
+                    <li><a>GLM</a></li>
+                    <li><a>GMC</a></li>
+                    <li><a>Gumpert</a></li>
+
                     <li><a>广汽传祺</a></li>
                     <li><a>观致</a></li>
                     <li><a>广汽吉奥</a></li>
+
+                    <li><a>光冈</a></li>
                 </ul>
             </div>
             <br/>
             <div style="margin-top: 5px;">
                 <ul>
                     <span style="float: left;margin-right: 5px">H</span>
+
+                    <li><a>Hennessey</a></li>
+
                     <li><a>哈弗</a></li>
                     <li><a>海马</a></li>
+
+
+                    <li><a>海格</a></li>
+                    <li><a>哈飞</a></li>
+                    <li><a>汉腾汽车</a></li>
+                    <li><a>悍马</a></li>
+                    <li><a>恒天</a></li>
+                    <li><a>红旗</a></li>
+                    <li><a>华凯</a></li>
+                    <li><a>华利</a></li>
+                    <li><a>华普</a></li>
+                    <li><a>华骐</a></li>
+                    <li><a>华颂</a></li>
+                    <li><a>华泰</a></li>
+                    <li><a>华泰新能源</a></li>
                 </ul>
             </div>
             <br/>
@@ -417,21 +505,41 @@
                     <li><a>吉利汽车</a></li>
                     <li><a>金杯</a></li>
                     <li><a>江铃</a></li>
+
+                    <li><a>江铃集团轻汽</a></li>
+                    <li><a>江铃集团新能源</a></li>
+                    <li><a>金龙</a></li>
+                    <li><a>金旅</a></li>
+                    <li><a>九龙</a></li>
                 </ul>
             </div>
             <br/>
             <div style="margin-top: 5px;">
                 <ul>
-                    <span style="float: left;margin-right: 5px">J</span>
+                    <span style="float: left;margin-right: 5px">K</span>
+
+                    <li><a>KTM</a></li>
+
                     <li><a>凯迪拉克</a></li>
                     <li><a>开瑞</a></li>
                     <li><a>克莱斯勒</a></li>
+
+                    <li><a>卡尔森</a></li>
+                    <li><a>卡威</a></li>
+                    <li><a>凯佰赫</a></li>
+                    <li><a>凯翼</a></li>
+                    <li><a>科尼赛克</a></li>
+
                 </ul>
             </div>
             <br/>
             <div style="margin-top: 5px;">
                 <ul>
                     <span style="float: left;margin-right: 5px">L</span>
+
+                    <li><a>LeSEE</a></li>
+                    <li><a>LYNK&CO</a></li>
+
                     <li><a>铃木雷诺</a></li>
                     <li><a>路虎</a></li>
                     <li><a>雷克萨斯</a></li>
@@ -441,33 +549,68 @@
                     <li><a>莲花汽车</a></li>
                     <li><a>理念</a></li>
                     <li><a>猎豹汽车</a></li>
+
+                    <li><a>兰博基尼</a></li>
+                    <li><a>蓝旗亚</a></li>
+                    <li><a>朗世</a></li>
+                    <li><a>劳斯莱斯</a></li>
+                    <li><a>雷诺</a></li>
+                    <li><a>林肯</a></li>
+                    <li><a>铃木</a></li>
+                    <li><a>领志</a></li>
+                    <li><a>路特斯</a></li>
+
                 </ul>
             </div>
             <br/>
             <div style="margin-top: 5px;">
                 <ul>
                     <span style="float: left;margin-right: 5px">M</span>
+
+                    <li><a>MINI</a></li>
+
                     <li><a>马自达</a></li>
                     <li><a>MG</a></li>
                     <li><a>玛莎拉蒂</a>
+
+                    <li><a>迈巴赫</a></li>
+                    <li><a>迈凯伦</a></li>
+                    <li><a>摩根</a></li>
                 </ul>
             </div>
             <br/>
             <div style="margin-top: 5px;">
                 <ul>
                     <span style="float: left;margin-right: 5px">N</span>
+
+                    <li><a>nanoFLOWCELL</a></li>
+                    <li><a>Noble</a></li>
+
                     <li><a>纳智捷</a></li>
+
+                    <li><a>南京金龙</a></li>
                 </ul>
             </div>
             <br/>
             <div style="margin-top: 5px;">
                 <ul>
                     <span style="float: left;margin-right: 5px">O</span>
+                    <li><a>讴歌</a></li>
                     <li><a>欧宝</a></li>
-                    <li><a>欧宝</a></li>
+
+                    <li><a>讴朗</a></li>
+
                 </ul>
             </div>
-
+            <br/>
+<!--++++++++++-->
+            <div style="margin-top: 5px;">
+                <ul>
+                    <span style="float: left;margin-right: 5px">P</span>
+                    <li><a>帕加尼</a></li>
+                    <li><a>佩奇奥</a></li>
+                </ul>
+            </div>
             <br/>
             <div style="margin-top: 5px;">
                 <ul>
@@ -475,13 +618,24 @@
                     <li><a>起亚</a></li>
                     <li><a>奇瑞</a></li>
                     <li><a>启辰</a></li>
+
+
+                    <li><a>前途</a></li>
                 </ul>
             </div>
             <br/>
             <div style="margin-top: 5px;">
                 <ul>
                     <span style="float: left;margin-right: 5px">R</span>
+
+                    <li><a>Rezvani</a></li>
+                    <li><a>Rimac</a></li>
+                    <li><a>Rinspeed</a></li>
+
                     <li><a>荣威日产</a></li>
+                    <li><a>瑞麒</a></li>
+
+                    <li><a>如虎</a></li>
                     <li><a>瑞麒</a></li>
                 </ul>
             </div>
@@ -489,11 +643,26 @@
             <div style="margin-top: 5px;">
                 <ul>
                     <span style="float: left;margin-right: 5px">S</span>
+
+                    <li><a>Scion</a></li>
+                    <li><a>SPIRRA</a></li>
+                    <li><a>SSC</a></li>
+                    <li><a>SWM斯威汽车</a></li>
+
+
                     <li><a>斯柯达</a></li>
                     <li><a>smart</a></li>
                     <li><a>三菱</a></li>
                     <li><a>斯巴鲁</a></li>
-                    <li><a>萨博思铭</a></li>
+                    <li><a>萨博</a></li>
+
+                    <li><a>赛麟</a></li>
+                    <li><a>上海</a></li>
+                    <li><a>上汽大通</a></li>
+                    <li><a>世爵</a></li>
+                    <li><a>双环</a></li>
+                    <li><a>双龙</a></li>
+                    <li><a>思铭</a></li>
                 </ul>
             </div>
 
@@ -502,6 +671,9 @@
                 <ul>
                     <span style="float: left;margin-right: 5px">T</span>
                     <li><a>特斯拉</a></li>
+
+                    <li><a>腾势</a></li>
+
                 </ul>
             </div>
 
@@ -509,9 +681,21 @@
             <div style="margin-top: 5px;">
                 <ul>
                     <span style="float: left;margin-right: 5px">W</span>
+
+                    <li><a>WEY</a></li>
+
                     <li><a>五菱汽车</a></li>
                     <li><a>沃尔沃</a></li>
                     <li><a>威麟</a></li>
+
+
+
+                    <li><a>威兹曼</a></li>
+                    <li><a>潍柴英致</a></li>
+                    <li><a>蔚来</a></li>
+                    <li><a>沃克斯豪尔</a></li>
+                    <li><a>五十铃</a></li>
+
                 </ul>
             </div>
 
@@ -522,6 +706,11 @@
                     <li><a>威麟</a></li>
                     <li><a>雪铁龙</a></li>
                     <li><a>现代</a></li>
+
+
+                    <li><a>西雅特</a></li>
+                    <li><a>雪佛兰</a></li>
+
                 </ul>
             </div>
 
@@ -529,16 +718,34 @@
             <div style="margin-top: 5px;">
                 <ul>
                     <span style="float: left;margin-right: 5px">Y</span>
-                    <li><a>英菲尼迪一汽</a></li>
+
+
+
+                    <li><a>英菲尼迪</a></li>
                     <li><a>野马汽车</a></li>
+
+
+
+                    <li><a>一汽</a></li>
+                    <li><a>依维柯</a></li>
+                    <li><a>永源</a></li>
+                    <li><a>游侠驭胜</a></li>
+
                 </ul>
             </div>
             <br/>
             <div style="margin-top: 5px;">
                 <ul>
                     <span style="float: left;margin-right: 5px">Z</span>
+                    <li><a>Zenvo</a></li>
+
                     <li><a>中华</a></li>
                     <li><a>众泰</a></li>
+
+                    <li><a>之诺</a></li>
+                    <li><a>知豆</a></li>
+                    <li><a>中兴</a></li>
+
                 </ul>
             </div>
         </div>

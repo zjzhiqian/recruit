@@ -6,7 +6,8 @@
     <title>【台州创新网】台州生活网,台州招聘网,台州二手车,台州二手房-智能互联 创新在前！</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="台州创新网，台州生活网,台州招聘网,台州二手车,台州二手房，台州网，台州房产网，台州汽车网">
-    <meta name="description" content="台州创新网是台州首家分类信息网站，专业团队耗时三年研发实践，作为台州首家的分类信息网站，本地化、自主且免费、真实高效是台州创新网的三大特色。其服务覆盖生活的各个领域，提供招聘求职、二手车买卖、二手房买卖生活信心，覆盖台州所有县市区。台州创新网不仅为个人用户提供了资源丰富、信息度高、交互性强的分类信息平台，同时还为商家建立了全方位的市场营销解决方案，并未商家提供精准定向的推广的多种产品。">
+    <meta name="description"
+          content="台州创新网是台州首家分类信息网站，专业团队耗时三年研发实践，作为台州首家的分类信息网站，本地化、自主且免费、真实高效是台州创新网的三大特色。其服务覆盖生活的各个领域，提供招聘求职、二手车买卖、二手房买卖生活信心，覆盖台州所有县市区。台州创新网不仅为个人用户提供了资源丰富、信息度高、交互性强的分类信息平台，同时还为商家建立了全方位的市场营销解决方案，并未商家提供精准定向的推广的多种产品。">
     <link href="images/favicon.ico" rel="Shortcut Icon">
     <link rel="stylesheet" href="css/base.css">
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
@@ -14,7 +15,8 @@
     <link rel="stylesheet" href="css/common-header9.css">
     <script type="text/javascript" src="js/base-all.js"></script>
     <script type="text/javascript" src="js/common-header.js"></script>
-    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260713531'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1260713531%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan id='cnzz_stat_icon_1260713531'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1260713531%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
 
 
     <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
@@ -38,7 +40,22 @@
             includeFoot();
             includeLink();
 
-            <!--登录 -->
+            $(document).keypress(function (e) {
+                if (e.keyCode == 13 || e.keyCode == 108) {
+                    $docu = $(".logintit");
+                    var id = $docu.attr("id");
+                    if (id == 'href1') {
+                        $("#btn1").click()
+                    }
+                    if (id == 'href2') {
+                        $("#btn2").click()
+                    }
+                }
+                //...........code.......
+            });
+
+
+//            < !--登录-- >
             var $tab_li = $('#Login .logintitwrap a');
             $tab_li.hover(function () {
                 $(this).addClass('logintit').siblings().removeClass('logintit');
@@ -164,7 +181,7 @@
                 }
             });
 
-            $("#btn1").click(function(){
+            $("#btn1").click(function () {
                 $.ajax({
                     type: "POST",
                     url: "api/v3/user/logIn",
@@ -182,7 +199,7 @@
             });
 
 
-            $("#btn2").click(function(){
+            $("#btn2").click(function () {
                 $.ajax({
                     type: "POST",
                     url: "api/v3/user/logIn",
@@ -274,10 +291,10 @@
             <div class="loginwrap" id="logIn1">
                 <div id="user1">
                     <form id="form1">
-                    <input type="text" name="userName" placeholder="用户名">
-                    <input type="password" name="password" placeholder="密码">
-                    <input type="hidden" name="type" value="1"/>
-                        </form>
+                        <input type="text" name="userName" placeholder="用户名">
+                        <input type="password" name="password" placeholder="密码">
+                        <input type="hidden" name="type" value="1"/>
+                    </form>
                     <ul>
                         <!--<li>-->
                         <!--<input type="checkbox">下次自动登录-->
@@ -304,9 +321,9 @@
                 <div id="comp1">
                     <form id="form2">
 
-                    <input type="text" name="userName" placeholder="用户名">
-                    <input type="password" name="password" placeholder="密码">
-                    <input type="hidden" name="type" value="2"/>
+                        <input type="text" name="userName" placeholder="用户名">
+                        <input type="password" name="password" placeholder="密码">
+                        <input type="hidden" name="type" value="2"/>
                     </form>
                     <ul>
                         <!--<li>-->
@@ -388,7 +405,8 @@
                   <span class="icon pull-right">
                   </span>
                                 </a>
-                                <a class=" common-header-clearfix" href="javascript:void(0);" sidebar-type="mobileservice">
+                                <a class=" common-header-clearfix" href="javascript:void(0);"
+                                   sidebar-type="mobileservice">
                                     建筑<span>|</span>装修<span>|</span>物业<span>|</span>其他
                   <span class="icon pull-right">
                   </span>
@@ -396,7 +414,8 @@
                             </div>
                             <div class="menu-dropdown-content">
                                 <!-- 下拉右侧内容 -->
-                                <div class="item-sub database-bg tpl1 product-bg-common common-header-clearfix" sidebar-type="database">
+                                <div class="item-sub database-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="database">
                                     <div class="mecolumn">
                                         <ul>
                                             <li class="firstmenus"><a href="SeaResult.html">餐饮</a></li>
@@ -498,7 +517,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="item-sub cdn-bg tpl1 product-bg-common common-header-clearfix" sidebar-type="cdn">
+                                <div class="item-sub cdn-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="cdn">
                                     <div class="mecolumn">
                                         <ul>
                                             <li class="firstmenus"><a href="SeaResult.html">销售</a></li>
@@ -531,7 +551,8 @@
                                             <li><a href="SeaResult.html">电话客服</a></li>
                                             <li><a href="SeaResult.html">客户关系管理</a></li>
                                             <li><a href="SeaResult.html">网络/在线客服</a></li>
-                                            <li><a href="SeaResult.html">投诉专员</a></li> <li><a href="SeaResult.html">VIP专员</a></li>
+                                            <li><a href="SeaResult.html">投诉专员</a></li>
+                                            <li><a href="SeaResult.html">VIP专员</a></li>
                                             <li><a href="SeaResult.html">售前/售后技术支持管理</a></li>
                                             <li><a href="SeaResult.html">售前/售后技术支持工程师</a></li>
                                             <li><a href="SeaResult.html">客户咨询热线/呼叫中心人员</a></li>
@@ -603,7 +624,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="item-sub network-bg tpl1 product-bg-common common-header-clearfix" sidebar-type="network">
+                                <div class="item-sub network-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="network">
                                     <div class="mecolumn">
                                         <ul>
                                             <li class="firstmenus"><a href="SeaResult.html">市场/媒介/公关</a></li>
@@ -675,7 +697,8 @@
                                     </div>
 
                                 </div>
-                                <div class="item-sub network-bg tpl1 product-bg-common common-header-clearfix" sidebar-type="bigdata">
+                                <div class="item-sub network-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="bigdata">
                                     <div class="mecolumn">
                                         <ul>
                                             <li class="firstmenus"><a href="SeaResult.html">普工/技工</a></li>
@@ -789,7 +812,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="item-sub network-bg tpl1 product-bg-common common-header-clearfix" sidebar-type="yundun">
+                                <div class="item-sub network-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="yundun">
                                     <div class="mecolumn">
                                         <ul>
                                             <li class="firstmenus"><a href="SeaResult.html">计算机/互联网/通信</a></li>
@@ -849,7 +873,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="item-sub network-bg tpl1 product-bg-common common-header-clearfix" sidebar-type="manage">
+                                <div class="item-sub network-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="manage">
                                     <div class="mecolumn">
                                         <ul>
                                             <li class="firstmenus"><a href="SeaResult.html">法律</a></li>
@@ -931,7 +956,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="item-sub service-bg tpl1 product-bg-common common-header-clearfix" sidebar-type="service">
+                                <div class="item-sub service-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="service">
                                     <div class="mecolumn">
                                         <ul>
                                             <li class="firstmenus"><a href="SeaResult.html">财务/审计/统计</a></li>
@@ -1002,7 +1028,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="item-sub middleware-bg tpl1 product-bg-common common-header-clearfix" sidebar-type="middleware">
+                                <div class="item-sub middleware-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="middleware">
                                     <div class="mecolumn">
                                         <ul>
                                             <li class="firstmenus"><a href="SeaResult.html">医院/医疗/护理</a></li>
@@ -1079,7 +1106,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="item-sub mobileservice-bg tpl1 product-bg-common common-header-clearfix" sidebar-type="mobileservice">
+                                <div class="item-sub mobileservice-bg tpl1 product-bg-common common-header-clearfix"
+                                     sidebar-type="mobileservice">
                                     <div class="mecolumn">
                                         <ul>
                                             <li class="firstmenus"><a href="SeaResult.html">建筑</a></li>

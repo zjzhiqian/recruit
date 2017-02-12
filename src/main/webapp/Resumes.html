@@ -28,6 +28,13 @@
             includeFoot();
             includeLink();
 
+            $(document).keypress(function (e) {
+                if (e.keyCode == 13 || e.keyCode == 108) {
+                    $("#btnSearch").click()
+                }
+            });
+
+
 //          关键词,工作区域,职位类别,工作年限,工资范围,发布时间,学历
             //工作区域
             var workStr = "";
@@ -340,7 +347,7 @@
                 <input id="title" type="text" placeholder="请输入职位关键字">
             </li>
             <li><span>工作区域</span>
-                <select id="area" class="heiadd">
+                <select id="area" class="heiadd" style="width: 481px;height: 35px">
                 </select>
             </li>
             <li><span>职位类别</span>

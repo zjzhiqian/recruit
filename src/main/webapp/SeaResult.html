@@ -26,6 +26,13 @@
             includeHeader();
             includeFoot();
 
+
+            $(document).keypress(function (e) {
+                if (e.keyCode == 13 || e.keyCode == 108) {
+                    $("#btnsearch").click()
+                }
+            });
+
             //职位类别
             var jobStr = "";
             for (var i = 0; i < jobArrSearch.length; i++) {
