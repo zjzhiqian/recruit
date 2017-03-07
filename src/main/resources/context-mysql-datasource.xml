@@ -64,15 +64,15 @@
 
     <aop:aspectj-autoproxy/>
 
-    <bean id="recoverScheduler" scope="prototype" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"/>
+    <!--<bean id="recoverScheduler" scope="prototype" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"/>-->
 
 
-    <bean id="carJob" class="com.hzq.project.cronJob.CarJob">
-        <property name="scheduler" ref="recoverScheduler"/>
-        <property name="cartUtil" ref="cartUtil"/>
-        <property name="cronExpression" value="0 0 0,02 * * ?"/>
-        <!--<property name="cronExpression" value="0/20 * * * * ?"/>-->
-    </bean>
+    <!--<bean id="carJob" class="com.hzq.project.cronJob.CarJob">-->
+        <!--<property name="scheduler" ref="recoverScheduler"/>-->
+        <!--<property name="cartUtil" ref="cartUtil"/>-->
+        <!--<property name="cronExpression" value="0 0 0,02 * * ?"/>-->
+        <!--&lt;!&ndash;<property name="cronExpression" value="0/20 * * * * ?"/>&ndash;&gt;-->
+    <!--</bean>-->
 
 
 </beans>

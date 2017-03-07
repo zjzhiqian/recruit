@@ -76,7 +76,7 @@
             //职位类别
             var typeParam = getQueryString("type");
             if (typeParam != null && typeParam != "null") {
-                $("#jobType").val(areaParam);
+                $("#jobType").val(typeParam);
             }
             //工作年限
             var workYearParam = getQueryString("workYear");
@@ -108,15 +108,15 @@
 
 
             function getResult() {
-                return "<li class=\"hea\">\n"+
-                        "                    <a href=\"FrmDea.html\"></a>\n"+
-                        "                    <ul>\n"+
-                        "                        <li class=\"jobnames2\">姓名</li>\n"+
-                        "                        <li class=\"jobsa black\">性别</li>\n"+
-                        "                        <li class=\"jobadd\">职位类别</li>\n"+
-                        "                        <li class=\"jobadd\">工资要求</li>\n"+
-                        "                    </ul>\n"+
-                        "                    </a>\n"+
+                return "<li class=\"hea\">\n" +
+                        "                    <a href=\"FrmDea.html\"></a>\n" +
+                        "                    <ul>\n" +
+                        "                        <li class=\"jobnames2\">姓名</li>\n" +
+                        "                        <li class=\"jobsa black\">性别</li>\n" +
+                        "                        <li class=\"jobadd\">职位类别</li>\n" +
+                        "                        <li class=\"jobadd\">工资要求</li>\n" +
+                        "                    </ul>\n" +
+                        "                    </a>\n" +
                         "                </li>";
             }
 
@@ -172,7 +172,7 @@
                 //查询兼职
                 $.ajax({
                     type: "GET",
-                    url: "api/v3/resume/queryResult?page=" + (page + 1) + "&area=" + area + "&type=" + type + "&workYear=" + workYear + "&salary=" + salary + "&education=" + education + "&title=" + title + "&postDate=" + postDate,
+                    url: "api/v3/resume/queryResult?page=" + (page + 1) + "&workArea=" + area + "&type=" + type + "&workYear=" + workYear + "&salary=" + salary + "&education=" + education + "&title=" + title + "&postDate=" + postDate,
                     dataType: 'json',
                     async: false,
                     success: function (rs) {
@@ -188,23 +188,25 @@
                                 for (var i = 0; i < length01; i++) {
                                     var id = resultDatas[i]['id'];
                                     var name = resultDatas[i]['name'];
-                                    var sex='男';
-                                    if(0 == resultDatas[i]['sex']) sex='女';
+                                    var sex = '男';
+                                    if ("1" == resultDatas[i]['sex']) {
+                                        sex = '女';
+                                    }
                                     var type = resultDatas[i]['type'];
-                                    var jobType = jobArrJson[type];
+                                    var jobType = jobArrJson[parseInt(type) + 1];
                                     var salary = resultDatas[i]['salary'];
                                     var salaryStr = moneyArr[salary];
                                     resultDataStr = resultDataStr +
-                                            $.formatString( " <li>\n"+
-                                                    "                    <a href=\"ResumeInfo.html?id={0}\">\n"+
-                                                    "                        <ul>\n"+
-                                                    "                            <li class=\"jobnames2\">{1}</li>\n"+
-                                                    "                            <li class=\"jobsa\">{2}</li>\n"+
-                                                    "                            <li class=\"jobadd\">{3}</li>\n"+
-                                                    "                            <li class=\"jobadd\">{4}</li>\n"+
-                                                    "                        </ul>\n"+
-                                                    "                    </a>\n"+
-                                                    "                </li>",id,name,sex,jobType,salaryStr);
+                                            $.formatString(" <li>\n" +
+                                                    "                    <a href=\"ResumeInfo.html?id={0}\">\n" +
+                                                    "                        <ul>\n" +
+                                                    "                            <li class=\"jobnames2\">{1}</li>\n" +
+                                                    "                            <li class=\"jobsa\">{2}</li>\n" +
+                                                    "                            <li class=\"jobadd\">{3}</li>\n" +
+                                                    "                            <li class=\"jobadd\">{4}</li>\n" +
+                                                    "                        </ul>\n" +
+                                                    "                    </a>\n" +
+                                                    "                </li>", id, name, sex, jobType, salaryStr);
                                 }
                                 $("#position01").html(resultDataStr);
                             }
@@ -218,27 +220,27 @@
                                 for (var i = 6; i < length02; i++) {
                                     var id = resultDatas[i]['id'];
                                     var name = resultDatas[i]['name'];
-                                    var sex='男';
-                                    if(0 == resultDatas[i]['sex']) sex='女';
+                                    var sex = '男';
+                                    if (1 == resultDatas[i]['sex']) sex = '女';
                                     var type = resultDatas[i]['type'];
-                                    var jobType = jobArrJson[type];
+                                    var jobType = jobArrJson[parseInt(type) + 1];
                                     var salary = resultDatas[i]['salary'];
                                     var salaryStr = moneyArr[salary];
 
                                     resultDataStr = resultDataStr +
-                                            $.formatString( " <li>\n"+
-                                                    "                    <a href=\"ResumeInfo.html?id={0}\">\n"+
-                                                    "                        <ul>\n"+
-                                                    "                            <li class=\"jobnames2\">{1}</li>\n"+
-                                                    "                            <li class=\"jobsa\">{2}</li>\n"+
-                                                    "                            <li class=\"jobadd\">{3}</li>\n"+
-                                                    "                            <li class=\"jobadd\">{4}</li>\n"+
-                                                    "                        </ul>\n"+
-                                                    "                    </a>\n"+
-                                                    "                </li>",id,name,sex,jobType,salaryStr);
+                                            $.formatString(" <li>\n" +
+                                                    "                    <a href=\"ResumeInfo.html?id={0}\">\n" +
+                                                    "                        <ul>\n" +
+                                                    "                            <li class=\"jobnames2\">{1}</li>\n" +
+                                                    "                            <li class=\"jobsa\">{2}</li>\n" +
+                                                    "                            <li class=\"jobadd\">{3}</li>\n" +
+                                                    "                            <li class=\"jobadd\">{4}</li>\n" +
+                                                    "                        </ul>\n" +
+                                                    "                    </a>\n" +
+                                                    "                </li>", id, name, sex, jobType, salaryStr);
                                 }
                                 $("#position02").html(resultDataStr);
-                            }else{
+                            } else {
                                 $("#position02").html("");
                             }
 
@@ -252,27 +254,27 @@
                                 for (var i = 12; i < length03; i++) {
                                     var id = resultDatas[i]['id'];
                                     var name = resultDatas[i]['name'];
-                                    var sex='男';
-                                    if(0 == resultDatas[i]['sex']) sex='女';
+                                    var sex = '男';
+                                    if (0 == resultDatas[i]['sex']) sex = '女';
                                     var type = resultDatas[i]['type'];
-                                    var jobType = jobArrJson[type];
+                                    var jobType = jobArrJson[parseInt(type) + 1];
                                     var salary = resultDatas[i]['salary'];
                                     var salaryStr = moneyArr[salary];
 
                                     resultDataStr = resultDataStr +
-                                            $.formatString( " <li>\n"+
-                                                    "                    <a href=\"ResumeInfo.html?id={0}\">\n"+
-                                                    "                        <ul>\n"+
-                                                    "                            <li class=\"jobnames2\">{1}</li>\n"+
-                                                    "                            <li class=\"jobsa\">{2}</li>\n"+
-                                                    "                            <li class=\"jobadd\">{3}</li>\n"+
-                                                    "                            <li class=\"jobadd\">{4}</li>\n"+
-                                                    "                        </ul>\n"+
-                                                    "                    </a>\n"+
-                                                    "                </li>",id,name,sex,jobType,salaryStr);
+                                            $.formatString(" <li>\n" +
+                                                    "                    <a href=\"ResumeInfo.html?id={0}\">\n" +
+                                                    "                        <ul>\n" +
+                                                    "                            <li class=\"jobnames2\">{1}</li>\n" +
+                                                    "                            <li class=\"jobsa\">{2}</li>\n" +
+                                                    "                            <li class=\"jobadd\">{3}</li>\n" +
+                                                    "                            <li class=\"jobadd\">{4}</li>\n" +
+                                                    "                        </ul>\n" +
+                                                    "                    </a>\n" +
+                                                    "                </li>", id, name, sex, jobType, salaryStr);
                                 }
                                 $("#position03").html(resultDataStr);
-                            }else{
+                            } else {
                                 $("#position03").html("");
                             }
 
@@ -286,30 +288,29 @@
                                 for (var i = 18; i < length04; i++) {
                                     var id = resultDatas[i]['id'];
                                     var name = resultDatas[i]['name'];
-                                    var sex='男';
-                                    if(0 == resultDatas[i]['sex']) sex='女';
+                                    var sex = '男';
+                                    if (0 == resultDatas[i]['sex']) sex = '女';
                                     var type = resultDatas[i]['type'];
-                                    var jobType = jobArrJson[type];
+                                    var jobType = jobArrJson[parseInt(type) + 1];
                                     var salary = resultDatas[i]['salary'];
                                     var salaryStr = moneyArr[salary];
 
                                     resultDataStr = resultDataStr +
-                                            $.formatString( " <li>\n"+
-                                                    "                    <a href=\"ResumeInfo.html?id={0}\">\n"+
-                                                    "                        <ul>\n"+
-                                                    "                            <li class=\"jobnames2\">{1}</li>\n"+
-                                                    "                            <li class=\"jobsa\">{2}</li>\n"+
-                                                    "                            <li class=\"jobadd\">{3}</li>\n"+
-                                                    "                            <li class=\"jobadd\">{4}</li>\n"+
-                                                    "                        </ul>\n"+
-                                                    "                    </a>\n"+
-                                                    "                </li>",id,name,sex,jobType,salaryStr);
+                                            $.formatString(" <li>\n" +
+                                                    "                    <a href=\"ResumeInfo.html?id={0}\">\n" +
+                                                    "                        <ul>\n" +
+                                                    "                            <li class=\"jobnames2\">{1}</li>\n" +
+                                                    "                            <li class=\"jobsa\">{2}</li>\n" +
+                                                    "                            <li class=\"jobadd\">{3}</li>\n" +
+                                                    "                            <li class=\"jobadd\">{4}</li>\n" +
+                                                    "                        </ul>\n" +
+                                                    "                    </a>\n" +
+                                                    "                </li>", id, name, sex, jobType, salaryStr);
                                 }
                                 $("#position04").html(resultDataStr);
-                            }else{
+                            } else {
                                 $("#position04").html("");
                             }
-
 
 
                             $(".pagination").pagination(pageData.count, {
@@ -347,7 +348,7 @@
                 <input id="title" type="text" placeholder="请输入职位关键字">
             </li>
             <li><span>工作区域</span>
-                <select id="area" class="heiadd" style="width: 481px;height: 35px">
+                <select id="area" class="heiadd" style="width: 470px;height: 35px">
                 </select>
             </li>
             <li><span>职位类别</span>
@@ -384,7 +385,7 @@
         <div class="heimle marti">
             <div class="heijobt"><span>|</span>最新发布简历</div>
             <ul>
-               <div id="position01"></div>
+                <div id="position01"></div>
 
             </ul>
         </div>
