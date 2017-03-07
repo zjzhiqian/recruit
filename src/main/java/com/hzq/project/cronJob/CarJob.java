@@ -11,7 +11,7 @@ import org.quartz.*;
  */
 public class CarJob
 //        implements Job, InitializingBean
-// {
+ {
 //
 //    private static Scheduler scheduler;
 //    private static String cronExpression;
